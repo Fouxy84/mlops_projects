@@ -2,10 +2,9 @@ import json
 import os
 import time
 from pathlib import Path
-from uuid import uuid4
 
 import httpx
-from fastapi import Cookie, Depends, FastAPI, Form, HTTPException, Request, Response, status
+from fastapi import Depends, FastAPI, Form, HTTPException, Request, Response, status
 from fastapi.responses import Response as FastAPIResponse
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 
@@ -14,7 +13,6 @@ DEFAULT_PREDICT_API_URL = os.getenv("PREDICT_API_URL", "http://predict-text-api:
 PREDICT_TEXT_API_URL = os.getenv("PREDICT_TEXT_API_URL", DEFAULT_PREDICT_API_URL)
 PREDICT_IMAGE_API_URL = os.getenv("PREDICT_IMAGE_API_URL", "http://predict-image-api:8000")
 TRAIN_API_URL = os.getenv("TRAIN_API_URL", "http://training-api:8002")
-SESSION_COOKIE_NAME = "gateway_session"
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = Path(os.getenv("GATEWAY_DATA_DIR", "/app/data" if Path("/app/data").exists() else BASE_DIR / "data"))
@@ -28,7 +26,7 @@ USERS = {
     "admin": {"username": "admin", "password": "admin", "role": "admin"},
     "user": {"username": "user", "password": "user", "role": "user"},
 }
-ACTIVE_SESSIONS: dict[str, dict] = {}
+CURRENT_SESSION: dict | None = None
 
 REQUEST_COUNT = Counter(
     "mlops_gateway_requests_total",
@@ -121,19 +119,13 @@ def authenticate(username: str, password: str) -> dict | None:
     return {"username": user["username"], "role": user["role"]}
 
 
-def create_session(user: dict) -> str:
-    session_id = uuid4().hex
-    ACTIVE_SESSIONS[session_id] = user
-    return session_id
-
-
-def get_current_user(session_id: str | None = Cookie(default=None, alias=SESSION_COOKIE_NAME)) -> dict:
-    if not session_id or session_id not in ACTIVE_SESSIONS:
+def get_current_user() -> dict:
+    if CURRENT_SESSION is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Login required",
         )
-    return ACTIVE_SESSIONS[session_id]
+    return CURRENT_SESSION
 
 
 def require_user(current_user: dict = Depends(get_current_user)) -> dict:
@@ -225,36 +217,30 @@ async def metrics():
 
 
 @app.post("/login")
-async def login(response: Response, username: str = Form(...), password: str = Form(...)):
+async def login(username: str = Form(...), password: str = Form(...)):
+    global CURRENT_SESSION
     user = authenticate(username, password)
     if user is None:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    session_id = create_session(user)
-    response.set_cookie(
-        key=SESSION_COOKIE_NAME,
-        value=session_id,
-        httponly=True,
-        samesite="lax",
-    )
+    CURRENT_SESSION = user
     return {
         "status": "logged_in",
         "username": user["username"],
         "role": user["role"],
-        "message": "Session cookie created",
+        "message": "Session initialized in gateway memory",
     }
 
 
 @app.post("/token")
-async def token_alias(response: Response, username: str = Form(...), password: str = Form(...)):
-    return await login(response, username, password)
+async def token_alias(username: str = Form(...), password: str = Form(...)):
+    return await login(username, password)
 
 
 @app.post("/logout")
-async def logout(response: Response, current_user: dict = Depends(get_current_user), session_id: str | None = Cookie(default=None, alias=SESSION_COOKIE_NAME)):
-    if session_id:
-        ACTIVE_SESSIONS.pop(session_id, None)
-    response.delete_cookie(SESSION_COOKIE_NAME)
+async def logout(current_user: dict = Depends(get_current_user)):
+    global CURRENT_SESSION
+    CURRENT_SESSION = None
     return {"status": "logged_out", "username": current_user["username"]}
 
 
@@ -381,7 +367,7 @@ async def root():
                 "admin": "admin/admin -> prediction + train + reload + retrain",
                 "user": "user/user -> prediction only",
             },
-            "session_cookie": SESSION_COOKIE_NAME,
+            "mode": "in-memory session",
         },
         "routes": {
             "predict": {
