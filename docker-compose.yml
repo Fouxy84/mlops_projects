@@ -17,6 +17,8 @@ services:
       - predict-text-api
       - predict-image-api
       - training-api
+    volumes:
+      - ./data:/app/data
     networks:
       - mlops_network
 

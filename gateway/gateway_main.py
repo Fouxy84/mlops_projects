@@ -1,5 +1,7 @@
 import os
 import time
+import json
+from pathlib import Path
 
 import httpx
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
@@ -14,6 +16,13 @@ PREDICT_TEXT_API_URL = os.getenv("PREDICT_TEXT_API_URL", DEFAULT_PREDICT_API_URL
 PREDICT_IMAGE_API_URL = os.getenv("PREDICT_IMAGE_API_URL", "http://predict-image-api:8000")
 TRAIN_API_URL = os.getenv("TRAIN_API_URL", "http://training-api:8002")
 AUTH_API_URL = os.getenv("AUTH_API_URL", "http://auth-api:8003")
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(os.getenv("GATEWAY_DATA_DIR", BASE_DIR / "data"))
+RAW_DATA_DIR = DATA_DIR / "raw"
+RAW_IMAGE_DIR = RAW_DATA_DIR / "image_train"
+STATE_FILE = DATA_DIR / ".gateway_retrain_state.json"
+TEXT_EXTENSIONS = {".csv"}
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 REQUEST_COUNT = Counter(
     "mlops_gateway_requests_total",
@@ -44,6 +53,94 @@ class PredictTextRequest(BaseModel):
 
 class PredictImageRequest(BaseModel):
     image_path: str
+
+
+def list_text_csv_files() -> list[str]:
+    if not RAW_DATA_DIR.exists():
+        return []
+    return sorted(
+        str(path.relative_to(DATA_DIR)).replace("\\", "/")
+        for path in RAW_DATA_DIR.iterdir()
+        if path.is_file() and path.suffix.lower() in TEXT_EXTENSIONS
+    )
+
+
+def list_image_files() -> list[str]:
+    if not RAW_IMAGE_DIR.exists():
+        return []
+    return sorted(
+        str(path.relative_to(DATA_DIR)).replace("\\", "/")
+        for path in RAW_IMAGE_DIR.rglob("*")
+        if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS
+    )
+
+
+def load_retrain_state() -> dict:
+    if not STATE_FILE.exists():
+        return {"text_files": [], "image_files": []}
+    try:
+        return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {"text_files": [], "image_files": []}
+
+
+def save_retrain_state(state: dict) -> None:
+    STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
+
+def compute_data_changes() -> dict:
+    current_text_files = list_text_csv_files()
+    current_image_files = list_image_files()
+    previous_state = load_retrain_state()
+
+    previous_text = set(previous_state.get("text_files", []))
+    previous_images = set(previous_state.get("image_files", []))
+    current_text = set(current_text_files)
+    current_images = set(current_image_files)
+
+    new_text_files = sorted(current_text - previous_text)
+    new_image_files = sorted(current_images - previous_images)
+
+    return {
+        "text": {
+            "directory": str(RAW_DATA_DIR),
+            "current_files": current_text_files,
+            "new_files": new_text_files,
+            "has_new_files": bool(new_text_files),
+        },
+        "image": {
+            "directory": str(RAW_IMAGE_DIR),
+            "current_files": current_image_files,
+            "new_files": new_image_files,
+            "has_new_files": bool(new_image_files),
+        },
+        "state_file": str(STATE_FILE),
+    }
+
+
+async def trigger_retraining_for_changes(authorization: str, changes: dict) -> dict:
+    triggered_models = []
+
+    if changes["text"]["has_new_files"]:
+        await proxy_request("POST", f"{TRAIN_API_URL}/train/svm", authorization=authorization)
+        triggered_models.append("svm")
+
+    if changes["image"]["has_new_files"]:
+        await proxy_request("POST", f"{TRAIN_API_URL}/train/cnn", authorization=authorization)
+        triggered_models.append("cnn")
+
+    current_state = {
+        "text_files": changes["text"]["current_files"],
+        "image_files": changes["image"]["current_files"],
+    }
+    save_retrain_state(current_state)
+
+    return {
+        "status": "retraining_triggered" if triggered_models else "no_new_files",
+        "triggered_models": triggered_models,
+        "changes": changes,
+    }
 
 
 async def get_token(authorization: str = Header(default=None)):
@@ -242,6 +339,36 @@ async def get_info(authorization: str = Depends(get_token)):
     }
 
 
+@app.get("/data/check-updates")
+async def check_data_updates(authorization: str = Depends(get_token)):
+    changes = compute_data_changes()
+    return {
+        "status": "scan_completed",
+        "changes": changes,
+    }
+
+
+@app.post("/data/check-updates/retrain")
+async def check_data_updates_and_retrain(authorization: str = Depends(get_token)):
+    changes = compute_data_changes()
+    return await trigger_retraining_for_changes(authorization, changes)
+
+
+@app.post("/data/check-updates/baseline")
+async def baseline_data_updates(authorization: str = Depends(get_token)):
+    changes = compute_data_changes()
+    save_retrain_state(
+        {
+            "text_files": changes["text"]["current_files"],
+            "image_files": changes["image"]["current_files"],
+        }
+    )
+    return {
+        "status": "baseline_saved",
+        "changes": changes,
+    }
+
+
 @app.get("/")
 async def root():
     return {
@@ -265,6 +392,11 @@ async def root():
                 "image": "/reload/image",
             },
             "info": "/info",
+            "data_updates": {
+                "check": "/data/check-updates",
+                "retrain": "/data/check-updates/retrain",
+                "baseline": "/data/check-updates/baseline",
+            },
             "metrics": "/metrics",
         },
     }
