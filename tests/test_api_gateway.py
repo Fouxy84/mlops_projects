@@ -41,7 +41,7 @@ def test_login_user():
 
 def test_missing_session_cookie():
     gateway_main.CURRENT_SESSION = None
-    response = client.post("/predict/text", json={"text": "hello"})
+    response = client.post("/predict/svm", json={"text": "hello"})
     assert response.status_code == 401
 
 
@@ -51,7 +51,7 @@ def test_predict_text_as_user(mock_post):
     mock_post.return_value.raise_for_status = lambda: None
 
     login_as("user", "user")
-    response = client.post("/predict/text", json={"text": "hello"})
+    response = client.post("/predict/svm", json={"text": "hello"})
 
     assert response.status_code == 200
     assert "prediction" in response.json()
@@ -63,7 +63,7 @@ def test_predict_image_as_user(mock_post):
     mock_post.return_value.raise_for_status = lambda: None
 
     login_as("user", "user")
-    response = client.post("/predict/image", json={"image_path": "img.jpg"})
+    response = client.post("/predict/cnn", json={"image_path": "img.jpg"})
 
     assert response.status_code == 200
 
@@ -74,7 +74,7 @@ def test_train_text_as_admin(mock_post):
     mock_post.return_value.raise_for_status = lambda: None
 
     login_as("admin", "admin")
-    response = client.post("/train/text")
+    response = client.post("/train/svm")
 
     assert response.status_code == 200
     assert response.json()["model"] == "text"
@@ -82,7 +82,7 @@ def test_train_text_as_admin(mock_post):
 
 def test_train_text_forbidden_for_user():
     login_as("user", "user")
-    response = client.post("/train/text")
+    response = client.post("/train/svm")
     assert response.status_code == 403
 
 
@@ -92,7 +92,7 @@ def test_reload_text_as_admin(mock_post):
     mock_post.return_value.raise_for_status = lambda: None
 
     login_as("admin", "admin")
-    response = client.post("/reload/text")
+    response = client.post("/reload/svm")
 
     assert response.status_code == 200
 

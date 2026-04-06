@@ -6,6 +6,7 @@ from pathlib import Path
 import httpx
 from fastapi import Depends, FastAPI, Form, HTTPException, Request, Response, status
 from fastapi.responses import Response as FastAPIResponse
+from pydantic import BaseModel
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 
 
@@ -20,7 +21,7 @@ RAW_DATA_DIR = DATA_DIR / "raw"
 RAW_IMAGE_DIR = RAW_DATA_DIR / "image_train"
 STATE_FILE = DATA_DIR / ".gateway_retrain_state.json"
 TEXT_EXTENSIONS = {".csv"}
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
+IMAGE_EXTENSIONS = {".jpg"}
 
 USERS = {
     "admin": {"username": "admin", "password": "admin", "role": "admin"},
@@ -49,6 +50,19 @@ app = FastAPI(
     description="Gateway with session-based access control for prediction, training and retraining",
     version="5.0.0",
 )
+
+
+class PredictTextRequest(BaseModel):
+    text: str
+
+
+class PredictImageRequest(BaseModel):
+    image_path: str
+
+
+class PredictMultimodalRequest(BaseModel):
+    text: str
+    image_path: str
 
 
 def list_text_csv_files() -> list[str]:
@@ -232,11 +246,6 @@ async def login(username: str = Form(...), password: str = Form(...)):
     }
 
 
-@app.post("/token")
-async def token_alias(username: str = Form(...), password: str = Form(...)):
-    return await login(username, password)
-
-
 @app.post("/logout")
 async def logout(current_user: dict = Depends(get_current_user)):
     global CURRENT_SESSION
@@ -249,66 +258,61 @@ async def me(current_user: dict = Depends(get_current_user)):
     return current_user
 
 
-@app.post("/predict/text")
-async def predict_text(request: dict, current_user: dict = Depends(require_user)):
-    return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/predict", json_body=request)
-
-
 @app.post("/predict/svm")
-async def predict_svm(request: dict, current_user: dict = Depends(require_user)):
-    return await predict_text(request, current_user)
-
-
-@app.post("/predict/image")
-async def predict_image(request: dict, current_user: dict = Depends(require_user)):
-    return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/predict", json_body=request)
+async def predict_svm(request: PredictTextRequest, current_user: dict = Depends(require_user)):
+    return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/predict", json_body=request.model_dump())
 
 
 @app.post("/predict/cnn")
-async def predict_cnn(request: dict, current_user: dict = Depends(require_user)):
-    return await predict_image(request, current_user)
+async def predict_cnn(request: PredictImageRequest, current_user: dict = Depends(require_user)):
+    return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/predict", json_body=request.model_dump())
 
 
-@app.post("/train/text")
-async def train_text(current_user: dict = Depends(require_admin)):
-    await proxy_request("POST", f"{TRAIN_API_URL}/train/svm")
-    return {"status": "training_started", "model": "text"}
+@app.post("/predict/multimodal")
+async def predict_multimodal(request: PredictMultimodalRequest, current_user: dict = Depends(require_user)):
+    text_result = await proxy_request(
+        "POST",
+        f"{PREDICT_TEXT_API_URL}/predict",
+        json_body={"text": request.text},
+    )
+    image_result = await proxy_request(
+        "POST",
+        f"{PREDICT_IMAGE_API_URL}/predict",
+        json_body={"image_path": request.image_path},
+    )
+
+    same_prediction = text_result["predicted_label"] == image_result["predicted_label"]
+    final_result = text_result if same_prediction else text_result
+
+    return {
+        "predicted_label": final_result["predicted_label"],
+        "label_name": final_result["label_name"],
+        "fusion_strategy": "agreement" if same_prediction else "text_priority",
+        "text_prediction": text_result,
+        "image_prediction": image_result,
+    }
 
 
 @app.post("/train/svm")
 async def train_svm(current_user: dict = Depends(require_admin)):
-    return await train_text(current_user)
-
-
-@app.post("/train/image")
-async def train_image(current_user: dict = Depends(require_admin)):
-    await proxy_request("POST", f"{TRAIN_API_URL}/train/cnn")
-    return {"status": "training_started", "model": "image"}
+    await proxy_request("POST", f"{TRAIN_API_URL}/train/svm")
+    return {"status": "training_started", "model": "text"}
 
 
 @app.post("/train/cnn")
 async def train_cnn(current_user: dict = Depends(require_admin)):
-    return await train_image(current_user)
-
-
-@app.post("/reload/text")
-async def reload_text_model(current_user: dict = Depends(require_admin)):
-    return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/reload")
+    await proxy_request("POST", f"{TRAIN_API_URL}/train/cnn")
+    return {"status": "training_started", "model": "image"}
 
 
 @app.post("/reload/svm")
 async def reload_svm_model(current_user: dict = Depends(require_admin)):
-    return await reload_text_model(current_user)
-
-
-@app.post("/reload/image")
-async def reload_image_model(current_user: dict = Depends(require_admin)):
-    return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/reload")
+    return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/reload")
 
 
 @app.post("/reload/cnn")
 async def reload_cnn_model(current_user: dict = Depends(require_admin)):
-    return await reload_image_model(current_user)
+    return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/reload")
 
 
 @app.get("/info")
@@ -371,20 +375,17 @@ async def root():
         },
         "routes": {
             "predict": {
-                "text": "/predict/text",
-                "image": "/predict/image",
                 "svm": "/predict/svm",
                 "cnn": "/predict/cnn",
+                "multimodal": "/predict/multimodal",
             },
             "train": {
-                "text": "/train/text",
-                "image": "/train/image",
                 "svm": "/train/svm",
                 "cnn": "/train/cnn",
             },
             "reload": {
-                "text": "/reload/text",
-                "image": "/reload/image",
+                "svm": "/reload/svm",
+                "cnn": "/reload/cnn",
             },
             "data_updates": {
                 "check": "/data/check-updates",
