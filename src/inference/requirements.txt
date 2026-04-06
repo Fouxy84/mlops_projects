@@ -3,3 +3,9 @@ scikit-learn
 joblib
 numpy
 uvicorn
+pandas
+pillow
+mlflow
+prometheus-client
+torch
+torchvision

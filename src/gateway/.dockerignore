@@ -1,0 +1,10 @@
+
+data/
+models/
+mlflow/
+.git/
+__pycache__/
+*.pt
+*.joblib
+*.csv
+*.parquet

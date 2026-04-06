@@ -1,99 +1,188 @@
-version: "3.9"
-
 services:
-
-  # =========================
-  # API GATEWAY (ENTRYPOINT)
-  # =========================
   gateway:
     build:
       context: .
-      dockerfile: gateway/Dockerfile
+      dockerfile: gateway/dockerfile
+    image: mlops-gateway:local
     container_name: gateway
     ports:
       - "8000:8000"
     environment:
-      - PREDICT_API_URL=http://predict-api:8001
-      - TRAIN_API_URL=http://training-api:8002
-      - AUTH_API_URL=http://auth-api:8003
+      PREDICT_TEXT_API_URL: http://predict-text-api:8000
+      PREDICT_IMAGE_API_URL: http://predict-image-api:8000
+      TRAIN_API_URL: http://training-api:8002
+      AUTH_API_URL: http://auth-api:8003
     depends_on:
-      - predict-api
-      - training-api
       - auth-api
+      - predict-text-api
+      - predict-image-api
+      - training-api
     networks:
       - mlops_network
 
-  # =========================
-  # AUTH SERVICE
-  # =========================
   auth-api:
     build:
       context: .
       dockerfile: src/gateway/Dockerfile
+    image: mlops-auth-api:local
     container_name: auth-api
     ports:
       - "8003:8003"
     networks:
       - mlops_network
 
-  # =========================
-  # PREDICTION SERVICE
-  # =========================
-  predict-api:
+  predict-text-api:
     build:
       context: .
       dockerfile: src/inference/Dockerfile
-    container_name: predict-api
+    image: mlops-predict-text-api:local
+    container_name: predict-text-api
+    environment:
+      MODEL_TYPE: svm
+      MLFLOW_TRACKING_URI: https://dagshub.com/Fouxy84/mlops_projects.mlflow
+      MLFLOW_TRACKING_USERNAME: ${DAGSHUB_USER}
+      MLFLOW_TRACKING_PASSWORD: ${DAGSHUB_TOKEN}
     ports:
-      - "8001:8001"
+      - "8001:8000"
     volumes:
       - ./data:/app/data
       - ./models:/app/models
     networks:
       - mlops_network
 
-  # =========================
-  # TRAINING SERVICE
-  # =========================
+  predict-image-api:
+    build:
+      context: .
+      dockerfile: src/inference/Dockerfile
+    image: mlops-predict-image-api:local
+    container_name: predict-image-api
+    environment:
+      MODEL_TYPE: cnn
+      MLFLOW_TRACKING_URI: https://dagshub.com/Fouxy84/mlops_projects.mlflow
+      MLFLOW_TRACKING_USERNAME: ${DAGSHUB_USER}
+      MLFLOW_TRACKING_PASSWORD: ${DAGSHUB_TOKEN}
+    ports:
+      - "8004:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    networks:
+      - mlops_network
+
   training-api:
     build:
       context: .
       dockerfile: src/training/Dockerfile
+    image: mlops-training-api:local
     container_name: training-api
     ports:
       - "8002:8002"
     volumes:
       - ./data:/app/data
       - ./models:/app/models
+      - ./mlruns:/app/mlruns
+    environment:
+      MLFLOW_TRACKING_URI: https://dagshub.com/Fouxy84/mlops_projects.mlflow
+      MLFLOW_TRACKING_USERNAME: ${DAGSHUB_USER}
+      MLFLOW_TRACKING_PASSWORD: ${DAGSHUB_TOKEN}
     networks:
       - mlops_network
-    environment:
-     - MLFLOW_TRACKING_USERNAME=${DAGSHUB_USER}
-     - MLFLOW_TRACKING_PASSWORD=${DAGSHUB_TOKEN}
 
-  # =========================
-  # AIRFLOW
-  # =========================
+  mlflow:
+    build:
+      context: .
+      dockerfile: src/mlflow/Dockerfile
+    image: mlops-mlflow:local
+    container_name: mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/src/mlflow/mlruns
+      - ./mlflow.db:/mlflow/mlflow.db
+    networks:
+      - mlops_network
+
+  dvc-runner:
+    build:
+      context: .
+      dockerfile: airflow/dvc/Dockerfile
+    image: mlops-dvc-runner:local
+    container_name: dvc-runner
+    profiles:
+      - ops
+    command: ["sleep", "infinity"]
+    working_dir: /workspace
+    environment:
+      DAGSHUB_USER: ${DAGSHUB_USER}
+      DAGSHUB_TOKEN: ${DAGSHUB_TOKEN}
+      GIT_REPO_URL: ${GIT_REPO_URL:-https://github.com/Fouxy84/mlops_projects.git}
+      DAGSHUB_REPO_URL: ${DAGSHUB_REPO_URL:-https://dagshub.com/Fouxy84/mlops_projects}
+    volumes:
+      - ./:/workspace
+    networks:
+      - mlops_network
+
   airflow:
-    image: apache/airflow:2.9.1
+    image: apache/airflow:2.9.1-python3.12
     container_name: airflow
     depends_on:
       - gateway
     environment:
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "True"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      DVC_RUNNER_IMAGE: mlops-dvc-runner:local
+      GATEWAY_BASE_URL: http://gateway:8000
+      PROJECT_ROOT_HOST: ${PROJECT_ROOT_HOST:-c:/Users/coach/Desktop/datascientest/Projet DATASCIENTEST/projet_MLops/mlops_projects}
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/requirements.txt:/opt/airflow/requirements.txt
+      - ./airflow/logs:/opt/airflow/logs
       - ./data:/app/data
       - ./models:/app/models
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:8080"
-    command: webserver
+    command: >
+      bash -c "
+      pip install --no-cache-dir -r /opt/airflow/requirements.txt &&
+      airflow db migrate &&
+      airflow users create --username admin --password admin --firstname mlops --lastname admin --role Admin --email admin@mlops.local || true &&
+      airflow webserver & airflow scheduler
+      "
     networks:
       - mlops_network
 
-# =========================
-# NETWORK
-# =========================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    depends_on:
+      - gateway
+      - predict-text-api
+      - predict-image-api
+      - training-api
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    networks:
+      - mlops_network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - mlops_network
+
 networks:
   mlops_network:
     driver: bridge

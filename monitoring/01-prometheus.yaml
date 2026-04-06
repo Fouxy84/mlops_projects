@@ -28,15 +28,21 @@ data:
       static_configs:
         - targets: ['localhost:9090']
 
-    - job_name: 'inference'
+    - job_name: 'predict-text-api'
       static_configs:
-        - targets: ['inference:8000']
+        - targets: ['predict-text-api:8000']
       metrics_path: '/metrics'
       scrape_interval: 10s
 
-    - job_name: 'training'
+    - job_name: 'predict-image-api'
       static_configs:
-        - targets: ['training:8000']
+        - targets: ['predict-image-api:8000']
+      metrics_path: '/metrics'
+      scrape_interval: 10s
+
+    - job_name: 'training-api'
+      static_configs:
+        - targets: ['training-api:8002']
       metrics_path: '/metrics'
       scrape_interval: 30s
 
@@ -105,7 +111,7 @@ data:
           description: "Drift score is {{ $value }}"
 
       - alert: PodDown
-        expr: kube_pod_status_phase{pod=~"inference|training|gateway", phase!="Running"} == 1
+        expr: kube_pod_status_phase{pod=~"predict-text-api|predict-image-api|training-api|gateway", phase!="Running"} == 1
         for: 2m
         labels:
           severity: critical

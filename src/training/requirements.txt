@@ -4,3 +4,5 @@ mlflow
 evidently
 fastapi
 uvicorn
+dagshub
+prometheus-client
