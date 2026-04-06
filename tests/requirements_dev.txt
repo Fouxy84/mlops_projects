@@ -13,3 +13,4 @@ langdetect
 mlflow
 torchvision
 python-multipart
+prometheus-client

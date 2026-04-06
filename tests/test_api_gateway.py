@@ -1,154 +1,117 @@
-import pytest
+from unittest.mock import AsyncMock, patch
+
 from fastapi.testclient import TestClient
-from unittest.mock import patch, AsyncMock
 
 from gateway.gateway_main import app
 
+
 client = TestClient(app)
 
-# =========================
-# HEALTH
-# =========================
+
+def login_as(username: str, password: str) -> TestClient:
+    session_client = TestClient(app)
+    response = session_client.post(
+        "/login",
+        data={"username": username, "password": password},
+    )
+    assert response.status_code == 200
+    return session_client
+
+
 def test_health():
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 
 
-# =========================
-# AUTH
-# =========================
-@patch("httpx.AsyncClient.post")
-def test_login(mock_post):
-    mock_post.return_value = AsyncMock(
-        json=lambda: {"access_token": "fake", "token_type": "bearer"}
-    )
-
-    response = client.post(
-        "/token",
-        data={"username": "test", "password": "test"},
-    )
-
+def test_login_admin():
+    response = client.post("/login", data={"username": "admin", "password": "admin"})
     assert response.status_code == 200
-    assert "access_token" in response.json()
+    assert response.json()["role"] == "admin"
 
 
-# =========================
-# AUTH HEADER
-# =========================
-def test_missing_token():
+def test_login_user():
+    response = client.post("/login", data={"username": "user", "password": "user"})
+    assert response.status_code == 200
+    assert response.json()["role"] == "user"
+
+
+def test_missing_session_cookie():
     response = client.post("/predict/text", json={"text": "hello"})
     assert response.status_code == 401
 
 
-# =========================
-# PREDICT TEXT
-# =========================
 @patch("httpx.AsyncClient.post")
-def test_predict_text(mock_post):
-    mock_post.return_value = AsyncMock(
-        json=lambda: {"prediction": "spam"}
-    )
+def test_predict_text_as_user(mock_post):
+    mock_post.return_value = AsyncMock(json=lambda: {"prediction": "spam"}, status_code=200)
+    mock_post.return_value.raise_for_status = lambda: None
 
-    response = client.post(
-        "/predict/text",
-        json={"text": "hello"},
-        headers={"Authorization": "Bearer fake"},
-    )
+    session_client = login_as("user", "user")
+    response = session_client.post("/predict/text", json={"text": "hello"})
 
     assert response.status_code == 200
     assert "prediction" in response.json()
 
 
-# =========================
-# PREDICT IMAGE
-# =========================
 @patch("httpx.AsyncClient.post")
-def test_predict_image(mock_post):
-    mock_post.return_value = AsyncMock(
-        json=lambda: {"prediction": "cat"}
-    )
+def test_predict_image_as_user(mock_post):
+    mock_post.return_value = AsyncMock(json=lambda: {"prediction": "cat"}, status_code=200)
+    mock_post.return_value.raise_for_status = lambda: None
 
-    response = client.post(
-        "/predict/image",
-        json={"image_path": "img.jpg"},
-        headers={"Authorization": "Bearer fake"},
-    )
+    session_client = login_as("user", "user")
+    response = session_client.post("/predict/image", json={"image_path": "img.jpg"})
 
     assert response.status_code == 200
 
 
-# =========================
-# TRAIN TEXT
-# =========================
 @patch("httpx.AsyncClient.post")
-def test_train_text(mock_post):
-    mock_post.return_value = AsyncMock()
+def test_train_text_as_admin(mock_post):
+    mock_post.return_value = AsyncMock(json=lambda: {"status": "ok"}, status_code=200)
+    mock_post.return_value.raise_for_status = lambda: None
 
-    response = client.post(
-        "/train/text",
-        headers={"Authorization": "Bearer fake"},
-    )
+    session_client = login_as("admin", "admin")
+    response = session_client.post("/train/text")
 
     assert response.status_code == 200
     assert response.json()["model"] == "text"
 
 
-# =========================
-# TRAIN IMAGE
-# =========================
+def test_train_text_forbidden_for_user():
+    session_client = login_as("user", "user")
+    response = session_client.post("/train/text")
+    assert response.status_code == 403
+
+
 @patch("httpx.AsyncClient.post")
-def test_train_image(mock_post):
-    mock_post.return_value = AsyncMock()
+def test_reload_text_as_admin(mock_post):
+    mock_post.return_value = AsyncMock(json=lambda: {"status": "reloaded"}, status_code=200)
+    mock_post.return_value.raise_for_status = lambda: None
 
-    response = client.post(
-        "/train/image",
-        headers={"Authorization": "Bearer fake"},
-    )
-
-    assert response.status_code == 200
-    assert response.json()["model"] == "image"
-
-
-# =========================
-# RELOAD TEXT
-# =========================
-@patch("httpx.AsyncClient.post")
-def test_reload_text(mock_post):
-    mock_post.return_value = AsyncMock(
-        json=lambda: {"status": "reloaded"}
-    )
-
-    response = client.post(
-        "/reload/text",
-        headers={"Authorization": "Bearer fake"},
-    )
+    session_client = login_as("admin", "admin")
+    response = session_client.post("/reload/text")
 
     assert response.status_code == 200
 
 
-# =========================
-# INFO
-# =========================
+def test_data_check_forbidden_for_user():
+    session_client = login_as("user", "user")
+    response = session_client.get("/data/check-updates")
+    assert response.status_code == 403
+
+
 @patch("httpx.AsyncClient.get")
-def test_info(mock_get):
-    mock_get.return_value = AsyncMock(
-        json=lambda: {"status": "ok"}
-    )
+def test_info_as_user(mock_get):
+    mock_get.return_value = AsyncMock(json=lambda: {"status": "ok"}, status_code=200)
+    mock_get.return_value.raise_for_status = lambda: None
 
-    response = client.get(
-        "/info",
-        headers={"Authorization": "Bearer fake"},
-    )
+    session_client = login_as("user", "user")
+    response = session_client.get("/info")
 
     assert response.status_code == 200
     data = response.json()
     assert "models" in data
 
 
-# =========================
-# ROOT
-# =========================
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
