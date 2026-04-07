@@ -6,3 +6,4 @@ httpx
 python-multipart
 prometheus-client
 bs4
+python-jose[cryptography]

@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 from typing import Optional
 
+import joblib
 import mlflow
 import pandas as pd
 import torch
@@ -50,8 +51,11 @@ PREDICTION_LATENCY = Histogram(
 IN_DOCKER = Path("/app").exists()
 BASE_DIR = Path("/app") if IN_DOCKER else Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(BASE_DIR))
+
 DATA_PROCESSED_DIR = BASE_DIR / "data" / "processed"
 IMAGE_ROOT_DIR = BASE_DIR / "data" / "raw" / "image_train"
+TEXT_MODEL_DIR = BASE_DIR / "models" / "text"
+IMAGE_MODEL_DIR = BASE_DIR / "models" / "images"
 
 try:
     df_labels = pd.read_csv(DATA_PROCESSED_DIR / "train_clean.csv")
@@ -74,7 +78,9 @@ IMAGE_TRANSFORM = transforms.Compose(
         transforms.Normalize(mean=[0.5] * 3, std=[0.5] * 3),
     ]
 )
+
 model = None
+text_vectorizer = None
 
 app = FastAPI(
     title=f"MLOps Inference API - {MODEL_TYPE.upper()}",
@@ -96,13 +102,6 @@ class PredictResponse(BaseModel):
     decision_score: Optional[list[float]] = None
 
 
-def load_model():
-    model_uri = f"models:/{MODEL_NAME}/Production"
-    loaded_model = mlflow.pyfunc.load_model(model_uri=model_uri)
-    logger.info("Loaded %s from %s", MODEL_NAME, model_uri)
-    return loaded_model
-
-
 def build_prediction_response(predicted_label: int, decision_score: Optional[list[float]] = None):
     payload = {
         "predicted_label": int(predicted_label),
@@ -113,12 +112,70 @@ def build_prediction_response(predicted_label: int, decision_score: Optional[lis
     return payload
 
 
+def load_text_bundle():
+    global text_vectorizer
+    try:
+        text_vectorizer = joblib.load(TEXT_MODEL_DIR / "tfidf.joblib")
+        loaded_model = joblib.load(TEXT_MODEL_DIR / "svm.joblib")
+        logger.info("Loaded local TF-IDF + SVM artifacts")
+        return loaded_model
+    except Exception as exc:
+        logger.warning("Local text artifacts unavailable: %s", exc)
+        text_vectorizer = None
+
+    try:
+        loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{MODEL_NAME}/Production")
+        logger.info("Loaded text model from MLflow registry")
+        return loaded_model
+    except Exception as exc:
+        logger.error("MLflow text load failed: %s", exc)
+        return None
+
+
+def load_image_bundle():
+    try:
+        loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{MODEL_NAME}/Production")
+        logger.info("Loaded image model from MLflow registry")
+        return loaded_model
+    except Exception as exc:
+        logger.warning("MLflow image load failed, falling back to local cnn.pt: %s", exc)
+
+    try:
+        from src.train_models.train_cnn import NUM_CLASSES, SimpleCNN
+
+        local_model = SimpleCNN(NUM_CLASSES)
+        state_dict = torch.load(IMAGE_MODEL_DIR / "cnn.pt", map_location=DEVICE)
+        local_model.load_state_dict(state_dict)
+        local_model.to(DEVICE)
+        local_model.eval()
+        logger.info("Loaded local CNN weights from cnn.pt")
+        return local_model
+    except Exception as exc:
+        logger.error("Local image model load failed: %s", exc)
+        return None
+
+
+def load_model():
+    if MODEL_TYPE == "svm":
+        return load_text_bundle()
+    return load_image_bundle()
+
+
 def predict_text_payload(request: PredictTextRequest):
     if model is None:
         raise HTTPException(status_code=503, detail="Text model not loaded")
 
     started_at = time.perf_counter()
     try:
+        if text_vectorizer is not None:
+            features = text_vectorizer.transform([request.text])
+            prediction = model.predict(features)[0]
+            decision_score = None
+            if hasattr(model, "decision_function"):
+                decision_score = model.decision_function(features)[0].tolist()
+            PREDICTION_COUNT.labels(model_type=MODEL_TYPE).inc()
+            return build_prediction_response(prediction, decision_score)
+
         features = pd.DataFrame({"text": [request.text]})
         prediction = model.predict(features)[0]
         decision_score = None
@@ -154,8 +211,15 @@ def predict_image_payload(request: PredictImageRequest):
 
         image = Image.open(image_path).convert("RGB")
         tensor = IMAGE_TRANSFORM(image).unsqueeze(0)
-        features = pd.DataFrame({"image": [tensor.numpy().tolist()]})
-        prediction = model.predict(features)[0]
+
+        if hasattr(model, "predict") and not isinstance(model, torch.nn.Module):
+            features = pd.DataFrame({"image": [tensor.numpy().tolist()]})
+            prediction = model.predict(features)[0]
+        else:
+            with torch.no_grad():
+                outputs = model(tensor.to(DEVICE))
+                prediction = outputs.argmax(dim=1).item()
+
         PREDICTION_COUNT.labels(model_type=MODEL_TYPE).inc()
         return build_prediction_response(prediction)
     except HTTPException:
@@ -230,6 +294,8 @@ def reload_model():
     global model
     try:
         model = load_model()
+        if model is None:
+            raise RuntimeError("Model could not be loaded")
         return {"status": "model_reloaded", "model_type": MODEL_TYPE}
     except Exception as exc:
         logger.exception("Reload failed")
@@ -255,8 +321,9 @@ def info():
     return {
         "model": MODEL_NAME,
         "model_type": MODEL_TYPE,
-        "source": "MLflow",
+        "source": "local+MLflow-fallback",
         "tracking_uri": MLFLOW_URI,
+        "local_text_vectorizer": str(TEXT_MODEL_DIR / "tfidf.joblib") if MODEL_TYPE == "svm" else None,
     }
 
 
