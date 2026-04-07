@@ -1,49 +1,94 @@
 # Projet MLOps - Rakuten Multimodal Classification
 
-Ce projet met en place une architecture MLOps pour classifier des produits Rakuten à partir du texte et des images, avec deux modèles séparés:
+Ce dépôt a été recentré sur la stack réellement utilisée pour la démo et la CI:
 
-- un modèle texte `TF-IDF + Linear SVM`
-- un modèle image `CNN PyTorch`
+- `gateway` comme point d’entrée
+- `predict-text-api` pour le modèle texte `TF-IDF + Linear SVM`
+- `predict-image-api` pour le modèle image `CNN`
+- `training-api` pour le réentraînement
+- `Airflow + DockerOperator + DVC`
+- `Prometheus + Grafana`
+- `DagsHub / MLflow` pour le versionning et le tracking
 
-L’architecture actuelle suit une logique microservices avec:
-
-- un `gateway` sécurisé en entrée
-- une API de prédiction texte dédiée
-- une API de prédiction image dédiée
-- une API de training
-- Airflow pour l’orchestration
-- DVC pour la gestion des données et artefacts
-- DagsHub / MLflow pour le tracking d’expériences et le registry
-- Prometheus + Grafana pour le monitoring
+Les anciens composants et expérimentations ont été déplacés dans `old/`.
 
 ## Architecture
 
 ```text
-[ Client / Reverse proxy ]
-            |
-            v
-       [ Gateway ]
-        /   |    \
-       /    |     \
-      v     v      v
-[Predict Text] [Predict Image] [Training API]
-      \          /                |
-       \        /                 v
-        +------/----------> [DagsHub / MLflow]
-                              ^
-                              |
-                         [Airflow DAG]
-                              |
-                              v
-                        [DVC Runner]
-                              |
-                              v
-                        [Data / Models]
+[ Client / Swagger ]
+        |
+        v
+    [ Gateway ]
+     /   |    \
+    /    |     \
+   v     v      v
+[Text API] [Image API] [Training API]
+    \        /           |
+     \      /            v
+      +----/-------> [DagsHub / MLflow]
+                        ^
+                        |
+                    [Airflow]
+                        |
+                        v
+                 [DockerOperator]
+                        |
+                        v
+                    [DVC Runner]
 
 Monitoring:
-Prometheus scrape Gateway + APIs
+Prometheus scrape gateway + APIs
 Grafana visualise les métriques
 ```
+
+## Structure utile
+
+```text
+mlops_projects/
+├── airflow/
+│   ├── dags/
+│   │   └── mlops_orchestration.py
+│   ├── dvc/
+│   │   └── Dockerfile
+│   └── requirements.txt
+├── data/
+├── gateway/
+│   ├── dockerfile
+│   ├── gateway_main.py
+│   └── requirements.txt
+├── models/
+├── monitoring/
+│   ├── grafana/
+│   └── prometheus.yml
+├── old/
+├── src/
+│   ├── gateway/
+│   ├── inference/
+│   ├── mlflow/
+│   ├── preprocessing/
+│   ├── train_models/
+│   └── training/
+├── tests/
+│   ├── conftest.py
+│   ├── requirements_dev.txt
+│   └── test_api_gateway.py
+├── .github/workflows/ci.yml
+├── docker-compose.yml
+└── README.md
+```
+
+## Dossier `old`
+
+Le dossier `old/` contient les éléments archivés mais non utilisés par la stack active:
+
+- anciens DAGs Airflow
+- ancienne API locale `api/`
+- anciens manifests `k8s/`
+- anciens fichiers de monitoring K8s
+- ancienne app `streamlit/`
+- anciens scripts PowerShell
+- anciens tests et artefacts de tests
+- ancienne documentation de production
 
 ## Services exposés
 
@@ -59,57 +104,33 @@ Avec le `docker-compose.yml` principal:
 - `prometheus`: `http://localhost:9090`
 - `grafana`: `http://localhost:3000`
 
-## Structure du dépôt
+## Gateway
 
-```text
-mlops_projects/
-├── airflow/
-│   ├── dags/
-│   │   └── mlops_orchestration.py
-│   ├── dvc/
-│   │   └── Dockerfile
-│   └── requirements.txt
-├── api/
-├── data/
-├── gateway/
-│   ├── dockerfile
-│   ├── gateway_main.py
-│   └── requirements.txt
-├── monitoring/
-│   ├── prometheus.yml
-│   ├── 01-prometheus.yaml
-│   └── grafana/
-├── models/
-├── src/
-│   ├── common/
-│   ├── gateway/
-│   ├── inference/
-│   ├── mlflow/
-│   ├── preprocessing/
-│   ├── train_models/
-│   └── training/
-├── streamlit/
-├── tests/
-├── .github/workflows/ci.yml
-├── docker-compose.yml
-└── README.md
-```
+Fichier principal: [gateway/gateway_main.py](./gateway/gateway_main.py)
 
-## APIs métier
+Le gateway garde uniquement les endpoints utiles.
 
-### Gateway
+### Authentification
 
-Le gateway est le point d’entrée principal. Il route vers les services internes et expose aussi les métriques Prometheus.
+Le gateway fonctionne en session mémoire simple pour la démo:
 
-Routes principales:
+- `admin / admin` -> accès à tout
+- `user / user` -> prédiction uniquement
 
-- `POST /token`
-- `GET /health`
-- `GET /metrics`
-- `POST /predict/text`
-- `POST /predict/image`
+Endpoints:
+
+- `POST /login`
+- `POST /logout`
+- `GET /me`
+
+### Prédiction
+
 - `POST /predict/svm`
 - `POST /predict/cnn`
+- `POST /predict/multimodal`
+
+### Admin uniquement
+
 - `POST /train/svm`
 - `POST /train/cnn`
 - `POST /reload/svm`
@@ -117,82 +138,71 @@ Routes principales:
 - `GET /data/check-updates`
 - `POST /data/check-updates/baseline`
 - `POST /data/check-updates/retrain`
-- `GET /info`
 
-Fichier principal: [gateway/gateway_main.py](./gateway/gateway_main.py)
-
-Le gateway expose aussi une API de surveillance des nouveaux fichiers de données:
-
-- scan des CSV présents dans `data/raw/`
-- scan des images présentes dans `data/raw/image_train/`
-- comparaison avec un état précédent stocké dans `data/.gateway_retrain_state.json`
-- déclenchement automatique du réentraînement SVM et/ou CNN si de nouveaux fichiers sont détectés
-
-### API de prédiction texte
-
-Service dédié au modèle SVM. Le conteneur est construit à partir de `src/inference`, avec `MODEL_TYPE=svm`.
-
-Routes:
+### Consultation
 
 - `GET /health`
 - `GET /metrics`
-- `POST /predict`
-- `POST /predict/svm`
-- `POST /reload`
-- `POST /reload/text`
 - `GET /info`
+- `GET /`
+
+## APIs de prédiction
 
 Fichier principal: [src/inference/main.py](./src/inference/main.py)
 
-### API de prédiction image
+Les deux conteneurs utilisent le même code avec une variable d’environnement:
 
-Service dédié au modèle CNN. Le conteneur est construit à partir du même code, avec `MODEL_TYPE=cnn`.
+- `MODEL_TYPE=svm`
+- `MODEL_TYPE=cnn`
 
-Routes:
+### Texte
 
-- `GET /health`
-- `GET /metrics`
-- `POST /predict`
-- `POST /predict/cnn`
-- `POST /reload`
-- `POST /reload/image`
-- `GET /info`
+Le service texte utilise:
 
-Fichier principal: [src/inference/main.py](./src/inference/main.py)
+- `models/text/tfidf.joblib`
+- `models/text/svm.joblib`
 
-### API de training
+avec fallback MLflow si besoin.
 
-Déclenche les pipelines d’entraînement SVM et CNN, logue les runs dans MLflow/DagsHub, et expose aussi `/metrics`.
+### Image
 
-Routes:
+Le service image utilise:
+
+- `models/images/cnn.pt`
+
+avec fallback MLflow si besoin.
+
+## Training
+
+Fichier principal: [src/training/main.py](./src/training/main.py)
+
+Endpoints:
 
 - `GET /health`
 - `GET /metrics`
 - `POST /train/svm`
 - `POST /train/cnn`
 
-Fichier principal: [src/training/main.py](./src/training/main.py)
+Le training envoie les runs et artefacts vers DagsHub / MLflow si les variables sont présentes.
 
-## Orchestration Airflow
+## Airflow + DVC
 
-Le DAG principal est: [airflow/dags/mlops_orchestration.py](./airflow/dags/mlops_orchestration.py)
+Le DAG actif est: [airflow/dags/mlops_orchestration.py](./airflow/dags/mlops_orchestration.py)
 
-Il réalise:
+Il orchestre:
 
 1. `dvc pull` dans un conteneur dédié via `DockerOperator`
-2. déclenchement du training SVM
-3. déclenchement du training CNN
-4. reload des APIs de prédiction après entraînement
+2. entraînement `svm`
+3. entraînement `cnn`
+4. reload des APIs
 
-Variables Airflow attendues:
+Le lien DVC / DockerOperator repose sur:
 
-- `api_token`
-- `dagshub_user`
-- `dagshub_token`
+- [airflow/dags/mlops_orchestration.py](./airflow/dags/mlops_orchestration.py)
+- [airflow/dvc/Dockerfile](./airflow/dvc/Dockerfile)
+- `DVC_RUNNER_IMAGE` dans [docker-compose.yml](./docker-compose.yml)
 
 ## Monitoring
-
-Le monitoring minimum demandé est en place sur le gateway et les APIs.
 
 Prometheus scrape:
 
@@ -204,17 +214,21 @@ Prometheus scrape:
 Fichiers:
 
 - [monitoring/prometheus.yml](./monitoring/prometheus.yml)
-- [monitoring/01-prometheus.yaml](./monitoring/01-prometheus.yaml)
-
-Grafana est préconfiguré avec Prometheus comme datasource:
-
 - [monitoring/grafana/provisioning/datasources/prometheus.yml](./monitoring/grafana/provisioning/datasources/prometheus.yml)
+
+Exemples de métriques à montrer dans Grafana:
+
+```promql
+sum by (path, status) (mlops_gateway_requests_total)
+sum by (model_type) (mlops_predictions_total)
+sum by (model_type) (mlops_training_runs_total)
+```
 
 ## Lancement local
 
-### 1. Définir les variables d’environnement
+### Variables d’environnement
 
-Créer un fichier `.env` à la racine ou exporter les variables suivantes:
+Créer un fichier `.env` à la racine:
 
 ```env
 DAGSHUB_USER=Fouxy84
@@ -224,13 +238,13 @@ DAGSHUB_REPO_URL=https://dagshub.com/Fouxy84/mlops_projects
 PROJECT_ROOT_HOST=c:/Users/coach/Desktop/datascientest/Projet DATASCIENTEST/projet_MLops/mlops_projects
 ```
 
-### 2. Lancer la stack
+### Démarrage
 
 ```powershell
 docker compose up --build -d
 ```
 
-### 3. Vérifier les services
+### Vérification
 
 ```powershell
 docker compose ps
@@ -240,77 +254,38 @@ docker compose logs predict-image-api
 docker compose logs training-api
 ```
 
-## Démo rapide
+## Démo Swagger
 
-Voici une séquence simple pour une démo demain matin avec Swagger, monitoring et orchestration.
+Ouvrir:
 
-### 1. Démarrer toute la stack
+- Gateway Swagger: `http://localhost:8000/docs`
+- Text API Swagger: `http://localhost:8001/docs`
+- Training API Swagger: `http://localhost:8002/docs`
+- Image API Swagger: `http://localhost:8004/docs`
 
-```powershell
-docker compose up --build -d
-```
+### Séquence recommandée
 
-### 2. Vérifier que les services sont bien démarrés
+1. `POST /login` avec `admin/admin`
+2. `GET /me`
+3. `POST /predict/svm`
+4. `POST /predict/cnn`
+5. `POST /predict/multimodal`
+6. `GET /info`
+7. `POST /data/check-updates/baseline`
+8. `GET /data/check-updates`
+9. `POST /train/svm`
+10. `POST /reload/svm`
+11. `POST /logout`
 
-```powershell
-docker compose ps
-docker compose logs gateway
-docker compose logs predict-text-api
-docker compose logs predict-image-api
-docker compose logs training-api
-```
-
-### 3. Ouvrir les interfaces web
-
-À montrer dans le navigateur:
-
-- Swagger Gateway: `http://localhost:8000/docs`
-- Swagger Predict Text API: `http://localhost:8001/docs`
-- Swagger Training API: `http://localhost:8002/docs`
-- Swagger Auth API: `http://localhost:8003/docs`
-- Swagger Predict Image API: `http://localhost:8004/docs`
-- MLflow local: `http://localhost:5000`
-- Airflow: `http://localhost:8080`
-- Prometheus: `http://localhost:9090`
-- Grafana: `http://localhost:3000`
-
-### 4. Générer un token depuis Swagger
-
-Dans `http://localhost:8000/docs`:
-
-1. ouvrir `POST /token`
-2. utiliser par exemple:
-
-```text
-username=admin
-password=admin123
-```
-
-3. récupérer `access_token`
-4. cliquer sur `Authorize`
-5. coller `Bearer <access_token>`
-
-### 5. Faire une prédiction texte dans Swagger
-
-Depuis le Swagger du gateway:
-
-- `POST /predict/svm`
-
-Payload:
+### Exemple texte
 
 ```json
 {
-  "text": "Ordinateur portable 15 pouces, 8GB RAM, SSD 256GB"
+  "text": "le tableau de chat est tres joli"
 }
 ```
 
-### 6. Faire une prédiction image dans Swagger
-
-Depuis le Swagger du gateway:
-
-- `POST /predict/cnn`
-
-Payload:
+### Exemple image
 
 ```json
 {
@@ -318,160 +293,24 @@ Payload:
 }
 ```
 
-### 7. Montrer l’état global du système
+### Exemple multimodal
 
-Depuis le Swagger du gateway:
-
-- `GET /health`
-- `GET /info`
-- `GET /metrics`
-
-### 7bis. Montrer la détection de nouvelles données
-
-Depuis le Swagger du gateway:
-
-1. appeler `POST /data/check-updates/baseline` pour enregistrer l’état initial
-2. ajouter ensuite un nouveau CSV dans `data/raw/` et/ou une nouvelle image dans `data/raw/image_train/`
-3. appeler `GET /data/check-updates` pour visualiser les nouveaux fichiers détectés
-4. appeler `POST /data/check-updates/retrain` pour déclencher le réentraînement des modèles impactés
-
-Comportement attendu:
-
-- nouveau CSV détecté => déclenchement `train/svm`
-- nouvelle image détectée => déclenchement `train/cnn`
-- nouveaux fichiers des deux côtés => déclenchement des deux entraînements
-
-### 8. Montrer Grafana
-
-Ouvrir:
-
-- `http://localhost:3000`
-
-Connexion par défaut si non modifiée:
-
-```text
-login: admin
-password: admin
+```json
+{
+  "text": "le tableau de chat est tres joli",
+  "image_path": "image_528113_product_923222.jpg"
+}
 ```
 
-Puis:
+## DagsHub
 
-1. vérifier que la datasource Prometheus est présente
-2. aller dans `Explore`
-3. lancer quelques requêtes PromQL
+DagsHub est utilisé pour:
 
-Exemples utiles:
+- versionner les données et artefacts avec DVC
+- suivre les runs MLflow
+- centraliser les modèles
 
-```text
-mlops_gateway_requests_total
-mlops_inference_requests_total
-mlops_predictions_total
-mlops_training_requests_total
-```
-
-### 9. Montrer Prometheus
-
-Ouvrir:
-
-- `http://localhost:9090`
-
-Requêtes utiles:
-
-```text
-mlops_gateway_requests_total
-mlops_inference_request_duration_seconds_count
-mlops_predictions_total
-mlops_training_runs_total
-```
-
-### 10. Montrer Airflow
-
-Ouvrir:
-
-- `http://localhost:8080`
-
-Compte créé au démarrage:
-
-```text
-username: admin
-password: admin
-```
-
-Puis:
-
-1. ouvrir le DAG `mlops_orchestration`
-2. montrer les tâches `dvc_pull_artifacts`, `train_svm`, `train_cnn`, `reload_svm`, `reload_cnn`
-3. lancer un run manuel si les variables Airflow sont déjà renseignées
-
-### 11. Déclencher la démo en ligne de commande si besoin
-
-Obtenir un token:
-
-```powershell
-curl -X POST "http://127.0.0.1:8000/token" -H "Content-Type: application/x-www-form-urlencoded" -d "username=admin&password=admin123"
-```
-
-Prédiction texte:
-
-```powershell
-curl -X POST "http://127.0.0.1:8000/predict/svm" -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" -d "{\"text\":\"Ordinateur portable 15 pouces, 8GB RAM, SSD 256GB\"}"
-```
-
-Prédiction image:
-
-```powershell
-curl -X POST "http://127.0.0.1:8000/predict/cnn" -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" -d "{\"image_path\":\"image_528113_product_923222.jpg\"}"
-```
-
-## Exemples d’utilisation
-
-### Obtenir un token
-
-```bash
-curl -X POST "http://127.0.0.1:8000/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "username=admin&password=admin123"
-```
-
-### Prédiction texte
-
-```bash
-curl -X POST "http://127.0.0.1:8000/predict/svm" \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "Ordinateur portable 15 pouces, 8GB RAM, SSD 256GB"
-  }'
-```
-
-### Prédiction image
-
-```bash
-curl -X POST "http://127.0.0.1:8000/predict/cnn" \
-  -H "Authorization: Bearer <TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "image_path": "image_528113_product_923222.jpg"
-  }'
-```
-
-### Déclencher un entraînement
-
-```bash
-curl -X POST "http://127.0.0.1:8000/train/svm" \
-  -H "Authorization: Bearer <TOKEN>"
-
-curl -X POST "http://127.0.0.1:8000/train/cnn" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-## Actualiser DagsHub
-
-Cette partie est importante pour que DagsHub reflète bien les nouvelles données, les runs MLflow et les artefacts versionnés par DVC.
-
-### Cas 1. Actualiser les données/artefacts DVC vers DagsHub
-
-Si tu modifies des données ou des artefacts suivis par DVC:
+### Mettre à jour les artefacts DVC
 
 ```powershell
 dvc status
@@ -481,111 +320,31 @@ dvc add models/text/svm.joblib
 git add data models .dvc .gitignore
 git commit -m "Update DVC tracked data and models"
 dvc push
-git push origin main
+git push origin master
 ```
 
-À adapter selon les fichiers réellement modifiés. Le plus important est:
+### Relancer un entraînement
 
-- `dvc add` pour mettre à jour les fichiers `.dvc`
-- `dvc push` pour envoyer les artefacts vers le remote DagsHub
-- `git push` pour envoyer le code et les métadonnées DVC
+Depuis Swagger:
 
-### Cas 2. Actualiser les runs MLflow sur DagsHub
+- `POST /train/svm`
+- `POST /train/cnn`
 
-Les services `training-api`, `predict-text-api` et `predict-image-api` utilisent:
+Puis:
 
-- `MLFLOW_TRACKING_URI=https://dagshub.com/Fouxy84/mlops_projects.mlflow`
-- `MLFLOW_TRACKING_USERNAME`
-- `MLFLOW_TRACKING_PASSWORD`
-
-Donc dès qu’un entraînement est relancé avec les bons secrets, les runs remontent dans DagsHub.
-
-Exemple:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/train/svm" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-Puis vérifier sur:
-
-- GitHub: `https://github.com/Fouxy84/mlops_projects`
-- DagsHub: `https://dagshub.com/Fouxy84/mlops_projects`
-- MLflow DagsHub: `https://dagshub.com/Fouxy84/mlops_projects.mlflow`
-
-### Cas 3. Actualiser via Airflow
-
-Le DAG `mlops_orchestration` peut être utilisé pour rejouer le flux:
-
-1. `dvc pull` dans le conteneur `dvc-runner`
-2. entraînement SVM
-3. entraînement CNN
-4. reload des APIs
-
-Pour que cela fonctionne, il faut renseigner dans Airflow:
-
-- Variable `api_token`
-- Variable `dagshub_user`
-- Variable `dagshub_token`
-
-Ensuite lancer le DAG depuis l’UI Airflow.
-
-### Cas 4. Forcer le rechargement des modèles en production locale
-
-Après une mise à jour de modèle déjà poussée dans DagsHub/MLflow:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/reload/svm" \
-  -H "Authorization: Bearer <TOKEN>"
-
-curl -X POST "http://127.0.0.1:8000/reload/cnn" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-### Cas 5. Détecter de nouvelles données puis réentraîner
-
-Initialiser le baseline:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/data/check-updates/baseline" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-Vérifier les nouveaux fichiers:
-
-```bash
-curl -X GET "http://127.0.0.1:8000/data/check-updates" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-Déclencher le réentraînement si de nouvelles données sont trouvées:
-
-```bash
-curl -X POST "http://127.0.0.1:8000/data/check-updates/retrain" \
-  -H "Authorization: Bearer <TOKEN>"
-```
-
-Cette API surveille:
-
-- les fichiers `.csv` directement dans `data/raw/`
-- les fichiers image dans `data/raw/image_train/`
-
-Le fichier d’état utilisé par le gateway est:
-
-- `data/.gateway_retrain_state.json`
+- `POST /reload/svm`
+- `POST /reload/cnn`
 
 ## CI/CD
 
-Le workflow GitHub Actions est dans:
-
-- [.github/workflows/ci.yml](./.github/workflows/ci.yml)
+Workflow: [.github/workflows/ci.yml](./.github/workflows/ci.yml)
 
 Pipeline actuel:
 
 1. tests unitaires
-2. validation des DAGs Airflow
+2. validation du DAG Airflow actif
 3. build Docker
-4. push Docker Hub sur `push` vers `develop` ou `main`
+4. push DockerHub uniquement sur `push` vers `master`
 
 Images construites:
 
@@ -599,13 +358,13 @@ Images construites:
 
 ## Tests
 
-Tests Python:
+Tests actifs:
 
 ```powershell
 python -m pytest tests -q
 ```
 
-Validation de la configuration Docker Compose:
+Validation Docker Compose:
 
 ```powershell
 docker compose config
@@ -615,4 +374,3 @@ docker compose config
 
 - GitHub: `https://github.com/Fouxy84/mlops_projects`
 - DagsHub: `https://dagshub.com/Fouxy84/mlops_projects`
-- Image d’architecture souhaitée: `c:/Users/coach/Pictures/architecture_mlops.png`
