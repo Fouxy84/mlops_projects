@@ -224,12 +224,6 @@ async def trigger_retraining_for_changes(changes: dict) -> dict:
 async def health():
     return {"status": "ok", "service": "gateway"}
 
-
-@app.get("/metrics")
-async def metrics():
-    return FastAPIResponse(generate_latest(), media_type=CONTENT_TYPE_LATEST)
-
-
 @app.post("/login")
 async def login(username: str = Form(...), password: str = Form(...)):
     global CURRENT_SESSION
@@ -245,28 +239,17 @@ async def login(username: str = Form(...), password: str = Form(...)):
         "message": "Session initialized in gateway memory",
     }
 
-
-@app.post("/logout")
-async def logout(current_user: dict = Depends(get_current_user)):
-    global CURRENT_SESSION
-    CURRENT_SESSION = None
-    return {"status": "logged_out", "username": current_user["username"]}
-
-
 @app.get("/me")
 async def me(current_user: dict = Depends(get_current_user)):
     return current_user
-
 
 @app.post("/predict/svm")
 async def predict_svm(request: PredictTextRequest, current_user: dict = Depends(require_user)):
     return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/predict", json_body=request.model_dump())
 
-
 @app.post("/predict/cnn")
 async def predict_cnn(request: PredictImageRequest, current_user: dict = Depends(require_user)):
     return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/predict", json_body=request.model_dump())
-
 
 @app.post("/predict/multimodal")
 async def predict_multimodal(request: PredictMultimodalRequest, current_user: dict = Depends(require_user)):
@@ -292,28 +275,42 @@ async def predict_multimodal(request: PredictMultimodalRequest, current_user: di
         "image_prediction": image_result,
     }
 
-
 @app.post("/train/svm")
 async def train_svm(current_user: dict = Depends(require_admin)):
     await proxy_request("POST", f"{TRAIN_API_URL}/train/svm")
     return {"status": "training_started", "model": "text"}
-
 
 @app.post("/train/cnn")
 async def train_cnn(current_user: dict = Depends(require_admin)):
     await proxy_request("POST", f"{TRAIN_API_URL}/train/cnn")
     return {"status": "training_started", "model": "image"}
 
-
 @app.post("/reload/svm")
 async def reload_svm_model(current_user: dict = Depends(require_admin)):
     return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/reload")
-
 
 @app.post("/reload/cnn")
 async def reload_cnn_model(current_user: dict = Depends(require_admin)):
     return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/reload")
 
+@app.get("/data/check-updates")
+async def check_data_updates(current_user: dict = Depends(require_admin)):
+    return {"status": "scan_completed", "changes": compute_data_changes()}
+
+@app.post("/data/check-updates/retrain")
+async def check_data_updates_and_retrain(current_user: dict = Depends(require_admin)):
+    return await trigger_retraining_for_changes(compute_data_changes())
+
+@app.post("/data/check-updates/baseline")
+async def baseline_data_updates(current_user: dict = Depends(require_admin)):
+    changes = compute_data_changes()
+    save_retrain_state(
+        {
+            "text_files": changes["text"]["current_files"],
+            "image_files": changes["image"]["current_files"],
+        }
+    )
+    return {"status": "baseline_saved", "changes": changes}
 
 @app.get("/info")
 async def get_info(current_user: dict = Depends(require_user)):
@@ -337,65 +334,11 @@ async def get_info(current_user: dict = Depends(require_user)):
         },
     }
 
-
-@app.get("/data/check-updates")
-async def check_data_updates(current_user: dict = Depends(require_admin)):
-    return {"status": "scan_completed", "changes": compute_data_changes()}
-
-
-@app.post("/data/check-updates/retrain")
-async def check_data_updates_and_retrain(current_user: dict = Depends(require_admin)):
-    return await trigger_retraining_for_changes(compute_data_changes())
-
-
-@app.post("/data/check-updates/baseline")
-async def baseline_data_updates(current_user: dict = Depends(require_admin)):
-    changes = compute_data_changes()
-    save_retrain_state(
-        {
-            "text_files": changes["text"]["current_files"],
-            "image_files": changes["image"]["current_files"],
-        }
-    )
-    return {"status": "baseline_saved", "changes": changes}
-
-
-@app.get("/")
-async def root():
-    return {
-        "message": "MLOps Gateway",
-        "authentication": {
-            "login": "/login",
-            "logout": "/logout",
-            "profiles": {
-                "admin": "admin/admin -> prediction + train + reload + retrain",
-                "user": "user/user -> prediction only",
-            },
-            "mode": "in-memory session",
-        },
-        "routes": {
-            "predict": {
-                "svm": "/predict/svm",
-                "cnn": "/predict/cnn",
-                "multimodal": "/predict/multimodal",
-            },
-            "train": {
-                "svm": "/train/svm",
-                "cnn": "/train/cnn",
-            },
-            "reload": {
-                "svm": "/reload/svm",
-                "cnn": "/reload/cnn",
-            },
-            "data_updates": {
-                "check": "/data/check-updates",
-                "retrain": "/data/check-updates/retrain",
-                "baseline": "/data/check-updates/baseline",
-            },
-            "info": "/info",
-            "metrics": "/metrics",
-        },
-    }
+@app.post("/logout")
+async def logout(current_user: dict = Depends(get_current_user)):
+    global CURRENT_SESSION
+    CURRENT_SESSION = None
+    return {"status": "logged_out", "username": current_user["username"]}
 
 
 if __name__ == "__main__":
