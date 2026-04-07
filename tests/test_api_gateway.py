@@ -93,7 +93,6 @@ def test_reload_text_as_admin(mock_post):
 
     login_as("admin", "admin")
     response = client.post("/reload/svm")
-
     assert response.status_code == 200
 
 
