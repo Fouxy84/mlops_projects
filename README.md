@@ -335,6 +335,163 @@ Puis:
 - `POST /reload/svm`
 - `POST /reload/cnn`
 
+## Procédure optionnelle - Si la prod est cassée
+
+Deux stratégies peuvent être appliquées selon le niveau d’urgence.
+
+### Cas 1. Reprendre une expérience DagsHub datant d’il y a 7 jours
+
+Objectif:
+
+- restaurer rapidement des modèles déjà entraînés
+- repartir d’un état connu sans refaire tout le pipeline
+
+Principe:
+
+- retrouver un commit Git cohérent datant d’environ 7 jours
+- restaurer les pointeurs DVC de ce commit
+- récupérer les artefacts correspondants depuis DagsHub
+- recharger les modèles dans les APIs
+
+Étapes:
+
+1. retrouver un commit de référence datant d’environ 7 jours:
+
+```powershell
+git log --since="10 days ago" --until="7 days ago" --oneline
+```
+
+2. créer une branche de reprise:
+
+```powershell
+git checkout -b rollback-prod-7j <SHA_COMMIT>
+```
+
+3. restaurer les données et artefacts versionnés:
+
+```powershell
+dvc pull data/raw.dvc data/processed.dvc models/text/svm.joblib.dvc
+dvc checkout
+```
+
+4. relancer les services utiles:
+
+```powershell
+docker compose up -d --build gateway predict-text-api predict-image-api training-api
+```
+
+5. se connecter sur Swagger du gateway:
+
+- `POST /login` avec `admin/admin`
+
+6. recharger les modèles en production locale:
+
+- `POST /reload/svm`
+- `POST /reload/cnn`
+
+7. vérifier:
+
+- `GET /info`
+- `POST /predict/svm`
+- `POST /predict/cnn`
+- `POST /predict/multimodal`
+
+Usage recommandé:
+
+- si l’objectif est de remettre rapidement un service stable
+- si les modèles d’il y a 7 jours sont déjà validés
+
+### Cas 2. Refaire entièrement l’entraînement des 2 modèles avec des données d’il y a 14 jours
+
+Objectif:
+
+- rejouer complètement la chaîne d’entraînement
+- reconstruire les artefacts à partir d’un snapshot de données plus ancien
+
+Principe:
+
+- revenir au repo et aux pointeurs DVC d’environ 14 jours
+- récupérer les données correspondantes via DVC
+- relancer le training des 2 modèles
+- recharger les modèles dans les APIs
+
+Étapes:
+
+1. retrouver un commit de référence datant d’environ 14 jours:
+
+```powershell
+git log --since="17 days ago" --until="14 days ago" --oneline
+```
+
+2. créer une branche dédiée:
+
+```powershell
+git checkout -b retrain-prod-14j <SHA_COMMIT>
+```
+
+3. restaurer les données de cette période:
+
+```powershell
+dvc pull data/raw.dvc data/processed.dvc
+dvc checkout
+```
+
+4. relancer la stack:
+
+```powershell
+docker compose up -d --build gateway training-api predict-text-api predict-image-api airflow
+```
+
+5. choisir un mode de relance:
+
+Option A - via Swagger du gateway:
+
+- `POST /login` avec `admin/admin`
+- `POST /train/svm`
+- `POST /train/cnn`
+- `POST /reload/svm`
+- `POST /reload/cnn`
+
+Option B - via Airflow:
+
+- ouvrir `http://localhost:8080`
+- lancer le DAG `mlops_orchestration`
+- laisser tourner:
+  - `dvc_pull_artifacts`
+  - `train_svm`
+  - `train_cnn`
+  - `reload_svm`
+  - `reload_cnn`
+
+6. vérifier que les runs sont remontés dans DagsHub / MLflow:
+
+- `https://dagshub.com/Fouxy84/mlops_projects`
+- `https://dagshub.com/Fouxy84/mlops_projects.mlflow`
+
+7. valider le résultat via les endpoints:
+
+- `GET /info`
+- `POST /predict/svm`
+- `POST /predict/cnn`
+- `POST /predict/multimodal`
+
+Usage recommandé:
+
+- si tu veux reconstruire complètement les modèles
+- si tu soupçonnes une corruption ou une dérive récente des données ou modèles
+
+### Choix rapide
+
+Utiliser le cas 1 si:
+
+- il faut restaurer vite
+- tu fais confiance aux modèles déjà entraînés
+
+Utiliser le cas 2 si:
+
+- il faut recalculer proprement toute la chaîne
+- tu veux repartir d’un historique de données plus ancien et stable
+
 ## CI/CD
 
 Workflow: [.github/workflows/ci.yml](./.github/workflows/ci.yml)
