@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predict-text-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: predict-text-api
+  template:
+    metadata:
+      labels:
+        app: predict-text-api
+    spec:
+      containers:
+        - name: predict-text-api
+          image: your-dockerhub-user/mlops-predict-text-api:latest
+          env:
+            - name: MODEL_TYPE
+              value: svm
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: predict-text-api
+spec:
+  selector:
+    app: predict-text-api
+  ports:
+    - port: 8000
+      targetPort: 8000

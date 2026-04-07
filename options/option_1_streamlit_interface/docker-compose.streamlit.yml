@@ -1,0 +1,15 @@
+services:
+  streamlit-ui:
+    build:
+      context: ../..
+      dockerfile: options/option_1_streamlit_interface/Dockerfile
+    image: mlops-streamlit-ui:local
+    container_name: streamlit-ui
+    environment:
+      GATEWAY_URL: http://gateway:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - gateway
+    networks:
+      - mlops_network

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predict-image-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: predict-image-api
+  template:
+    metadata:
+      labels:
+        app: predict-image-api
+    spec:
+      containers:
+        - name: predict-image-api
+          image: your-dockerhub-user/mlops-predict-image-api:latest
+          env:
+            - name: MODEL_TYPE
+              value: cnn
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: predict-image-api
+spec:
+  selector:
+    app: predict-image-api
+  ports:
+    - port: 8000
+      targetPort: 8000

@@ -14,3 +14,4 @@ mlflow
 torchvision
 python-multipart
 prometheus-client
+pytest-cov

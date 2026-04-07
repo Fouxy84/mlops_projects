@@ -531,3 +531,49 @@ docker compose config
 
 - GitHub: `https://github.com/Fouxy84/mlops_projects`
 - DagsHub: `https://dagshub.com/Fouxy84/mlops_projects`
+
+## Options d'evolution
+
+Le dossier `options/` propose deux evolutions possibles pour ouvrir la reflexion vers un projet plus complet, sans remplacer la stack de reference basee sur `docker-compose.yml`.
+
+### Option 1 - Interface Streamlit
+
+Dossier: [options/option_1_streamlit_interface/](./options/option_1_streamlit_interface/)
+
+Cette option ajoute une interface metier legere qui consomme uniquement le gateway existant.
+
+Ce que cela apporte:
+
+- une interface plus simple que Swagger pour la demo
+- une experience utilisateur plus accessible pour la prediction texte, image et multimodale
+- aucun changement structurel sur les APIs existantes
+
+Ce que cela ne change pas:
+
+- le gateway reste le point d'entree principal
+- Docker Compose reste le mode de lancement de reference
+- la securite et la logique MLOps actuelles restent identiques
+
+### Option 2 - Scalabilite avec K3s
+
+Dossier: [options/option_2_k3s_scalability/](./options/option_2_k3s_scalability/)
+
+Cette option prepare une migration progressive vers Kubernetes en choisissant `K3s`, plus leger qu'un cluster Kubernetes complet et plus adapte a un petit projet ou une soutenance.
+
+Ce que cela apporte:
+
+- replication plus simple des APIs
+- base pour l'auto-healing et le scaling horizontal
+- exposition centralisee via Ingress
+- possibilite d'ajouter Streamlit comme front metier dans une architecture plus industrielle
+
+Ce que cela ne change pas:
+
+- la stack actuelle reste la reference pour la demo, la CI et le developpement
+- K3s est une projection d'evolution, pas un remplacement impose
+
+### Positionnement recommande
+
+Utiliser l'option Streamlit si l'objectif est d'ameliorer l'experience de demo sans complexifier le projet.
+
+Utiliser l'option K3s si l'objectif est de montrer qu'une evolution vers une architecture plus scalable est deja pensee, tout en gardant une cible legere et realiste.
