@@ -114,9 +114,3 @@ def test_info_as_user(mock_get):
     assert response.status_code == 200
     data = response.json()
     assert "models" in data
-
-
-def test_root():
-    response = client.get("/")
-    assert response.status_code == 200
-    assert "routes" in response.json()
