@@ -1,0 +1,211 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Santé des services",
+      "type": "stat",
+      "gridPos": { "h": 5, "w": 24, "x": 0, "y": 0 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } }, "type": "value" }
+          ],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "green", "value": 1 }] }
+        },
+        "overrides": []
+      },
+      "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "textMode": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
+      "targets": [
+        { "expr": "up{job=~\"gateway|predict_text_api|predict_image_api|training_api\"}", "legendFormat": "{{job}}", "refId": "A" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Trafic gateway par endpoint",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 5 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10 },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["sum", "mean"] }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "sum by (path, status) (rate(mlops_gateway_requests_total[5m]))", "legendFormat": "{{path}} [{{status}}]", "refId": "A" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Erreurs gateway (4xx / 5xx)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "bars", "lineWidth": 1, "fillOpacity": 50 },
+          "unit": "reqps",
+          "color": { "mode": "palette-classic" }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["sum"] }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "sum by (path, status) (rate(mlops_gateway_requests_total{status=~\"4..|5..\"}[5m]))", "legendFormat": "{{path}} [{{status}}]", "refId": "A" }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Latence P95 gateway par endpoint (s)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 13 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineWidth": 2, "fillOpacity": 5 },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "histogram_quantile(\n  0.95,\n  sum by (le, path) (rate(mlops_gateway_request_duration_seconds_bucket[5m]))\n)", "legendFormat": "{{path}}", "refId": "A" }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Volume prédictions par modèle",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 13 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "bars", "lineWidth": 1, "fillOpacity": 50 },
+          "unit": "reqps"
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "svm" }, "properties": [{ "id": "color", "value": { "fixedColor": "blue", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "cnn" }, "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }] }
+        ]
+      },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "sum by (model_type) (rate(mlops_predictions_total[5m]))", "legendFormat": "{{model_type}}", "refId": "A" }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Latence P95 prédictions par modèle (s)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 21 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineWidth": 2, "fillOpacity": 5 },
+          "unit": "s"
+        },
+        "overrides": [
+          { "matcher": { "id": "byName", "options": "svm" }, "properties": [{ "id": "color", "value": { "fixedColor": "blue", "mode": "fixed" } }] },
+          { "matcher": { "id": "byName", "options": "cnn" }, "properties": [{ "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }] }
+        ]
+      },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "histogram_quantile(\n  0.95,\n  sum by (le, model_type) (rate(mlops_prediction_duration_seconds_bucket[5m]))\n)", "legendFormat": "{{model_type}}", "refId": "A" }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Erreurs APIs prédiction (4xx / 5xx)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 21 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "bars", "lineWidth": 1, "fillOpacity": 50 },
+          "unit": "reqps",
+          "color": { "mode": "palette-classic" }
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["sum"] }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "sum by (model_type, status) (\n  rate(mlops_inference_requests_total{status=~\"4..|5..\"}[5m])\n)", "legendFormat": "{{model_type}} [{{status}}]", "refId": "A" }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Signal drift trafic (prédictions/h)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 29 },
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "drawStyle": "line", "lineWidth": 2, "fillOpacity": 10 },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "expr": "sum by (model_type) (rate(mlops_predictions_total[1h]))", "legendFormat": "{{model_type}}", "refId": "A" }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "── Data Drift - Evidently ──",
+      "type": "row",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 37 },
+      "collapsed": false,
+      "panels": []
+    },
+    {
+      "id": 11,
+      "title": "Statut Drift Global",
+      "type": "text",
+      "gridPos": { "h": 10, "w": 8, "x": 0, "y": 38 },
+      "options": {
+        "mode": "markdown",
+        "content": "# ✅ Aucun drift détecté\n\n**Statut : OK**\n\n---\n\n| | |\n|---|---|\n| **Date** | 2026-04-20 |\n| **Source** | local |\n| **Lignes référence** | 5 000 |\n| **Lignes courantes** | 5 000 |\n| **Colonnes analysées** | 5 |\n| **Colonnes driftées** | 0 / 5 (0%) |\n| **Share drift** | 0.000 (seuil 0.5) |"
+      }
+    },
+    {
+      "id": 12,
+      "title": "Drift Scores par Colonne",
+      "type": "text",
+      "gridPos": { "h": 10, "w": 10, "x": 8, "y": 38 },
+      "options": {
+        "mode": "markdown",
+        "content": "| Colonne | Score | Seuil | Méthode | Statut |\n|---|:---:|:---:|---|:---:|\n| designation_length | **0.017** | 0.1 | Wasserstein (normed) | ✅ OK |\n| description_length | **0.024** | 0.1 | Wasserstein (normed) | ✅ OK |\n| combined_text_length | **0.025** | 0.1 | Wasserstein (normed) | ✅ OK |\n| designation_missing | **0.000** | 0.1 | Jensen-Shannon | ✅ OK |\n| description_missing | **0.001** | 0.1 | Jensen-Shannon | ✅ OK |\n\n---\n\n> Toutes les colonnes sont **sous le seuil de drift** (0.1).\n> Score le plus élevé : `combined_text_length` = 0.025"
+      }
+    },
+    {
+      "id": 13,
+      "title": "Résumé Tests Qualité Données",
+      "type": "text",
+      "gridPos": { "h": 10, "w": 6, "x": 18, "y": 38 },
+      "options": {
+        "mode": "markdown",
+        "content": "# 46/46 ✅\n\n**Tous les tests réussis**\n\n---\n\n| Catégorie | Tests |\n|---|:---:|\n| Drift colonnes | 6/6 ✅ |\n| Intégrité données | 9/9 ✅ |\n| Stats designation_length | 9/9 ✅ |\n| Stats description_length | 9/9 ✅ |\n| Stats combined_text_length | 9/9 ✅ |\n| Missing values | 4/4 ✅ |\n\n---\n\n*Source : `monitoring/reports/data_drift.json`*"
+      }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": ["mlops", "monitoring"],
+  "templating": { "list": [] },
+  "time": { "from": "now-3h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "MLOps Pipeline Monitoring",
+  "uid": "mlops-dashboard",
+  "version": 1
+}

@@ -117,16 +117,14 @@ jobs:
 
       - name: Push code to DagsHub
         run: |
-          git remote add dagshub https://${{ secrets.DAGSHUB_USERNAME }}:${{ secrets.DAGSHUB_TOKEN }}@dagshub.com/${{ secrets.DAGSHUB_USERNAME }}/mlops_projects.git || true
+          git remote add dagshub https://Fouxy84:${{ secrets.DAGSHUB_TOKEN }}@dagshub.com/Fouxy84/mlops_projects || true
           git push dagshub ${{ github.ref_name }} --force
 
       - name: Push DVC data to DagsHub
         env:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
-          DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
         run: |
           dvc remote modify dagshub --local auth basic
-          dvc remote modify dagshub --local user $DAGSHUB_USERNAME
+          dvc remote modify dagshub --local user Fouxy84
           dvc remote modify dagshub --local password $DAGSHUB_TOKEN
-          
           dvc push -r dagshub || echo "DVC push skipped (no remote or no data changes)"
