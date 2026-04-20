@@ -21,4 +21,4 @@ COPY src/training/main.py .
 COPY src/ /app/src/
 
 # 4. Commande de démarrage (exécution du script d'entraînement)
-CMD ["uvicorn", "src.training.main:app", "--host", "0.0.0.0", "--port", "8002"]
+CMD ["uvicorn", "src.training.main:app", "--host", "0.0.0.0", "--port", "8000"]

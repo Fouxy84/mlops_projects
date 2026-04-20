@@ -12,12 +12,12 @@ import logging
 import dagshub
 import os
 
-dagshub.init(repo_owner='Fouxy84', repo_name='mlops_projects', mlflow=True)
 
-mlflow.set_tracking_uri("https://dagshub.com/Fouxy84/mlops_projects.mlflow")
-
-os.environ["MLFLOW_TRACKING_USERNAME"] = "Fouxy84"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "fac5946f410149a81a7c5f4dc3402f1c7a4a1147"
+def _init_dagshub():
+    os.environ.setdefault("MLFLOW_TRACKING_USERNAME", "Fouxy84")
+    os.environ.setdefault("MLFLOW_TRACKING_PASSWORD", "fac5946f410149a81a7c5f4dc3402f1c7a4a1147")
+    dagshub.init(repo_owner='Fouxy84', repo_name='mlops_projects', mlflow=True)
+    mlflow.set_tracking_uri("https://dagshub.com/Fouxy84/mlops_projects.mlflow")
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO)
@@ -53,7 +53,7 @@ def make_json_serializable(obj):
 # PIPELINE COMPLET
 # =========================
 def main_texte():
-    dagshub.init(repo_owner="Fouxy84", repo_name="mlops_projects", mlflow=True)
+    _init_dagshub()
     mlflow.set_experiment("Text_Pipeline")
     with mlflow.start_run(run_name="Full_Text_Pipeline"):
         try:
@@ -154,4 +154,4 @@ def main_texte():
 # =========================
 if __name__ == "__main__":
     main_texte()
-print(">>> MLFLOW_TRACKING_URI =", mlflow.get_tracking_uri())
+    print(">>> MLFLOW_TRACKING_URI =", mlflow.get_tracking_uri())

@@ -1,4 +1,4 @@
-from asyncio.log import logger
+import logging
 from pathlib import Path
 import json
 import mlflow
@@ -7,19 +7,21 @@ from src.train_models.train_cnn import train_cnn
 import dagshub
 import os
 
-dagshub.init(repo_owner='Fouxy84', repo_name='mlops_projects', mlflow=True)
+logger = logging.getLogger(__name__)
 
-mlflow.set_tracking_uri("https://dagshub.com/Fouxy84/mlops_projects.mlflow")
 
-os.environ["MLFLOW_TRACKING_USERNAME"] = "Fouxy84"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "fac5946f410149a81a7c5f4dc3402f1c7a4a1147"
+def _init_dagshub():
+    os.environ.setdefault("MLFLOW_TRACKING_USERNAME", "Fouxy84")
+    os.environ.setdefault("MLFLOW_TRACKING_PASSWORD", "fac5946f410149a81a7c5f4dc3402f1c7a4a1147")
+    dagshub.init(repo_owner='Fouxy84', repo_name='mlops_projects', mlflow=True)
+    mlflow.set_tracking_uri("https://dagshub.com/Fouxy84/mlops_projects.mlflow")
 
 # =========================
 # PATHS
 # =========================
 DATA_RAW_DIR = Path("data/raw")
 DATA_PROCESSED_DIR = Path("data/processed")
-MODELS_DIR = Path("src/mlflow/mlruns")
+MODELS_DIR = Path("models/images")
 
 X_TRAIN_PATH = DATA_RAW_DIR / "X_train_update.csv"
 Y_TRAIN_PATH = DATA_RAW_DIR / "Y_train_CVw08PX.csv"
@@ -43,7 +45,7 @@ def make_json_serializable(obj):
 # PIPELINE
 # =========================
 def main_image():
-    dagshub.init(repo_owner="Fouxy84", repo_name="mlops_projects", mlflow=True)
+    _init_dagshub()
     mlflow.set_experiment("Image_Pipeline")
     with mlflow.start_run(run_name="Full_Image_Pipeline", nested=True):
         mlflow.set_tag("step", "preprocessing")

@@ -72,17 +72,13 @@ def metrics():
 
 
 def train_text_pipeline():
-    with mlflow.start_run(run_name="Text_Training_SVM"):
-        main_texte()
-        mlflow.log_param("model_type", "SVM")
-        logger.info("Text model training completed successfully.")
+    main_texte()
+    logger.info("Text model training completed successfully.")
 
 
 def train_image_pipeline():
-    with mlflow.start_run(run_name="Image_Training_CNN"):
-        main_image()
-        mlflow.log_param("model_type", "CNN")
-        logger.info("Image model training completed successfully.")
+    main_image()
+    logger.info("Image model training completed successfully.")
 
 
 @app.post("/train/svm")
@@ -97,3 +93,19 @@ def train_cnn(background_tasks: BackgroundTasks):
     TRAINING_RUNS.labels(model_type="cnn").inc()
     background_tasks.add_task(train_image_pipeline)
     return {"status": "cnn_training_started"}
+
+
+@app.post("/retrain/svm")
+def retrain_svm(background_tasks: BackgroundTasks):
+    """Full retrain: preprocessing raw data + SVM training."""
+    TRAINING_RUNS.labels(model_type="retrain_svm").inc()
+    background_tasks.add_task(main_texte)
+    return {"status": "retrain_svm_started", "steps": ["preprocessing", "training"]}
+
+
+@app.post("/retrain/cnn")
+def retrain_cnn(background_tasks: BackgroundTasks):
+    """Full retrain: preprocessing raw data + CNN training."""
+    TRAINING_RUNS.labels(model_type="retrain_cnn").inc()
+    background_tasks.add_task(main_image)
+    return {"status": "retrain_cnn_started", "steps": ["preprocessing", "training"]}

@@ -10,6 +10,7 @@ import requests
 
 
 GATEWAY_BASE_URL = os.getenv("GATEWAY_BASE_URL", "http://gateway:8000")
+API_TOKEN = os.getenv("API_TOKEN", "mlops-secret-token")
 DVC_RUNNER_IMAGE = os.getenv("DVC_RUNNER_IMAGE", "mlops-dvc-runner:local")
 PROJECT_ROOT_HOST = os.getenv(
     "PROJECT_ROOT_HOST",
@@ -25,23 +26,34 @@ default_args = {
 
 with DAG(
     dag_id="mlops_orchestration",
-    start_date=datetime(2024, 1, 1),
+    start_date=datetime(2026, 4, 1),
     schedule="0 2 * * *",
     catchup=False,
     default_args=default_args,
     tags=["mlops", "airflow", "dvc"],
+    params={"mode": "train"},
 ) as dag:
     start = EmptyOperator(task_id="start")
     end = EmptyOperator(task_id="end")
 
-    def post_to_gateway(endpoint: str, token: str):
+    def post_to_gateway(endpoint: str):
         response = requests.post(
             f"{GATEWAY_BASE_URL}{endpoint}",
-            headers={"Authorization": f"Bearer {token}"},
-            timeout=30,
+            headers={"Authorization": f"Bearer {API_TOKEN}"},
+            timeout=300,
         )
         response.raise_for_status()
         return response.json()
+
+    def train_or_retrain_svm(**context):
+        mode = context["params"].get("mode", "train")
+        endpoint = "/retrain/svm" if mode == "retrain" else "/train/svm"
+        return post_to_gateway(endpoint)
+
+    def train_or_retrain_cnn(**context):
+        mode = context["params"].get("mode", "train")
+        endpoint = "/retrain/cnn" if mode == "retrain" else "/train/cnn"
+        return post_to_gateway(endpoint)
 
     dvc_pull = DockerOperator(
         task_id="dvc_pull_artifacts",
@@ -62,26 +74,24 @@ with DAG(
 
     train_svm = PythonOperator(
         task_id="train_svm",
-        python_callable=post_to_gateway,
-        op_kwargs={"endpoint": "/train/svm", "token": "{{ var.value.api_token }}"},
+        python_callable=train_or_retrain_svm,
     )
 
     train_cnn = PythonOperator(
         task_id="train_cnn",
-        python_callable=post_to_gateway,
-        op_kwargs={"endpoint": "/train/cnn", "token": "{{ var.value.api_token }}"},
+        python_callable=train_or_retrain_cnn,
     )
 
     reload_svm = PythonOperator(
         task_id="reload_svm",
         python_callable=post_to_gateway,
-        op_kwargs={"endpoint": "/reload/svm", "token": "{{ var.value.api_token }}"},
+        op_kwargs={"endpoint": "/reload/svm"},
     )
 
     reload_cnn = PythonOperator(
         task_id="reload_cnn",
         python_callable=post_to_gateway,
-        op_kwargs={"endpoint": "/reload/cnn", "token": "{{ var.value.api_token }}"},
+        op_kwargs={"endpoint": "/reload/cnn"},
     )
 
     start >> dvc_pull >> [train_svm, train_cnn]

@@ -10,13 +10,18 @@ services:
     environment:
       PREDICT_TEXT_API_URL: http://predict-text-api:8000
       PREDICT_IMAGE_API_URL: http://predict-image-api:8000
-      TRAIN_API_URL: http://training-api:8002
+      TRAIN_API_URL: http://training-api:8000
       AUTH_API_URL: http://auth-api:8003
+      API_TOKEN: ${API_TOKEN:-mlops-secret-token}
+      AIRFLOW_API_URL: http://airflow:8080
+      AIRFLOW_USER: admin
+      AIRFLOW_PASSWORD: admin
     depends_on:
       - auth-api
       - predict-text-api
       - predict-image-api
       - training-api
+      - airflow
     volumes:
       - ./data:/app/data
     networks:
@@ -89,7 +94,7 @@ services:
     image: mlops-training-api:local
     container_name: training-api
     ports:
-      - "8002:8002"
+      - "8002:8000"
     volumes:
       - ./data:/app/data
       - ./models:/app/models
@@ -147,6 +152,7 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
       DVC_RUNNER_IMAGE: mlops-dvc-runner:local
       GATEWAY_BASE_URL: http://gateway:8000
+      API_TOKEN: ${API_TOKEN:-mlops-secret-token}
       PROJECT_ROOT_HOST: ${PROJECT_ROOT_HOST:-c:/Users/coach/Desktop/datascientest/Projet DATASCIENTEST/projet_MLops/mlops_projects}
     volumes:
       - ./airflow/dags:/opt/airflow/dags

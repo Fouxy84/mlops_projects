@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 import time
@@ -13,7 +14,11 @@ from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_
 DEFAULT_PREDICT_API_URL = os.getenv("PREDICT_API_URL", "http://predict-text-api:8000")
 PREDICT_TEXT_API_URL = os.getenv("PREDICT_TEXT_API_URL", DEFAULT_PREDICT_API_URL)
 PREDICT_IMAGE_API_URL = os.getenv("PREDICT_IMAGE_API_URL", "http://predict-image-api:8000")
-TRAIN_API_URL = os.getenv("TRAIN_API_URL", "http://training-api:8002")
+TRAIN_API_URL = os.getenv("TRAIN_API_URL", "http://training-api:8000")
+API_TOKEN = os.getenv("API_TOKEN", "mlops-secret-token")
+AIRFLOW_API_URL = os.getenv("AIRFLOW_API_URL", "http://airflow:8080")
+AIRFLOW_USER = os.getenv("AIRFLOW_USER", "admin")
+AIRFLOW_PASSWORD = os.getenv("AIRFLOW_PASSWORD", "admin")
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = Path(os.getenv("GATEWAY_DATA_DIR", "/app/data" if Path("/app/data").exists() else BASE_DIR / "data"))
@@ -137,7 +142,18 @@ def authenticate(username: str, password: str) -> dict | None:
     return {"username": user["username"], "role": user["role"]}
 
 
-def get_current_user() -> dict:
+def get_current_user(request: Request) -> dict:
+    # Bearer token auth (Airflow / service-to-service)
+    auth_header = request.headers.get("Authorization", "")
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+        if token and token == API_TOKEN:
+            return {"username": "api-service", "role": "admin"}
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API token",
+        )
+    # Session-based auth
     if CURRENT_SESSION is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -318,6 +334,63 @@ async def train_svm(current_user: dict = Depends(require_admin)):
 async def train_cnn(current_user: dict = Depends(require_admin)):
     await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/cnn"))
     return {"status": "training_started", "model": "image"}
+
+@app.post("/retrain/svm")
+async def retrain_svm(current_user: dict = Depends(require_admin)):
+    """Full retrain: preprocessing raw data + SVM training."""
+    result = await proxy_request("POST", upstream_url(TRAIN_API_URL, "/retrain/svm"))
+    return result
+
+@app.post("/retrain/cnn")
+async def retrain_cnn(current_user: dict = Depends(require_admin)):
+    """Full retrain: preprocessing raw data + CNN training."""
+    result = await proxy_request("POST", upstream_url(TRAIN_API_URL, "/retrain/cnn"))
+    return result
+
+
+async def trigger_airflow_dag(mode: str = "train") -> dict:
+    """Trigger the Airflow mlops_orchestration DAG via REST API."""
+    url = f"{AIRFLOW_API_URL}/api/v1/dags/mlops_orchestration/dagRuns"
+    credentials = base64.b64encode(
+        f"{AIRFLOW_USER}:{AIRFLOW_PASSWORD}".encode()
+    ).decode()
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(
+                url,
+                json={"conf": {"mode": mode}},
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Basic {credentials}",
+                },
+            )
+        response.raise_for_status()
+        data = response.json()
+        return {
+            "status": "dag_triggered",
+            "mode": mode,
+            "dag_run_id": data.get("dag_run_id"),
+            "execution_date": data.get("execution_date"),
+        }
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=exc.response.status_code,
+            detail=f"Airflow error: {exc.response.text}",
+        ) from exc
+    except httpx.RequestError as exc:
+        raise HTTPException(status_code=503, detail="Airflow service unavailable") from exc
+
+
+@app.post("/orchestrate/train")
+async def orchestrate_train(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → train SVM+CNN → reload models."""
+    return await trigger_airflow_dag(mode="train")
+
+
+@app.post("/orchestrate/retrain")
+async def orchestrate_retrain(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → retrain (preprocessing + training) SVM+CNN → reload models."""
+    return await trigger_airflow_dag(mode="retrain")
 
 #@app.post("/reload/text")
 @app.post("/reload/svm")
