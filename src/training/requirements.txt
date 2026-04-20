@@ -6,3 +6,7 @@ fastapi
 uvicorn
 dagshub
 prometheus-client
+beautifulsoup4
+langdetect
+torch
+torchvision

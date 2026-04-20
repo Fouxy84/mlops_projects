@@ -1,0 +1,337 @@
+{
+  "timestamp": "2026-04-20T09:55:47.630630",
+  "sections": {
+    "1. PREDICTIONS IMAGE (CNN)": [
+      {
+        "test": "1.1 Prédiction image basique",
+        "status": "FAIL",
+        "detail": "('Connection aborted.', ConnectionResetError(10054, 'Une connexion existante a dû être fermée par l’hôte distant', None, 10054, None))"
+      },
+      {
+        "test": "1.2 Prédictions sur 10 images distinctes",
+        "status": "PASS",
+        "detail": "10 OK, 0 erreurs, 5 labels uniques: [0, 1, 2, 3, 6]"
+      },
+      {
+        "test": "1.3 Distribution des prédictions image",
+        "status": "INFO",
+        "detail": "Distribution: {1: 2, 0: 2, 3: 1, 2: 4, 6: 1} sur 10 images"
+      },
+      {
+        "test": "1.3b Diversité des prédictions",
+        "status": "PASS",
+        "detail": "5 classes différentes prédites"
+      },
+      {
+        "test": "1.4 Image inexistante (erreur attendue)",
+        "status": "PASS",
+        "detail": "HTTP 404 comme attendu"
+      },
+      {
+        "test": "1.5 Chemin image vide",
+        "status": "PASS",
+        "detail": "HTTP 500 - erreur gérée"
+      },
+      {
+        "test": "1.6 Prédiction CNN directe (port 8004)",
+        "status": "PASS",
+        "detail": "label=1, name='livres / magazines'"
+      },
+      {
+        "test": "1.7 Cohérence gateway vs API directe",
+        "status": "FAIL",
+        "detail": "('Connection aborted.', ConnectionResetError(10054, 'Une connexion existante a dû être fermée par l’hôte distant', None, 10054, None))"
+      },
+      {
+        "test": "1.8 Payload invalide (champ manquant)",
+        "status": "PASS",
+        "detail": "HTTP 422 - validation Pydantic correcte"
+      },
+      {
+        "test": "1.9 Path traversal (sécurité)",
+        "status": "PASS",
+        "detail": "HTTP 404 - path traversal bloqué"
+      },
+      {
+        "test": "1.10 Latence prédiction image",
+        "status": "PASS",
+        "detail": "Temps: 0.04s (< 5s)"
+      }
+    ],
+    "2. PREDICTIONS MULTIMODAL": [
+      {
+        "test": "2.1 Prédiction multimodale basique",
+        "status": "FAIL",
+        "detail": "('Connection aborted.', ConnectionResetError(10054, 'Une connexion existante a dû être fermée par l’hôte distant', None, 10054, None))"
+      },
+      {
+        "test": "2.2 Analyse des stratégies de fusion",
+        "status": "PASS",
+        "detail": "agreement=1/7, text_priority=6/7"
+      },
+      {
+        "test": "2.3 Agreement 'livre'",
+        "status": "PASS",
+        "detail": "text=1 == image=1"
+      },
+      {
+        "test": "2.4 Text priority 'jeu_video'",
+        "status": "PASS",
+        "detail": "final=0 == text=0"
+      },
+      {
+        "test": "2.4 Text priority 'mobilier'",
+        "status": "PASS",
+        "detail": "final=4 == text=4"
+      },
+      {
+        "test": "2.4 Text priority 'fourniture'",
+        "status": "PASS",
+        "detail": "final=6 == text=6"
+      },
+      {
+        "test": "2.4 Text priority 'decoration'",
+        "status": "PASS",
+        "detail": "final=5 == text=5"
+      },
+      {
+        "test": "2.4 Text priority 'jouet'",
+        "status": "PASS",
+        "detail": "final=2 == text=2"
+      },
+      {
+        "test": "2.4 Text priority 'maquette'",
+        "status": "PASS",
+        "detail": "final=3 == text=3"
+      },
+      {
+        "test": "2.5 Multimodal avec 5 images différentes",
+        "status": "PASS",
+        "detail": "5 résultats, text_labels={1}, image_labels={0, 1, 2, 3}"
+      },
+      {
+        "test": "2.5b Cohérence texte",
+        "status": "PASS",
+        "detail": "Même texte → même label texte: {1}"
+      },
+      {
+        "test": "2.6 Multimodal avec image inexistante",
+        "status": "PASS",
+        "detail": "HTTP 404 - erreur gérée"
+      },
+      {
+        "test": "2.7 Multimodal champ manquant (pas de text)",
+        "status": "PASS",
+        "detail": "HTTP 422 - validation correcte"
+      },
+      {
+        "test": "2.8 Multimodal avec texte vide",
+        "status": "PASS",
+        "detail": "Accepté: label=1"
+      },
+      {
+        "test": "2.9 Latence multimodale",
+        "status": "PASS",
+        "detail": "Temps: 0.06s (text+image)"
+      }
+    ],
+    "3. TRAIN NEW MODEL TEXT (Airflow/Gateway)": [
+      {
+        "test": "3.1 Login admin",
+        "status": "PASS",
+        "detail": "Connecté en tant qu'admin"
+      },
+      {
+        "test": "3.2 Vérification rôle admin",
+        "status": "PASS",
+        "detail": "role=admin"
+      },
+      {
+        "test": "3.3 POST /train/svm (déclencher entraînement texte)",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)"
+      },
+      {
+        "test": "3.4 POST training-api:8002/train/svm (direct)",
+        "status": "SKIP",
+        "detail": "training-api non accessible (port 8002). Service non démarré?"
+      },
+      {
+        "test": "3.5 Flux Airflow simulé: train SVM → reload",
+        "status": "SKIP",
+        "detail": "training-api non accessible"
+      },
+      {
+        "test": "3.6 User normal ne peut pas entraîner",
+        "status": "PASS",
+        "detail": "HTTP 403 - accès refusé correctement"
+      }
+    ],
+    "4. TRAIN NEW MODEL IMAGE (Airflow/Gateway)": [
+      {
+        "test": "4.1 Login admin",
+        "status": "PASS",
+        "detail": "OK"
+      },
+      {
+        "test": "4.2 POST /train/cnn (déclencher entraînement image)",
+        "status": "FAIL",
+        "detail": "HTTP 503 - training-api non disponible"
+      },
+      {
+        "test": "4.3 POST training-api:8002/train/cnn (direct)",
+        "status": "SKIP",
+        "detail": "training-api non accessible (port 8002)"
+      },
+      {
+        "test": "4.4 Flux Airflow: train CNN → reload",
+        "status": "SKIP",
+        "detail": "training-api non accessible"
+      },
+      {
+        "test": "4.5 Structure DAG Airflow (vérification statique)",
+        "status": "PASS",
+        "detail": "Toutes les tâches DAG présentes et ordonnées"
+      },
+      {
+        "test": "4.6 Health check training-api",
+        "status": "SKIP",
+        "detail": "training-api non accessible"
+      }
+    ],
+    "5. CHECK UPDATE": [
+      {
+        "test": "5.1 Login admin",
+        "status": "PASS",
+        "detail": "OK"
+      },
+      {
+        "test": "5.2 GET /data/check-updates",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=15)"
+      },
+      {
+        "test": "5.3 Structure réponse check-updates",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=15)"
+      },
+      {
+        "test": "5.4 POST /data/check-updates/baseline",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=15)"
+      },
+      {
+        "test": "5.5 Après baseline → has_new_files=False",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=15)"
+      },
+      {
+        "test": "5.6 User normal → check-updates refusé",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=15)"
+      },
+      {
+        "test": "5.7 POST /data/check-updates/retrain",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)"
+      }
+    ],
+    "6. RETRAIN + PRODUCTION": [
+      {
+        "test": "6.1 Déclencher entraînement SVM",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)"
+      },
+      {
+        "test": "6.2 Training en background (réponse immédiate)",
+        "status": "SKIP",
+        "detail": "Training non démarré"
+      },
+      {
+        "test": "6.3 Reload SVM après entraînement",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)"
+      },
+      {
+        "test": "6.4 Prédiction SVM après reload",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=15)"
+      },
+      {
+        "test": "6.5 Reload CNN",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)"
+      },
+      {
+        "test": "6.6 Prédiction CNN après reload",
+        "status": "FAIL",
+        "detail": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=30)"
+      },
+      {
+        "test": "6.7 Workflow complet: train → reload → predict",
+        "status": "SKIP",
+        "detail": "Workflow non exécuté"
+      },
+      {
+        "test": "6.8 Code entraînement → MLflow (vérification statique)",
+        "status": "PASS",
+        "detail": "5/5 vérifications OK. Manquants: aucun"
+      }
+    ],
+    "7. UPDATE DAGSHUB": [
+      {
+        "test": "7.1 Connectivité DagsHub MLflow",
+        "status": "FAIL",
+        "detail": "HTTP 500: \n<!DOCTYPE html>\n<html lang=\"en-US\">\n  <head data-suburl=\"\">\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>\n    \n  "
+      },
+      {
+        "test": "7.2 Modèles enregistrés sur DagsHub",
+        "status": "FAIL",
+        "detail": "HTTP 500: \n<!DOCTYPE html>\n<html lang=\"en-US\">\n  <head data-suburl=\"\">\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"/>\n    \n  "
+      },
+      {
+        "test": "7.3 Versions modèle Text_Classifier_SVM",
+        "status": "FAIL",
+        "detail": "HTTP 500"
+      },
+      {
+        "test": "7.4 Versions modèle CNN_Image_Classifier",
+        "status": "FAIL",
+        "detail": "HTTP 500"
+      },
+      {
+        "test": "7.5 Derniers runs MLflow",
+        "status": "FAIL",
+        "detail": "HTTP 500"
+      },
+      {
+        "test": "7.6 Métriques du dernier modèle",
+        "status": "FAIL",
+        "detail": "HTTP 500"
+      },
+      {
+        "test": "7.7 run_training_text.py",
+        "status": "PASS",
+        "detail": "register=True, Production=True, transition=True"
+      },
+      {
+        "test": "7.7 run_training_images.py",
+        "status": "PASS",
+        "detail": "register=True, Production=True, transition=True"
+      },
+      {
+        "test": "7.8 Vérification de la config de chargement MLflow",
+        "status": "PASS",
+        "detail": "URI=True, version=True, stage=True, alias=True"
+      },
+      {
+        "test": "7.9 GET /info (modèles chargés)",
+        "status": "FAIL",
+        "detail": "HTTP 503 - un service upstream non disponible"
+      }
+    ]
+  },
+  "total_pass": 32,
+  "total_fail": 23,
+  "total_skip": 7
+}

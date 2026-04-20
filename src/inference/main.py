@@ -2,9 +2,11 @@ import logging
 import os
 import sys
 import time
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
+import joblib
 import mlflow
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Request
@@ -25,6 +27,10 @@ DEFAULT_MODEL_NAME = "Text_Classifier_SVM" if MODEL_TYPE == "svm" else "CNN_Imag
 MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", DEFAULT_MODEL_NAME).strip()
 SERVICE_NAME = f"predict-{MODEL_TYPE}-api"
 MLFLOW_URI = os.getenv("MLFLOW_TRACKING_URI", "https://dagshub.com/Fouxy84/mlops_projects.mlflow")
+TEXT_VECTORIZER_ARTIFACT_PATH = os.getenv(
+    "MLFLOW_TEXT_VECTORIZER_ARTIFACT_PATH",
+    "preprocessing/tfidf.joblib",
+).strip()
 
 mlflow.set_tracking_uri(MLFLOW_URI)
 
@@ -79,6 +85,36 @@ IMAGE_TRANSFORM = transforms.Compose(
 
 model = None
 
+
+@dataclass
+class TextModelBundle:
+    classifier: Any
+    vectorizer: Any | None
+    model_uri: str
+    vectorizer_artifact_path: str | None = None
+
+    def predict_label(self, text: str):
+        if self.vectorizer is not None:
+            features = self.vectorizer.transform([text])
+            return self.classifier.predict(features)[0]
+
+        try:
+            return self.classifier.predict([text])[0]
+        except Exception:
+            return self.classifier.predict(pd.DataFrame({"text": [text]}))[0]
+
+    def decision_score(self, text: str) -> Optional[list[float]]:
+        if not hasattr(self.classifier, "decision_function"):
+            return None
+        if self.vectorizer is None:
+            return None
+
+        score = self.classifier.decision_function(self.vectorizer.transform([text]))[0]
+        if hasattr(score, "tolist"):
+            return score.tolist()
+        return list(score)
+
+
 app = FastAPI(
     title=f"MLOps Inference API - {MODEL_TYPE.upper()}",
     description="Single-model inference service for the MLOps platform",
@@ -113,15 +149,136 @@ def get_model_uri() -> str:
     return build_model_uri(MODEL_NAME)
 
 
-def load_model():
+def get_model_run_id(model_uri: str) -> str | None:
+    if model_uri.startswith("runs:/"):
+        parts = model_uri.split("/")
+        if len(parts) >= 2:
+            return parts[1]
+
+    try:
+        model_info = mlflow.models.get_model_info(model_uri)
+        return getattr(model_info, "run_id", None)
+    except Exception as exc:
+        logger.warning("Could not resolve MLflow run id for %s: %s", model_uri, exc)
+        return None
+
+
+def load_text_vectorizer(model_uri: str):
+    if not TEXT_VECTORIZER_ARTIFACT_PATH:
+        return None
+
+    run_id = get_model_run_id(model_uri)
+    if not run_id:
+        logger.warning("No MLflow run id found for %s; text vectorizer not loaded", model_uri)
+        return None
+
+    try:
+        vectorizer_path = mlflow.artifacts.download_artifacts(
+            run_id=run_id,
+            artifact_path=TEXT_VECTORIZER_ARTIFACT_PATH,
+        )
+        vectorizer = joblib.load(vectorizer_path)
+        logger.info(
+            "Loaded text vectorizer from MLflow run %s artifact %s",
+            run_id,
+            TEXT_VECTORIZER_ARTIFACT_PATH,
+        )
+        return vectorizer
+    except Exception as exc:
+        logger.warning(
+            "Could not load text vectorizer artifact %s for %s: %s",
+            TEXT_VECTORIZER_ARTIFACT_PATH,
+            model_uri,
+            exc,
+        )
+        return None
+
+
+def load_text_model():
+    model_uri = get_model_uri()
+    try:
+        classifier = mlflow.sklearn.load_model(model_uri=model_uri)
+        vectorizer = load_text_vectorizer(model_uri)
+        logger.info(
+            "Loaded text classifier from MLflow: %s (vectorizer loaded: %s)",
+            model_uri,
+            vectorizer is not None,
+        )
+        return TextModelBundle(
+            classifier=classifier,
+            vectorizer=vectorizer,
+            model_uri=model_uri,
+            vectorizer_artifact_path=TEXT_VECTORIZER_ARTIFACT_PATH if vectorizer is not None else None,
+        )
+    except Exception as exc:
+        logger.error("MLflow text model load failed from %s: %s", model_uri, exc)
+        return None
+
+
+def load_pyfunc_model():
     model_uri = get_model_uri()
     try:
         loaded_model = mlflow.pyfunc.load_model(model_uri=model_uri)
         logger.info("Loaded %s model from MLflow: %s", MODEL_TYPE, model_uri)
         return loaded_model
     except Exception as exc:
-        logger.error("MLflow %s model load failed from %s: %s", MODEL_TYPE, model_uri, exc)
+        logger.warning("MLflow %s model load failed from %s: %s", MODEL_TYPE, model_uri, exc)
+        
+        # Try to load local model as fallback
+        if MODEL_TYPE == "cnn":
+            try:
+                import torch
+                import torch.nn as nn
+                
+                local_model_path = BASE_DIR / "models" / "images" / "cnn.pt"
+                if local_model_path.exists():
+                    # Define the model architecture (same as in training)
+                    class SimpleCNN(nn.Module):
+                        def __init__(self, num_classes):
+                            super().__init__()
+                            self.features = nn.Sequential(
+                                nn.Conv2d(3, 32, 3, padding=1),
+                                nn.ReLU(),
+                                nn.MaxPool2d(2),
+                                nn.Conv2d(32, 64, 3, padding=1),
+                                nn.ReLU(),
+                                nn.MaxPool2d(2),
+                                nn.Conv2d(64, 128, 3, padding=1),
+                                nn.ReLU(),
+                                nn.MaxPool2d(2),
+                            )
+                            self.classifier = nn.Sequential(
+                                nn.Flatten(),
+                                nn.Linear(128 * (IMAGE_SIZE // 8) * (IMAGE_SIZE // 8), 256),
+                                nn.ReLU(),
+                                nn.Dropout(0.5),
+                                nn.Linear(256, num_classes),
+                            )
+
+                        def forward(self, x):
+                            x = self.features(x)
+                            return self.classifier(x)
+                    
+                    # Create model and load state dict
+                    model = SimpleCNN(num_classes=8)
+                    state_dict = torch.load(local_model_path, map_location=torch.device('cpu'))
+                    model.load_state_dict(state_dict)
+                    model.eval()
+                    
+                    logger.info("Loaded local CNN model from %s", local_model_path)
+                    return model
+                else:
+                    logger.warning("Local CNN model not found at %s", local_model_path)
+            except Exception as local_exc:
+                logger.error("Failed to load local CNN model: %s", local_exc)
+        
         return None
+
+
+def load_model():
+    if MODEL_TYPE == "svm":
+        return load_text_model()
+    return load_pyfunc_model()
 
 
 def predict_text_payload(request: PredictTextRequest):
@@ -130,11 +287,15 @@ def predict_text_payload(request: PredictTextRequest):
 
     started_at = time.perf_counter()
     try:
-        features = pd.DataFrame({"text": [request.text]})
-        prediction = model.predict(features)[0]
-        decision_score = None
-        if hasattr(model, "predict_proba"):
-            decision_score = model.predict_proba(features)[0].tolist()
+        if isinstance(model, TextModelBundle):
+            prediction = model.predict_label(request.text)
+            decision_score = model.decision_score(request.text)
+        else:
+            features = pd.DataFrame({"text": [request.text]})
+            prediction = model.predict(features)[0]
+            decision_score = None
+            if hasattr(model, "predict_proba"):
+                decision_score = model.predict_proba(features)[0].tolist()
         PREDICTION_COUNT.labels(model_type=MODEL_TYPE).inc()
         return build_prediction_response(prediction, decision_score)
     except HTTPException:
@@ -166,8 +327,16 @@ def predict_image_payload(request: PredictImageRequest):
         image = Image.open(image_path).convert("RGB")
         tensor = IMAGE_TRANSFORM(image).unsqueeze(0)
 
-        features = pd.DataFrame({"image": [tensor.numpy().tolist()]})
-        prediction = model.predict(features)[0]
+        # Support both local torch fallback and MLflow pyfunc interfaces.
+        import torch
+
+        if isinstance(model, torch.nn.Module):
+            with torch.no_grad():
+                outputs = model(tensor)
+                prediction = outputs.argmax(dim=1).item()
+        else:
+            features = pd.DataFrame({"image": [tensor.numpy().tolist()]})
+            prediction = model.predict(features)[0]
 
         PREDICTION_COUNT.labels(model_type=MODEL_TYPE).inc()
         return build_prediction_response(prediction)
@@ -267,13 +436,17 @@ def reload_image():
 
 @app.get("/info")
 def info():
-    return {
+    payload = {
         "model": MODEL_NAME,
         "model_type": MODEL_TYPE,
         "model_uri": get_model_uri(),
         "source": "mlflow",
         "tracking_uri": MLFLOW_URI,
     }
+    if MODEL_TYPE == "svm":
+        payload["text_vectorizer_artifact_path"] = TEXT_VECTORIZER_ARTIFACT_PATH or None
+        payload["text_vectorizer_loaded"] = isinstance(model, TextModelBundle) and model.vectorizer is not None
+    return payload
 
 
 @app.get("/info/text")

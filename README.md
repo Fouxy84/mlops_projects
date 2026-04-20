@@ -175,6 +175,9 @@ Variables `.env` possibles via Docker Compose:
 - `TEXT_MLFLOW_MODEL_VERSION=3`
 - `TEXT_MLFLOW_MODEL_STAGE=Production`
 - `TEXT_MLFLOW_MODEL_URI=models:/Text_Classifier_SVM/3`
+- `TEXT_MLFLOW_VECTORIZER_ARTIFACT_PATH=preprocessing/tfidf.joblib`
+
+Le modèle texte enregistré dans MLflow est le classifieur SVM. L'API charge aussi le vectorizer TF-IDF depuis les artefacts MLflow du même run, sinon le SVM reçoit du texte brut et renvoie une erreur du type `could not convert string to float`.
 
 ### Image
 
@@ -514,6 +517,7 @@ PROJECT_ROOT_HOST=c:/Users/coach/Desktop/datascientest/Projet DATASCIENTEST/proj
 # optionnel: forcer une version MLflow précise
 TEXT_MLFLOW_MODEL_VERSION=
 IMAGE_MLFLOW_MODEL_VERSION=
+TEXT_MLFLOW_VECTORIZER_ARTIFACT_PATH=preprocessing/tfidf.joblib
 ```
 
 ### Démarrage
