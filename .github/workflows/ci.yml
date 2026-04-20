@@ -124,6 +124,7 @@ jobs:
         env:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
+          dvc remote add -d dagshub https://dagshub.com/Fouxy84/mlops_projects.dvc || true
           dvc remote modify dagshub --local auth basic
           dvc remote modify dagshub --local user Fouxy84
           dvc remote modify dagshub --local password $DAGSHUB_TOKEN

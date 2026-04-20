@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+import requests as http_requests
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -27,9 +28,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--current", default=DEFAULT_CURRENT)
     parser.add_argument(
         "--data-source",
-        choices=("dagshub", "local"),
+        choices=("dagshub", "local", "mixed"),
         default="dagshub",
-        help="Use DagsHub/DVC by default. Use 'local' to read existing local files.",
+        help="'dagshub': both files from DagsHub. 'local': both local. "
+             "'mixed': reference from DagsHub, current from local.",
     )
     parser.add_argument("--dagshub-repo-url", default=DEFAULT_DAGSHUB_REPO_URL)
     parser.add_argument(
@@ -75,46 +77,30 @@ def local_path(path_value: str) -> Path:
 
 
 def dvc_get_from_dagshub(repo_url: str, repo_path: str, output_path: Path, rev: str = "") -> Path:
-    dvc_executable = shutil.which("dvc")
-    if dvc_executable is None:
-        raise RuntimeError(
-            "DVC is not installed. Install it with: pip install \"dvc[s3]\""
-        )
-
+    """Download a file from DagsHub using the raw content API (fast, no clone)."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    command = [
-        dvc_executable,
-        "get",
-        repo_url,
-        repo_path,
-        "--out",
-        str(output_path),
-        "--force",
-    ]
-    if rev:
-        command.extend(["--rev", rev])
 
-    env = os.environ.copy()
-    env["DVC_NO_ANALYTICS"] = "true"
-    if env.get("DAGSHUB_USER") and env.get("DAGSHUB_TOKEN"):
-        env.setdefault("AWS_ACCESS_KEY_ID", env["DAGSHUB_USER"])
-        env.setdefault("AWS_SECRET_ACCESS_KEY", env["DAGSHUB_TOKEN"])
+    dagshub_user = os.environ.get("DAGSHUB_USER", "")
+    dagshub_token = os.environ.get("DAGSHUB_TOKEN", "")
 
-    result = subprocess.run(
-        command,
-        cwd=PROJECT_ROOT,
-        env=env,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if result.returncode != 0:
-        message = result.stderr.strip() or result.stdout.strip()
+    # Extract owner/repo from URL like https://dagshub.com/Fouxy84/mlops_projects
+    parts = repo_url.rstrip("/").split("dagshub.com/")
+    if len(parts) != 2:
+        raise RuntimeError(f"Cannot parse DagsHub repo URL: {repo_url}")
+    owner_repo = parts[1].replace(".git", "")
+
+    branch = rev or "develop"
+    raw_url = f"https://dagshub.com/{owner_repo}/raw/{branch}/{repo_path}"
+
+    auth = (dagshub_user, dagshub_token) if dagshub_user and dagshub_token else None
+    resp = http_requests.get(raw_url, auth=auth, timeout=60)
+    if resp.status_code != 200:
         raise RuntimeError(
-            "Could not download data from DagsHub/DVC. "
-            "Check DAGSHUB_USER, DAGSHUB_TOKEN, DAGSHUB_REPO_URL and DVC remote access. "
-            f"Details: {message}"
+            f"Could not download '{repo_path}' from DagsHub (HTTP {resp.status_code}). "
+            f"URL: {raw_url}  — Check DAGSHUB_USER, DAGSHUB_TOKEN."
         )
+
+    output_path.write_bytes(resp.content)
     return output_path
 
 
@@ -122,6 +108,21 @@ def prepare_input_file(path_value: str, role: str, args: argparse.Namespace) -> 
     if args.data_source == "local":
         return local_path(path_value)
 
+    if args.data_source == "mixed":
+        # reference from DagsHub, current from local
+        if role == "current":
+            return local_path(path_value)
+        # role == "reference" → download from DagsHub
+        repo_path = repo_relative_path(path_value)
+        output_path = args.dagshub_cache_dir.resolve() / f"{role}_{Path(repo_path).name}"
+        return dvc_get_from_dagshub(
+            repo_url=args.dagshub_repo_url,
+            repo_path=repo_path,
+            output_path=output_path,
+            rev=args.dagshub_rev,
+        )
+
+    # dagshub mode: both from DagsHub
     repo_path = repo_relative_path(path_value)
     output_path = args.dagshub_cache_dir.resolve() / f"{role}_{Path(repo_path).name}"
     return dvc_get_from_dagshub(
@@ -308,5 +309,5 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":python monitoring/check_data_drift.py --data-source local
+if __name__ == "__main__":
     sys.exit(main())
