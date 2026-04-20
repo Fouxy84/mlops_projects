@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: streamlit-ui
+  labels:
+    app: streamlit-ui
 spec:
   replicas: 1
   selector:
@@ -17,14 +19,45 @@ spec:
           image: your-dockerhub-user/mlops-streamlit-ui:latest
           ports:
             - containerPort: 8501
+          env:
+            - name: GATEWAY_URL
+              value: http://gateway:8000
+            - name: GRAFANA_URL
+              value: http://grafana:3000
+            - name: AIRFLOW_URL
+              value: http://airflow:8080
+            - name: PROMETHEUS_URL
+              value: http://prometheus:9090
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: 8501
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: streamlit-ui
+  labels:
+    app: streamlit-ui
 spec:
   selector:
     app: streamlit-ui
   ports:
-    - port: 8501
+    - name: http
+      port: 8501
       targetPort: 8501

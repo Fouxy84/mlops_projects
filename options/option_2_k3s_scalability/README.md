@@ -223,13 +223,104 @@ Brancher:
 - `promtail`
 - alertes applicatives plus fines
 
-## Lancement cible
+## Deploiement
 
-Exemple de flux:
+### Prerequis
 
-```powershell
-kubectl apply -k options/option_2_k3s_scalability/manifests
+- K3s installe sur la machine cible :
+  ```bash
+  curl -sfL https://get.k3s.io | sh -
+  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+  ```
+- `kubectl` disponible
+- `kustomize` disponible (ou `kubectl` >= 1.21 avec support `-k` integre)
+- `metrics-server` pour le HPA :
+  ```bash
+  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+  ```
+
+---
+
+### Etape 1 — Creer le namespace
+
+```bash
+kubectl apply -f options/option_2_k3s_scalability/manifests/namespace.yaml
 ```
+
+### Etape 2 — Creer le ConfigMap
+
+```bash
+kubectl apply -f options/option_2_k3s_scalability/manifests/configmap.yaml
+```
+
+### Etape 3 — Creer le Secret (valeurs reelles)
+
+Ne pas appliquer `secret-template.yaml` directement.
+Creer le secret avec les vraies valeurs :
+
+```bash
+kubectl -n mlops create secret generic mlops-secrets \
+  --from-literal=API_TOKEN=votre-api-token \
+  --from-literal=DAGSHUB_TOKEN=votre-dagshub-token \
+  --from-literal=DAGSHUB_USER_TOKEN=votre-dagshub-token
+```
+
+### Etape 4 — Deployer tous les services
+
+```bash
+kubectl apply -k options/option_2_k3s_scalability/manifests/
+```
+
+> Note : `kustomization.yaml` exclut `secret-template.yaml` du `apply -k`.
+> Le secret doit etre cree manuellement avant cette etape.
+
+### Etape 5 — Verifier les pods
+
+```bash
+kubectl -n mlops get pods
+kubectl -n mlops get hpa
+kubectl -n mlops get ingress
+```
+
+Attendre que tous les pods soient `Running` et `Ready`.
+
+### Etape 6 — Acces local
+
+Ajouter l'entree dans `/etc/hosts` (ou `C:\Windows\System32\drivers\etc\hosts` sous Windows) :
+
+```
+<IP_DU_NODE_K3S>  mlops.local
+```
+
+Puis ouvrir :
+
+| Service | URL |
+|---------|-----|
+| Streamlit UI | http://mlops.local/ |
+| Gateway Swagger | http://mlops.local/docs |
+| Airflow | http://mlops.local/airflow |
+| Grafana | http://mlops.local/grafana |
+
+---
+
+### Mise a jour d'un service
+
+Rebuild l'image Docker, puis :
+
+```bash
+kubectl -n mlops rollout restart deployment/<nom-du-service>
+# Exemple :
+kubectl -n mlops rollout restart deployment/gateway
+```
+
+### Supprimer la stack
+
+```bash
+kubectl delete -k options/option_2_k3s_scalability/manifests/
+kubectl -n mlops delete secret mlops-secrets
+```
+
+---
 
 ## Benefices
 
@@ -246,3 +337,4 @@ kubectl apply -k options/option_2_k3s_scalability/manifests
 - demande une gestion des secrets et du stockage plus rigoureuse
 - Airflow et MLflow doivent etre consolides avant une vraie mise en production
 - la partie monitoring K3s ajoute de nouveaux composants a administrer
+

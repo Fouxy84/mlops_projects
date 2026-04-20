@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: predict-text-api
+  labels:
+    app: predict-text-api
 spec:
   replicas: 2
   selector:
@@ -11,23 +13,52 @@ spec:
     metadata:
       labels:
         app: predict-text-api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
         - name: predict-text-api
           image: your-dockerhub-user/mlops-predict-text-api:latest
+          ports:
+            - containerPort: 8000
           env:
             - name: MODEL_TYPE
               value: svm
-          ports:
-            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: mlops-config
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: predict-text-api
+  labels:
+    app: predict-text-api
 spec:
   selector:
     app: predict-text-api
   ports:
-    - port: 8000
+    - name: http
+      port: 8000
       targetPort: 8000

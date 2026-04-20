@@ -23,24 +23,26 @@ def bearer_headers():
     return {"Authorization": f"Bearer {gateway_main.API_TOKEN}"}
 
 
-# ──────────────────────────────
-# Health / Root / Metrics
-# ──────────────────────────────
+# ══════════════════════════════════════════
+# 1. INTRO — health, auth, system info
+# ══════════════════════════════════════════
 
 def test_health():
     response = client.get("/health")
-    
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
 
 
-def test_root_lists_gateway_paths():
+def test_root_lists_sections():
     response = client.get("/")
     assert response.status_code == 200
     data = response.json()
-    assert data["health"] == "/health"
-    assert data["predictions"]["text"] == "/predict/svm"
-    assert data["predictions"]["image"] == "/predict/cnn"
+    sections = data["sections"]
+    assert sections["intro"]["health"] == "/health"
+    assert sections["prediction"]["svm"] == "/predict/svm"
+    assert sections["prediction"]["cnn"] == "/predict/cnn"
+    assert sections["train_retrain"]["train_svm"] == "/orchestrate/train/svm"
+    assert sections["check_update"]["scan"] == "/data/check-updates"
 
 
 def test_metrics_endpoint():
@@ -51,11 +53,6 @@ def test_metrics_endpoint():
 
 def test_upstream_url_normalizes_slashes():
     assert gateway_main.upstream_url("http://service:8000/", "/predict/svm") == "http://service:8000/predict/svm"
-
-
-# ──────────────────────────────
-# Auth: login / logout / me / bearer
-# ──────────────────────────────
 
 def test_login_admin():
     gateway_main.CURRENT_SESSION = None
@@ -113,9 +110,9 @@ def test_logout():
     assert response.status_code == 401
 
 
-# ──────────────────────────────
-# Predict endpoints
-# ──────────────────────────────
+# ══════════════════════════════════════════
+# 2. PREDICTION — SVM (text), CNN (image), multimodal
+# ══════════════════════════════════════════
 
 @patch("httpx.AsyncClient.post")
 def test_predict_svm_as_user(mock_post):
@@ -170,37 +167,9 @@ def test_predict_image_old_alias_not_registered():
     assert response.status_code == 404
 
 
-# ──────────────────────────────
-# Train/Retrain direct (commented out → 404/405)
-# ──────────────────────────────
-
-def test_train_svm_not_registered():
-    login_as("admin", "admin")
-    response = client.post("/train/svm")
-    assert response.status_code in (404, 405)
-
-
-def test_train_cnn_not_registered():
-    login_as("admin", "admin")
-    response = client.post("/train/cnn")
-    assert response.status_code in (404, 405)
-
-
-def test_retrain_svm_not_registered():
-    login_as("admin", "admin")
-    response = client.post("/retrain/svm")
-    assert response.status_code in (404, 405)
-
-
-def test_retrain_cnn_not_registered():
-    login_as("admin", "admin")
-    response = client.post("/retrain/cnn")
-    assert response.status_code in (404, 405)
-
-
-# ──────────────────────────────
-# Orchestrate endpoints (via Airflow)
-# ──────────────────────────────
+# ══════════════════════════════════════════
+# 3. TRAIN & RETRAIN — Airflow orchestration + reload
+# ══════════════════════════════════════════
 
 @patch("httpx.AsyncClient.post")
 def test_orchestrate_train_svm_as_admin(mock_post):
@@ -294,9 +263,7 @@ def test_orchestrate_with_bearer_token(mock_post):
     assert response.json()["status"] == "dag_triggered"
 
 
-# ──────────────────────────────
-# Orchestrate status
-# ──────────────────────────────
+
 
 @patch("httpx.AsyncClient.get")
 def test_orchestrate_status_success(mock_get):
@@ -351,9 +318,7 @@ def test_orchestrate_status_forbidden_for_user():
     assert response.status_code == 403
 
 
-# ──────────────────────────────
-# Reload endpoints
-# ──────────────────────────────
+
 
 @patch("httpx.AsyncClient.post")
 def test_reload_svm_as_admin(mock_post):
@@ -388,9 +353,9 @@ def test_reload_forbidden_for_user():
     assert response.status_code == 403
 
 
-# ──────────────────────────────
-# Data check-updates
-# ──────────────────────────────
+# ══════════════════════════════════════════
+# 4. CHECK UPDATE — data scan, baseline, auto-retrain
+# ══════════════════════════════════════════
 
 def test_data_check_forbidden_for_user():
     login_as("user", "user")
@@ -425,9 +390,7 @@ def test_data_retrain_as_admin(mock_post):
     assert response.json()["status"] in ("retraining_triggered", "no_new_files")
 
 
-# ──────────────────────────────
-# Info endpoint
-# ──────────────────────────────
+
 
 @patch("httpx.AsyncClient.get")
 def test_info_as_user(mock_get):

@@ -2,11 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mlops-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
     - host: mlops.local
       http:
         paths:
+          # Streamlit UI — interface principale
           - path: /
             pathType: Prefix
             backend:
@@ -14,6 +17,7 @@ spec:
                 name: streamlit-ui
                 port:
                   number: 8501
+          # Gateway API — tous les endpoints /health /predict /orchestrate etc.
           - path: /api
             pathType: Prefix
             backend:
@@ -21,3 +25,27 @@ spec:
                 name: gateway
                 port:
                   number: 8000
+          # Swagger direct
+          - path: /docs
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 8000
+          # Airflow UI
+          - path: /airflow
+            pathType: Prefix
+            backend:
+              service:
+                name: airflow
+                port:
+                  number: 8080
+          # Grafana
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000

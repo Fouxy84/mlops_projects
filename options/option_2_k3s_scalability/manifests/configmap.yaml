@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mlops-config
+data:
+  # MLflow / DagsHub
+  MLFLOW_TRACKING_URI: https://dagshub.com/Fouxy84/mlops_projects.mlflow
+  DAGSHUB_REPO_URL: https://dagshub.com/Fouxy84/mlops_projects
+  DAGSHUB_USER: Fouxy84
+  DAGSHUB_NO_PROMPT: "true"
+  # Airflow
+  AIRFLOW_USER: admin
+  AIRFLOW_PASSWORD: admin
+  AIRFLOW_API_URL: http://airflow:8080

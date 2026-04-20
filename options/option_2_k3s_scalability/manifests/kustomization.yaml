@@ -5,9 +5,14 @@ namespace: mlops
 
 resources:
   - namespace.yaml
+  - configmap.yaml
+  # secret-template.yaml : créer manuellement le secret avant d'appliquer
+  # kubectl -n mlops create secret generic mlops-secrets ...
+  - auth-api.yaml
   - gateway.yaml
   - predict-text-api.yaml
   - predict-image-api.yaml
   - training-api.yaml
   - streamlit-ui.yaml
+  - hpa.yaml
   - ingress.yaml

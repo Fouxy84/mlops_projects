@@ -240,27 +240,56 @@ async def trigger_retraining_for_changes(changes: dict) -> dict:
     }
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# 1. INTRO — health, auth, system info
+# ═══════════════════════════════════════════════════════════════════════════════
+
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "gateway"}
+
 
 @app.get("/")
 async def root():
     return {
         "service": "gateway",
-        "health": "/health",
-        "metrics": "/metrics",
         "docs": "/docs",
-        "predictions": {
-            "text": "/predict/svm",
-            "image": "/predict/cnn",
-            "multimodal": "/predict/multimodal",
+        "sections": {
+            "intro": {
+                "health": "/health",
+                "metrics": "/metrics",
+                "login": "/login",
+                "me": "/me",
+                "info": "/info",
+                "logout": "/logout",
+            },
+            "prediction": {
+                "svm": "/predict/svm",
+                "cnn": "/predict/cnn",
+                "multimodal": "/predict/multimodal",
+            },
+            "train_retrain": {
+                "train_svm": "/orchestrate/train/svm",
+                "train_cnn": "/orchestrate/train/cnn",
+                "retrain_svm": "/orchestrate/retrain/svm",
+                "retrain_cnn": "/orchestrate/retrain/cnn",
+                "status": "/orchestrate/status/{dag_run_id}",
+                "reload_svm": "/reload/svm",
+                "reload_cnn": "/reload/cnn",
+            },
+            "check_update": {
+                "scan": "/data/check-updates",
+                "retrain": "/data/check-updates/retrain",
+                "baseline": "/data/check-updates/baseline",
+            },
         },
     }
+
 
 @app.get("/metrics")
 async def metrics():
     return FastAPIResponse(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
 
 @app.post("/login")
 async def login(username: str = Form(...), password: str = Form(...)):
@@ -277,11 +306,46 @@ async def login(username: str = Form(...), password: str = Form(...)):
         "message": "Session initialized in gateway memory",
     }
 
+
 @app.get("/me")
 async def me(current_user: dict = Depends(get_current_user)):
     return current_user
 
-# @app.post("/predict/text")
+
+@app.get("/info")
+async def get_info(current_user: dict = Depends(require_user)):
+    text_health = await proxy_request("GET", upstream_url(PREDICT_TEXT_API_URL, "/health"))
+    image_health = await proxy_request("GET", upstream_url(PREDICT_IMAGE_API_URL, "/health"))
+    text_info = await proxy_request("GET", upstream_url(PREDICT_TEXT_API_URL, "/info/text"))
+    image_info = await proxy_request("GET", upstream_url(PREDICT_IMAGE_API_URL, "/info/image"))
+    train_health = await proxy_request("GET", upstream_url(TRAIN_API_URL, "/health"))
+
+    return {
+        "gateway": "ok",
+        "current_user": current_user,
+        "prediction_apis": {
+            "text": {"health": text_health, "info": text_info},
+            "image": {"health": image_health, "info": image_info},
+        },
+        "training_api": train_health,
+        "models": {
+            "text_model": text_info,
+            "image_model": image_info,
+        },
+    }
+
+
+@app.post("/logout")
+async def logout(current_user: dict = Depends(get_current_user)):
+    global CURRENT_SESSION
+    CURRENT_SESSION = None
+    return {"status": "logged_out", "username": current_user["username"]}
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 2. PREDICTION — SVM (text), CNN (image), multimodal
+# ═══════════════════════════════════════════════════════════════════════════════
+
 @app.post("/predict/svm")
 async def predict_svm(request: PredictTextRequest, current_user: dict = Depends(require_user)):
     return await proxy_request(
@@ -290,7 +354,7 @@ async def predict_svm(request: PredictTextRequest, current_user: dict = Depends(
         json_body=request.model_dump(),
     )
 
-# @app.post("/predict/image")
+
 @app.post("/predict/cnn")
 async def predict_cnn(request: PredictImageRequest, current_user: dict = Depends(require_user)):
     return await proxy_request(
@@ -298,6 +362,7 @@ async def predict_cnn(request: PredictImageRequest, current_user: dict = Depends
         upstream_url(PREDICT_IMAGE_API_URL, "/predict/cnn"),
         json_body=request.model_dump(),
     )
+
 
 @app.post("/predict/multimodal")
 async def predict_multimodal(request: PredictMultimodalRequest, current_user: dict = Depends(require_user)):
@@ -323,30 +388,10 @@ async def predict_multimodal(request: PredictMultimodalRequest, current_user: di
         "image_prediction": image_result,
     }
 
-# @app.post("/train/text")
-#@app.post("/train/svm")
-async def train_svm(current_user: dict = Depends(require_admin)):
-    await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/svm"))
-    return {"status": "training_started", "model": "text"}
 
-# @app.post("/train/image")
-#@app.post("/train/cnn")
-async def train_cnn(current_user: dict = Depends(require_admin)):
-    await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/cnn"))
-    return {"status": "training_started", "model": "image"}
-
-#@app.post("/retrain/svm")
-async def retrain_svm(current_user: dict = Depends(require_admin)):
-    """Full retrain: preprocessing raw data + SVM training."""
-    result = await proxy_request("POST", upstream_url(TRAIN_API_URL, "/retrain/svm"))
-    return result
-
-#@app.post("/retrain/cnn")
-async def retrain_cnn(current_user: dict = Depends(require_admin)):
-    """Full retrain: preprocessing raw data + CNN training."""
-    result = await proxy_request("POST", upstream_url(TRAIN_API_URL, "/retrain/cnn"))
-    return result
-
+# ═══════════════════════════════════════════════════════════════════════════════
+# 3. TRAIN & RETRAIN — Airflow orchestration + model reload
+# ═══════════════════════════════════════════════════════════════════════════════
 
 async def trigger_airflow_dag(mode: str = "train", model: str = "all") -> dict:
     """Trigger the Airflow mlops_orchestration DAG via REST API."""
@@ -382,6 +427,30 @@ async def trigger_airflow_dag(mode: str = "train", model: str = "all") -> dict:
         ) from exc
     except httpx.RequestError as exc:
         raise HTTPException(status_code=503, detail="Airflow service unavailable") from exc
+
+
+@app.post("/orchestrate/train/svm")
+async def orchestrate_train_svm(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → train SVM → reload SVM."""
+    return await trigger_airflow_dag(mode="train", model="svm")
+
+
+@app.post("/orchestrate/train/cnn")
+async def orchestrate_train_cnn(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → train CNN → reload CNN."""
+    return await trigger_airflow_dag(mode="train", model="cnn")
+
+
+@app.post("/orchestrate/retrain/svm")
+async def orchestrate_retrain_svm(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → retrain SVM (preprocessing + training) → reload SVM."""
+    return await trigger_airflow_dag(mode="retrain", model="svm")
+
+
+@app.post("/orchestrate/retrain/cnn")
+async def orchestrate_retrain_cnn(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → retrain CNN (preprocessing + training) → reload CNN."""
+    return await trigger_airflow_dag(mode="retrain", model="cnn")
 
 
 @app.get("/orchestrate/status/{dag_run_id}")
@@ -422,46 +491,29 @@ async def get_dag_run_status(dag_run_id: str, current_user: dict = Depends(requi
         raise HTTPException(status_code=503, detail="Airflow service unavailable") from exc
 
 
-@app.post("/orchestrate/train/svm")
-async def orchestrate_train_svm(current_user: dict = Depends(require_admin)):
-    """Trigger Airflow DAG: dvc pull → train SVM → reload SVM."""
-    return await trigger_airflow_dag(mode="train", model="svm")
-
-
-@app.post("/orchestrate/train/cnn")
-async def orchestrate_train_cnn(current_user: dict = Depends(require_admin)):
-    """Trigger Airflow DAG: dvc pull → train CNN → reload CNN."""
-    return await trigger_airflow_dag(mode="train", model="cnn")
-
-
-@app.post("/orchestrate/retrain/svm")
-async def orchestrate_retrain_svm(current_user: dict = Depends(require_admin)):
-    """Trigger Airflow DAG: dvc pull → retrain SVM (preprocessing + training) → reload SVM."""
-    return await trigger_airflow_dag(mode="retrain", model="svm")
-
-
-@app.post("/orchestrate/retrain/cnn")
-async def orchestrate_retrain_cnn(current_user: dict = Depends(require_admin)):
-    """Trigger Airflow DAG: dvc pull → retrain CNN (preprocessing + training) → reload CNN."""
-    return await trigger_airflow_dag(mode="retrain", model="cnn")
-
-#@app.post("/reload/text")
 @app.post("/reload/svm")
 async def reload_svm_model(current_user: dict = Depends(require_admin)):
     return await proxy_request("POST", upstream_url(PREDICT_TEXT_API_URL, "/reload/text"))
 
-#@app.post("/reload/image")
+
 @app.post("/reload/cnn")
 async def reload_cnn_model(current_user: dict = Depends(require_admin)):
     return await proxy_request("POST", upstream_url(PREDICT_IMAGE_API_URL, "/reload/image"))
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# 4. CHECK UPDATE — data scan, baseline, auto-retrain
+# ═══════════════════════════════════════════════════════════════════════════════
 
 @app.get("/data/check-updates")
 async def check_data_updates(current_user: dict = Depends(require_admin)):
     return {"status": "scan_completed", "changes": compute_data_changes()}
 
+
 @app.post("/data/check-updates/retrain")
 async def check_data_updates_and_retrain(current_user: dict = Depends(require_admin)):
     return await trigger_retraining_for_changes(compute_data_changes())
+
 
 @app.post("/data/check-updates/baseline")
 async def baseline_data_updates(current_user: dict = Depends(require_admin)):
@@ -473,34 +525,6 @@ async def baseline_data_updates(current_user: dict = Depends(require_admin)):
         }
     )
     return {"status": "baseline_saved", "changes": changes}
-
-@app.get("/info")
-async def get_info(current_user: dict = Depends(require_user)):
-    text_health = await proxy_request("GET", upstream_url(PREDICT_TEXT_API_URL, "/health"))
-    image_health = await proxy_request("GET", upstream_url(PREDICT_IMAGE_API_URL, "/health"))
-    text_info = await proxy_request("GET", upstream_url(PREDICT_TEXT_API_URL, "/info/text"))
-    image_info = await proxy_request("GET", upstream_url(PREDICT_IMAGE_API_URL, "/info/image"))
-    train_health = await proxy_request("GET", upstream_url(TRAIN_API_URL, "/health"))
-
-    return {
-        "gateway": "ok",
-        "current_user": current_user,
-        "prediction_apis": {
-            "text": {"health": text_health, "info": text_info},
-            "image": {"health": image_health, "info": image_info},
-        },
-        "training_api": train_health,
-        "models": {
-            "text_model": text_info,
-            "image_model": image_info,
-        },
-    }
-
-@app.post("/logout")
-async def logout(current_user: dict = Depends(get_current_user)):
-    global CURRENT_SESSION
-    CURRENT_SESSION = None
-    return {"status": "logged_out", "username": current_user["username"]}
 
 
 if __name__ == "__main__":

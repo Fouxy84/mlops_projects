@@ -7,6 +7,9 @@ services:
     container_name: streamlit-ui
     environment:
       GATEWAY_URL: http://gateway:8000
+      GRAFANA_URL: http://localhost:3000
+      AIRFLOW_URL: http://localhost:8080
+      PROMETHEUS_URL: http://localhost:9090
     ports:
       - "8501:8501"
     depends_on:
