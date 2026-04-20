@@ -31,7 +31,7 @@ with DAG(
     catchup=False,
     default_args=default_args,
     tags=["mlops", "airflow", "dvc"],
-    params={"mode": "train"},
+    params={"mode": "train", "model": "all"},
 ) as dag:
     start = EmptyOperator(task_id="start")
     end = EmptyOperator(task_id="end")
@@ -45,15 +45,36 @@ with DAG(
         response.raise_for_status()
         return response.json()
 
+    def should_run_model(model_filter: str, target: str) -> bool:
+        return model_filter in ("all", target)
+
     def train_or_retrain_svm(**context):
+        model = context["params"].get("model", "all")
+        if not should_run_model(model, "svm"):
+            return {"status": "skipped", "model": "svm"}
         mode = context["params"].get("mode", "train")
         endpoint = "/retrain/svm" if mode == "retrain" else "/train/svm"
         return post_to_gateway(endpoint)
 
     def train_or_retrain_cnn(**context):
+        model = context["params"].get("model", "all")
+        if not should_run_model(model, "cnn"):
+            return {"status": "skipped", "model": "cnn"}
         mode = context["params"].get("mode", "train")
         endpoint = "/retrain/cnn" if mode == "retrain" else "/train/cnn"
         return post_to_gateway(endpoint)
+
+    def reload_svm_task(**context):
+        model = context["params"].get("model", "all")
+        if not should_run_model(model, "svm"):
+            return {"status": "skipped", "model": "svm"}
+        return post_to_gateway("/reload/svm")
+
+    def reload_cnn_task(**context):
+        model = context["params"].get("model", "all")
+        if not should_run_model(model, "cnn"):
+            return {"status": "skipped", "model": "cnn"}
+        return post_to_gateway("/reload/cnn")
 
     dvc_pull = DockerOperator(
         task_id="dvc_pull_artifacts",
@@ -84,14 +105,12 @@ with DAG(
 
     reload_svm = PythonOperator(
         task_id="reload_svm",
-        python_callable=post_to_gateway,
-        op_kwargs={"endpoint": "/reload/svm"},
+        python_callable=reload_svm_task,
     )
 
     reload_cnn = PythonOperator(
         task_id="reload_cnn",
-        python_callable=post_to_gateway,
-        op_kwargs={"endpoint": "/reload/cnn"},
+        python_callable=reload_cnn_task,
     )
 
     start >> dvc_pull >> [train_svm, train_cnn]

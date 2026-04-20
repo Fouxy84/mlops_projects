@@ -25,4 +25,4 @@ scrape_configs:
   - job_name: training_api
     metrics_path: /metrics
     static_configs:
-      - targets: ["training-api:8002"]
+      - targets: ["training-api:8000"]

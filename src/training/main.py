@@ -18,7 +18,10 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="Training Service")
 
 if os.getenv("MLFLOW_TRACKING_USERNAME") and os.getenv("MLFLOW_TRACKING_PASSWORD"):
-    dagshub.init(repo_owner="Fouxy84", repo_name="mlops_projects", mlflow=True)
+    try:
+        dagshub.init(repo_owner="Fouxy84", repo_name="mlops_projects", mlflow=True)
+    except Exception:
+        logger.warning("dagshub.init() failed at startup, will retry at training time")
 
 mlflow.set_tracking_uri(
     os.getenv("MLFLOW_TRACKING_URI", "https://dagshub.com/Fouxy84/mlops_projects.mlflow")

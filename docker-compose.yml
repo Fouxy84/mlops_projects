@@ -21,7 +21,6 @@ services:
       - predict-text-api
       - predict-image-api
       - training-api
-      - airflow
     volumes:
       - ./data:/app/data
     networks:
@@ -103,6 +102,8 @@ services:
       MLFLOW_TRACKING_URI: https://dagshub.com/Fouxy84/mlops_projects.mlflow
       MLFLOW_TRACKING_USERNAME: ${DAGSHUB_USER}
       MLFLOW_TRACKING_PASSWORD: ${DAGSHUB_TOKEN}
+      DAGSHUB_USER_TOKEN: ${DAGSHUB_TOKEN}
+      DAGSHUB_NO_PROMPT: "true"
     networks:
       - mlops_network
 
@@ -147,9 +148,10 @@ services:
       - gateway
     environment:
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
-      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
       AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "True"
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth
       DVC_RUNNER_IMAGE: mlops-dvc-runner:local
       GATEWAY_BASE_URL: http://gateway:8000
       API_TOKEN: ${API_TOKEN:-mlops-secret-token}
@@ -166,9 +168,10 @@ services:
     command: >
       bash -c "
       pip install --no-cache-dir -r /opt/airflow/requirements.txt &&
-      airflow db migrate &&
-      airflow users create --username admin --password admin --firstname mlops --lastname admin --role Admin --email admin@mlops.local || true &&
-      airflow webserver & airflow scheduler
+      airflow db init &&
+      (airflow users create --username admin --password admin --firstname mlops --lastname admin --role Admin --email admin@mlops.local || true) &&
+      airflow webserver -D &&
+      exec airflow scheduler
       "
     networks:
       - mlops_network

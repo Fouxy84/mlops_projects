@@ -22,7 +22,7 @@
       },
       "options": { "colorMode": "background", "graphMode": "none", "justifyMode": "auto", "textMode": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
       "targets": [
-        { "expr": "up{job=~\"gateway|predict_text_api|predict_image_api|training_api\"}", "legendFormat": "{{job}}", "refId": "A" }
+        { "expr": "max by (job) (up{job=~\"gateway|predict_text_api|predict_image_api|training_api\"})", "legendFormat": "{{job}}", "refId": "A" }
       ]
     },
     {

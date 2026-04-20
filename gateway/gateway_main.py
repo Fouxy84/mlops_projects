@@ -324,31 +324,31 @@ async def predict_multimodal(request: PredictMultimodalRequest, current_user: di
     }
 
 # @app.post("/train/text")
-@app.post("/train/svm")
+#@app.post("/train/svm")
 async def train_svm(current_user: dict = Depends(require_admin)):
     await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/svm"))
     return {"status": "training_started", "model": "text"}
 
 # @app.post("/train/image")
-@app.post("/train/cnn")
+#@app.post("/train/cnn")
 async def train_cnn(current_user: dict = Depends(require_admin)):
     await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/cnn"))
     return {"status": "training_started", "model": "image"}
 
-@app.post("/retrain/svm")
+#@app.post("/retrain/svm")
 async def retrain_svm(current_user: dict = Depends(require_admin)):
     """Full retrain: preprocessing raw data + SVM training."""
     result = await proxy_request("POST", upstream_url(TRAIN_API_URL, "/retrain/svm"))
     return result
 
-@app.post("/retrain/cnn")
+#@app.post("/retrain/cnn")
 async def retrain_cnn(current_user: dict = Depends(require_admin)):
     """Full retrain: preprocessing raw data + CNN training."""
     result = await proxy_request("POST", upstream_url(TRAIN_API_URL, "/retrain/cnn"))
     return result
 
 
-async def trigger_airflow_dag(mode: str = "train") -> dict:
+async def trigger_airflow_dag(mode: str = "train", model: str = "all") -> dict:
     """Trigger the Airflow mlops_orchestration DAG via REST API."""
     url = f"{AIRFLOW_API_URL}/api/v1/dags/mlops_orchestration/dagRuns"
     credentials = base64.b64encode(
@@ -358,7 +358,7 @@ async def trigger_airflow_dag(mode: str = "train") -> dict:
         async with httpx.AsyncClient(timeout=30.0) as client:
             response = await client.post(
                 url,
-                json={"conf": {"mode": mode}},
+                json={"conf": {"mode": mode, "model": model}},
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Basic {credentials}",
@@ -366,11 +366,14 @@ async def trigger_airflow_dag(mode: str = "train") -> dict:
             )
         response.raise_for_status()
         data = response.json()
+        dag_run_id = data.get("dag_run_id")
         return {
             "status": "dag_triggered",
             "mode": mode,
-            "dag_run_id": data.get("dag_run_id"),
+            "model": model,
+            "dag_run_id": dag_run_id,
             "execution_date": data.get("execution_date"),
+            "check_status": f"/orchestrate/status/{dag_run_id}",
         }
     except httpx.HTTPStatusError as exc:
         raise HTTPException(
@@ -381,16 +384,66 @@ async def trigger_airflow_dag(mode: str = "train") -> dict:
         raise HTTPException(status_code=503, detail="Airflow service unavailable") from exc
 
 
-@app.post("/orchestrate/train")
-async def orchestrate_train(current_user: dict = Depends(require_admin)):
-    """Trigger Airflow DAG: dvc pull → train SVM+CNN → reload models."""
-    return await trigger_airflow_dag(mode="train")
+@app.get("/orchestrate/status/{dag_run_id}")
+async def get_dag_run_status(dag_run_id: str, current_user: dict = Depends(require_admin)):
+    """Check the status of an Airflow DAG run (queued, running, success, failed)."""
+    url = f"{AIRFLOW_API_URL}/api/v1/dags/mlops_orchestration/dagRuns/{dag_run_id}"
+    credentials = base64.b64encode(
+        f"{AIRFLOW_USER}:{AIRFLOW_PASSWORD}".encode()
+    ).decode()
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            response = await client.get(
+                url,
+                headers={"Authorization": f"Basic {credentials}"},
+            )
+        response.raise_for_status()
+        data = response.json()
+        state = data.get("state", "unknown")
+        result = {
+            "dag_run_id": dag_run_id,
+            "state": state,
+            "start_date": data.get("start_date"),
+            "end_date": data.get("end_date"),
+        }
+        if state == "success":
+            result["message"] = "Training terminé avec succès"
+        elif state == "failed":
+            result["message"] = "Le DAG a échoué, vérifiez les logs Airflow"
+        elif state in ("running", "queued"):
+            result["message"] = "En cours d'exécution..."
+        return result
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=exc.response.status_code,
+            detail=f"Airflow error: {exc.response.text}",
+        ) from exc
+    except httpx.RequestError as exc:
+        raise HTTPException(status_code=503, detail="Airflow service unavailable") from exc
 
 
-@app.post("/orchestrate/retrain")
-async def orchestrate_retrain(current_user: dict = Depends(require_admin)):
-    """Trigger Airflow DAG: dvc pull → retrain (preprocessing + training) SVM+CNN → reload models."""
-    return await trigger_airflow_dag(mode="retrain")
+@app.post("/orchestrate/train/svm")
+async def orchestrate_train_svm(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → train SVM → reload SVM."""
+    return await trigger_airflow_dag(mode="train", model="svm")
+
+
+@app.post("/orchestrate/train/cnn")
+async def orchestrate_train_cnn(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → train CNN → reload CNN."""
+    return await trigger_airflow_dag(mode="train", model="cnn")
+
+
+@app.post("/orchestrate/retrain/svm")
+async def orchestrate_retrain_svm(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → retrain SVM (preprocessing + training) → reload SVM."""
+    return await trigger_airflow_dag(mode="retrain", model="svm")
+
+
+@app.post("/orchestrate/retrain/cnn")
+async def orchestrate_retrain_cnn(current_user: dict = Depends(require_admin)):
+    """Trigger Airflow DAG: dvc pull → retrain CNN (preprocessing + training) → reload CNN."""
+    return await trigger_airflow_dag(mode="retrain", model="cnn")
 
 #@app.post("/reload/text")
 @app.post("/reload/svm")
