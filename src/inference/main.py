@@ -5,10 +5,8 @@ import time
 from pathlib import Path
 from typing import Optional
 
-import joblib
 import mlflow
 import pandas as pd
-import torch
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import Response
 from PIL import Image
@@ -16,12 +14,15 @@ from pydantic import BaseModel
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 from torchvision import transforms
 
+from src.inference.config import build_model_uri
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 MODEL_TYPE = os.getenv("MODEL_TYPE", "svm").strip().lower()
-MODEL_NAME = "Text_Classifier_SVM" if MODEL_TYPE == "svm" else "CNN_Image_Classifier"
+DEFAULT_MODEL_NAME = "Text_Classifier_SVM" if MODEL_TYPE == "svm" else "CNN_Image_Classifier"
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", DEFAULT_MODEL_NAME).strip()
 SERVICE_NAME = f"predict-{MODEL_TYPE}-api"
 MLFLOW_URI = os.getenv("MLFLOW_TRACKING_URI", "https://dagshub.com/Fouxy84/mlops_projects.mlflow")
 
@@ -54,8 +55,6 @@ sys.path.insert(0, str(BASE_DIR))
 
 DATA_PROCESSED_DIR = BASE_DIR / "data" / "processed"
 IMAGE_ROOT_DIR = BASE_DIR / "data" / "raw" / "image_train"
-TEXT_MODEL_DIR = BASE_DIR / "models" / "text"
-IMAGE_MODEL_DIR = BASE_DIR / "models" / "images"
 
 try:
     df_labels = pd.read_csv(DATA_PROCESSED_DIR / "train_clean.csv")
@@ -69,7 +68,6 @@ except Exception as exc:
     logger.warning("Falling back to synthetic labels: %s", exc)
     LABEL_ID_TO_NAME = {idx: f"Label_{idx}" for idx in range(8)}
 
-DEVICE = torch.device("cpu")
 IMAGE_SIZE = 128
 IMAGE_TRANSFORM = transforms.Compose(
     [
@@ -80,7 +78,6 @@ IMAGE_TRANSFORM = transforms.Compose(
 )
 
 model = None
-text_vectorizer = None
 
 app = FastAPI(
     title=f"MLOps Inference API - {MODEL_TYPE.upper()}",
@@ -112,53 +109,19 @@ def build_prediction_response(predicted_label: int, decision_score: Optional[lis
     return payload
 
 
-def load_text_bundle():
-    global text_vectorizer
-    try:
-        text_vectorizer = joblib.load(TEXT_MODEL_DIR / "tfidf.joblib")
-        loaded_model = joblib.load(TEXT_MODEL_DIR / "svm.joblib")
-        logger.info("Loaded local TF-IDF + SVM artifacts")
-        return loaded_model
-    except Exception as exc:
-        logger.warning("Local text artifacts unavailable: %s", exc)
-        text_vectorizer = None
-
-    try:
-        loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{MODEL_NAME}/Production")
-        logger.info("Loaded text model from MLflow registry")
-        return loaded_model
-    except Exception as exc:
-        logger.error("MLflow text load failed: %s", exc)
-        return None
-
-
-def load_image_bundle():
-    try:
-        loaded_model = mlflow.pyfunc.load_model(model_uri=f"models:/{MODEL_NAME}/Production")
-        logger.info("Loaded image model from MLflow registry")
-        return loaded_model
-    except Exception as exc:
-        logger.warning("MLflow image load failed, falling back to local cnn.pt: %s", exc)
-
-    try:
-        from src.train_models.train_cnn import NUM_CLASSES, SimpleCNN
-
-        local_model = SimpleCNN(NUM_CLASSES)
-        state_dict = torch.load(IMAGE_MODEL_DIR / "cnn.pt", map_location=DEVICE)
-        local_model.load_state_dict(state_dict)
-        local_model.to(DEVICE)
-        local_model.eval()
-        logger.info("Loaded local CNN weights from cnn.pt")
-        return local_model
-    except Exception as exc:
-        logger.error("Local image model load failed: %s", exc)
-        return None
+def get_model_uri() -> str:
+    return build_model_uri(MODEL_NAME)
 
 
 def load_model():
-    if MODEL_TYPE == "svm":
-        return load_text_bundle()
-    return load_image_bundle()
+    model_uri = get_model_uri()
+    try:
+        loaded_model = mlflow.pyfunc.load_model(model_uri=model_uri)
+        logger.info("Loaded %s model from MLflow: %s", MODEL_TYPE, model_uri)
+        return loaded_model
+    except Exception as exc:
+        logger.error("MLflow %s model load failed from %s: %s", MODEL_TYPE, model_uri, exc)
+        return None
 
 
 def predict_text_payload(request: PredictTextRequest):
@@ -167,15 +130,6 @@ def predict_text_payload(request: PredictTextRequest):
 
     started_at = time.perf_counter()
     try:
-        if text_vectorizer is not None:
-            features = text_vectorizer.transform([request.text])
-            prediction = model.predict(features)[0]
-            decision_score = None
-            if hasattr(model, "decision_function"):
-                decision_score = model.decision_function(features)[0].tolist()
-            PREDICTION_COUNT.labels(model_type=MODEL_TYPE).inc()
-            return build_prediction_response(prediction, decision_score)
-
         features = pd.DataFrame({"text": [request.text]})
         prediction = model.predict(features)[0]
         decision_score = None
@@ -212,13 +166,8 @@ def predict_image_payload(request: PredictImageRequest):
         image = Image.open(image_path).convert("RGB")
         tensor = IMAGE_TRANSFORM(image).unsqueeze(0)
 
-        if hasattr(model, "predict") and not isinstance(model, torch.nn.Module):
-            features = pd.DataFrame({"image": [tensor.numpy().tolist()]})
-            prediction = model.predict(features)[0]
-        else:
-            with torch.no_grad():
-                outputs = model(tensor.to(DEVICE))
-                prediction = outputs.argmax(dim=1).item()
+        features = pd.DataFrame({"image": [tensor.numpy().tolist()]})
+        prediction = model.predict(features)[0]
 
         PREDICTION_COUNT.labels(model_type=MODEL_TYPE).inc()
         return build_prediction_response(prediction)
@@ -321,9 +270,9 @@ def info():
     return {
         "model": MODEL_NAME,
         "model_type": MODEL_TYPE,
-        "source": "local+MLflow-fallback",
+        "model_uri": get_model_uri(),
+        "source": "mlflow",
         "tracking_uri": MLFLOW_URI,
-        "local_text_vectorizer": str(TEXT_MODEL_DIR / "tfidf.joblib") if MODEL_TYPE == "svm" else None,
     }
 
 

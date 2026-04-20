@@ -4,7 +4,7 @@ import time
 from pathlib import Path
 
 import httpx
-from fastapi import Depends, FastAPI, Form, HTTPException, Request, Response, status
+from fastapi import Depends, FastAPI, Form, HTTPException, Request, status
 from fastapi.responses import Response as FastAPIResponse
 from pydantic import BaseModel
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
@@ -63,6 +63,10 @@ class PredictImageRequest(BaseModel):
 class PredictMultimodalRequest(BaseModel):
     text: str
     image_path: str
+
+
+def upstream_url(base_url: str, path: str) -> str:
+    return f"{base_url.rstrip('/')}/{path.lstrip('/')}"
 
 
 def list_text_csv_files() -> list[str]:
@@ -199,11 +203,11 @@ async def trigger_retraining_for_changes(changes: dict) -> dict:
     triggered_models = []
 
     if changes["text"]["has_new_files"]:
-        await proxy_request("POST", f"{TRAIN_API_URL}/train/svm")
+        await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/svm"))
         triggered_models.append("svm")
 
     if changes["image"]["has_new_files"]:
-        await proxy_request("POST", f"{TRAIN_API_URL}/train/cnn")
+        await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/cnn"))
         triggered_models.append("cnn")
 
     save_retrain_state(
@@ -224,6 +228,24 @@ async def trigger_retraining_for_changes(changes: dict) -> dict:
 async def health():
     return {"status": "ok", "service": "gateway"}
 
+@app.get("/")
+async def root():
+    return {
+        "service": "gateway",
+        "health": "/health",
+        "metrics": "/metrics",
+        "docs": "/docs",
+        "predictions": {
+            "text": "/predict/svm",
+            "image": "/predict/cnn",
+            "multimodal": "/predict/multimodal",
+        },
+    }
+
+@app.get("/metrics")
+async def metrics():
+    return FastAPIResponse(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
 @app.post("/login")
 async def login(username: str = Form(...), password: str = Form(...)):
     global CURRENT_SESSION
@@ -243,24 +265,34 @@ async def login(username: str = Form(...), password: str = Form(...)):
 async def me(current_user: dict = Depends(get_current_user)):
     return current_user
 
+# @app.post("/predict/text")
 @app.post("/predict/svm")
 async def predict_svm(request: PredictTextRequest, current_user: dict = Depends(require_user)):
-    return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/predict", json_body=request.model_dump())
+    return await proxy_request(
+        "POST",
+        upstream_url(PREDICT_TEXT_API_URL, "/predict/svm"),
+        json_body=request.model_dump(),
+    )
 
+# @app.post("/predict/image")
 @app.post("/predict/cnn")
 async def predict_cnn(request: PredictImageRequest, current_user: dict = Depends(require_user)):
-    return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/predict", json_body=request.model_dump())
+    return await proxy_request(
+        "POST",
+        upstream_url(PREDICT_IMAGE_API_URL, "/predict/cnn"),
+        json_body=request.model_dump(),
+    )
 
 @app.post("/predict/multimodal")
 async def predict_multimodal(request: PredictMultimodalRequest, current_user: dict = Depends(require_user)):
     text_result = await proxy_request(
         "POST",
-        f"{PREDICT_TEXT_API_URL}/predict",
+        upstream_url(PREDICT_TEXT_API_URL, "/predict/svm"),
         json_body={"text": request.text},
     )
     image_result = await proxy_request(
         "POST",
-        f"{PREDICT_IMAGE_API_URL}/predict",
+        upstream_url(PREDICT_IMAGE_API_URL, "/predict/cnn"),
         json_body={"image_path": request.image_path},
     )
 
@@ -275,23 +307,27 @@ async def predict_multimodal(request: PredictMultimodalRequest, current_user: di
         "image_prediction": image_result,
     }
 
+# @app.post("/train/text")
 @app.post("/train/svm")
 async def train_svm(current_user: dict = Depends(require_admin)):
-    await proxy_request("POST", f"{TRAIN_API_URL}/train/svm")
+    await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/svm"))
     return {"status": "training_started", "model": "text"}
 
+# @app.post("/train/image")
 @app.post("/train/cnn")
 async def train_cnn(current_user: dict = Depends(require_admin)):
-    await proxy_request("POST", f"{TRAIN_API_URL}/train/cnn")
+    await proxy_request("POST", upstream_url(TRAIN_API_URL, "/train/cnn"))
     return {"status": "training_started", "model": "image"}
 
+#@app.post("/reload/text")
 @app.post("/reload/svm")
 async def reload_svm_model(current_user: dict = Depends(require_admin)):
-    return await proxy_request("POST", f"{PREDICT_TEXT_API_URL}/reload")
+    return await proxy_request("POST", upstream_url(PREDICT_TEXT_API_URL, "/reload/text"))
 
+#@app.post("/reload/image")
 @app.post("/reload/cnn")
 async def reload_cnn_model(current_user: dict = Depends(require_admin)):
-    return await proxy_request("POST", f"{PREDICT_IMAGE_API_URL}/reload")
+    return await proxy_request("POST", upstream_url(PREDICT_IMAGE_API_URL, "/reload/image"))
 
 @app.get("/data/check-updates")
 async def check_data_updates(current_user: dict = Depends(require_admin)):
@@ -314,11 +350,11 @@ async def baseline_data_updates(current_user: dict = Depends(require_admin)):
 
 @app.get("/info")
 async def get_info(current_user: dict = Depends(require_user)):
-    text_health = await proxy_request("GET", f"{PREDICT_TEXT_API_URL}/health")
-    image_health = await proxy_request("GET", f"{PREDICT_IMAGE_API_URL}/health")
-    text_info = await proxy_request("GET", f"{PREDICT_TEXT_API_URL}/info")
-    image_info = await proxy_request("GET", f"{PREDICT_IMAGE_API_URL}/info")
-    train_health = await proxy_request("GET", f"{TRAIN_API_URL}/health")
+    text_health = await proxy_request("GET", upstream_url(PREDICT_TEXT_API_URL, "/health"))
+    image_health = await proxy_request("GET", upstream_url(PREDICT_IMAGE_API_URL, "/health"))
+    text_info = await proxy_request("GET", upstream_url(PREDICT_TEXT_API_URL, "/info/text"))
+    image_info = await proxy_request("GET", upstream_url(PREDICT_IMAGE_API_URL, "/info/image"))
+    train_health = await proxy_request("GET", upstream_url(TRAIN_API_URL, "/health"))
 
     return {
         "gateway": "ok",

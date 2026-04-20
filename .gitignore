@@ -15,6 +15,10 @@ htmlcov/
 # MLflow
 src/mlflow/mlruns/
 
+# Monitoring generated reports
+monitoring/dagshub_data/
+monitoring/reports/
+
 # Data raw training and test files
 #data/raw/*.csv
 #data/raw/image_train/

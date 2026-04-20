@@ -25,3 +25,5 @@ dagshub
 httpx
 yaml
 python-jose[cryptography]
+evidently
+dvc[s3]
