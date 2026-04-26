@@ -4,9 +4,11 @@ import requests
 import streamlit as st
 
 
-GATEWAY_URL = os.getenv("GATEWAY_URL", "http://localhost:8000")
+#GATEWAY_URL = os.getenv("GATEWAY_URL", "http://localhost:8000")
+GATEWAY_URL = os.getenv("GATEWAY_URL", "http://127.0.0.1:8000") # fallback plus explicite pour localhost
+#GATEWAY_URL = "http://127.0.0.1:8000"
 GRAFANA_URL = os.getenv("GRAFANA_URL", "http://localhost:3000")
-AIRFLOW_URL = os.getenv("AIRFLOW_URL", "http://localhost:8080")
+AIRFLOW_URL = os.getenv("AIRFLOW_URL", "http://airflow:8080")
 PROMETHEUS_URL = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
 
 st.set_page_config(page_title="MLOps Dashboard", layout="wide", page_icon="🤖")
@@ -23,23 +25,29 @@ if "username" not in st.session_state:
 if "session" not in st.session_state:
     st.session_state.session = requests.Session()
 
-
+    
 def gw_post(endpoint: str, payload=None, form_data=None):
     url = f"{GATEWAY_URL}{endpoint}"
     try:
         if form_data is not None:
             return st.session_state.session.post(url, data=form_data, timeout=30)
         return st.session_state.session.post(url, json=payload, timeout=30)
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.Timeout:
+        st.error("⏳ Timeout POST")
         return None
-
+    except requests.exceptions.ConnectionError:
+        st.error("🚨 Backend non accessible")
+        return None
 
 def gw_get(endpoint: str):
     try:
-        return st.session_state.session.get(f"{GATEWAY_URL}{endpoint}", timeout=15)
-    except requests.exceptions.ConnectionError:
+        return st.session_state.session.get(f"{GATEWAY_URL}{endpoint}", timeout=10)
+    except requests.exceptions.Timeout:
+        st.error("⏳ Timeout backend")
         return None
-
+    except requests.exceptions.ConnectionError:
+        st.error("🚨 Backend non accessible")
+        return None
 
 def show_response(resp, success_code=200):
     if resp is None:
@@ -346,48 +354,44 @@ with tab_check:
 with tab_monitoring:
     st.header("Monitoring")
 
-    col_prom, col_graf = st.columns([1, 1])
+    st.subheader("Grafana — Tableau de bord")
+    st.markdown(
+        f"""
+        Le dashboard Grafana centralise :
+        - État des services (`up`)
+        - Requêtes par endpoint (`mlops_gateway_requests_total`)
+        - Latence (`mlops_gateway_request_duration_seconds`)
+        - Appels upstream (`mlops_gateway_upstream_calls_total`)
 
-    with col_prom:
-        st.subheader("Métriques Prometheus (gateway)")
-        if st.button("Actualiser les métriques", use_container_width=True, key="btn_metrics"):
-            try:
-                resp = st.session_state.session.get(f"{GATEWAY_URL}/metrics", timeout=10)
-                if resp.ok:
-                    lines = [l for l in resp.text.splitlines() if not l.startswith("#") and l.strip()]
-                    # Group by metric family
-                    mlops_lines = [l for l in lines if l.startswith("mlops_")]
-                    other_lines = [l for l in lines if not l.startswith("mlops_")]
+        👉 [Ouvrir Grafana]({GRAFANA_URL}/d/mlops-dashboard/mlops-pipeline-monitoring?orgId=1)
+        """
+    )
+    st.components.v1.iframe(
+        f"{GRAFANA_URL}/d/mlops-dashboard/mlops-pipeline-monitoring?orgId=1&refresh=10s&kiosk",
+        height=800,
+        scrolling=True,
+    )
 
-                    if mlops_lines:
-                        st.markdown("**Métriques MLOps**")
-                        st.code("\n".join(mlops_lines), language="text")
-                    if other_lines:
-                        with st.expander("Métriques système (Python/FastAPI)"):
-                            st.code("\n".join(other_lines[:40]), language="text")
-                else:
-                    st.warning(f"Prometheus retourne {resp.status_code}")
-            except Exception as e:
-                st.error(f"Erreur : {e}")
+    st.divider()
+    st.subheader("Métriques Prometheus (gateway)")
+    if st.button("Actualiser les métriques", use_container_width=True, key="btn_metrics"):
+        try:
+            resp = st.session_state.session.get(f"{GATEWAY_URL}/metrics", timeout=10)
+            if resp.ok:
+                lines = [l for l in resp.text.splitlines() if not l.startswith("#") and l.strip()]
+                mlops_lines = [l for l in lines if l.startswith("mlops_")]
+                other_lines = [l for l in lines if not l.startswith("mlops_")]
 
-    with col_graf:
-        st.subheader("Grafana — Tableau de bord")
-        st.markdown(
-            f"""
-            Le dashboard Grafana centralise :
-            - État des services (`up`)
-            - Requêtes par endpoint (`mlops_gateway_requests_total`)
-            - Latence (`mlops_gateway_request_duration_seconds`)
-            - Appels upstream (`mlops_gateway_upstream_calls_total`)
-
-            👉 [Ouvrir Grafana]({GRAFANA_URL})
-            """
-        )
-        st.components.v1.iframe(
-            f"{GRAFANA_URL}/d/mlops/mlops-dashboard?orgId=1&refresh=10s&kiosk",
-            height=420,
-            scrolling=True,
-        )
+                if mlops_lines:
+                    st.markdown("**Métriques MLOps**")
+                    st.code("\n".join(mlops_lines), language="text")
+                if other_lines:
+                    with st.expander("Métriques système (Python/FastAPI)"):
+                        st.code("\n".join(other_lines[:40]), language="text")
+            else:
+                st.warning(f"Prometheus retourne {resp.status_code}")
+        except Exception as e:
+            st.error(f"Erreur : {e}")
 
     st.divider()
     st.subheader("Derive des données (Evidently)")
@@ -403,6 +407,6 @@ with tab_monitoring:
         latest = html_reports[0]
         st.caption(f"Dernier rapport : `{latest.name}`")
         with st.expander("Afficher le rapport HTML"):
-            st.components.v1.html(latest.read_text(encoding="utf-8"), height=600, scrolling=True)
+            st.components.v1.html(latest.read_text(encoding="utf-8"), height=1000, scrolling=True)
     else:
         st.caption("Aucun rapport disponible pour l'instant.")
