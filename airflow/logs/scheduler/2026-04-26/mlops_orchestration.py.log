@@ -1,0 +1,1176 @@
+[2026-04-26T01:19:24.393+0000] {processor.py:161} INFO - Started process (PID=1065) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T01:19:24.403+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T01:19:24.407+0000] {logging_mixin.py:188} INFO - [2026-04-26T01:19:24.406+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T01:19:24.489+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T01:19:24.633+0000] {logging_mixin.py:188} INFO - [2026-04-26T01:19:24.632+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T01:19:24.740+0000] {logging_mixin.py:188} INFO - [2026-04-26T01:19:24.729+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-24 02:00:00+00:00, run_after=2026-04-25 02:00:00+00:00
+[2026-04-26T01:19:24.824+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.441 seconds
+[2026-04-26T04:20:00.511+0000] {processor.py:161} INFO - Started process (PID=1066) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T04:20:00.524+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T04:20:00.527+0000] {logging_mixin.py:188} INFO - [2026-04-26T04:20:00.527+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T04:20:00.600+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T04:20:00.734+0000] {logging_mixin.py:188} INFO - [2026-04-26T04:20:00.733+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T04:20:06.837+0000] {logging_mixin.py:188} INFO - [2026-04-26T04:20:06.835+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:41:55.137+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 16.921 seconds
+[2026-04-26T19:42:25.976+0000] {processor.py:161} INFO - Started process (PID=1067) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:42:25.984+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:42:25.992+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:42:25.989+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:42:26.107+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:42:27.257+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:42:27.256+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:42:27.362+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:42:27.361+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:42:27.435+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 1.542 seconds
+[2026-04-26T19:42:57.893+0000] {processor.py:161} INFO - Started process (PID=1068) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:42:57.895+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:42:57.896+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:42:57.896+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:42:57.951+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:42:57.996+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:42:57.995+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:42:58.023+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:42:58.022+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:42:58.061+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.250 seconds
+[2026-04-26T19:43:28.583+0000] {processor.py:161} INFO - Started process (PID=1069) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:43:28.593+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:43:28.596+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:43:28.595+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:43:28.722+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:43:28.813+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:43:28.812+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:43:28.890+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:43:28.889+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:43:28.948+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.378 seconds
+[2026-04-26T19:43:59.663+0000] {processor.py:161} INFO - Started process (PID=1070) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:43:59.667+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:43:59.673+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:43:59.671+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:43:59.744+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:43:59.809+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:43:59.809+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:43:59.839+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:43:59.838+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:43:59.879+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.227 seconds
+[2026-04-26T19:44:30.725+0000] {processor.py:161} INFO - Started process (PID=1071) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:44:30.728+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:44:30.731+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:44:30.730+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:44:30.817+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:44:30.906+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:44:30.905+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:44:30.969+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:44:30.969+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:44:31.011+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.308 seconds
+[2026-04-26T19:45:01.501+0000] {processor.py:161} INFO - Started process (PID=1072) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:45:01.504+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:45:01.507+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:45:01.506+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:45:01.588+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:45:01.693+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:45:01.692+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:45:01.741+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:45:01.740+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:45:01.805+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.323 seconds
+[2026-04-26T19:45:32.571+0000] {processor.py:161} INFO - Started process (PID=1073) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:45:32.574+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:45:32.578+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:45:32.577+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:45:32.673+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:45:32.773+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:45:32.772+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:45:32.825+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:45:32.825+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:45:32.884+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.547 seconds
+[2026-04-26T19:46:03.132+0000] {processor.py:161} INFO - Started process (PID=1074) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:46:03.133+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:46:03.136+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:46:03.135+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:46:03.194+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:46:03.255+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:46:03.254+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:46:03.301+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:46:03.300+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:46:03.366+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.244 seconds
+[2026-04-26T19:46:33.606+0000] {processor.py:161} INFO - Started process (PID=1075) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:46:33.608+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:46:33.610+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:46:33.609+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:46:33.671+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:46:33.739+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:46:33.739+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:46:33.782+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:46:33.781+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:46:33.820+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.227 seconds
+[2026-04-26T19:47:04.053+0000] {processor.py:161} INFO - Started process (PID=1076) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:47:04.056+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:47:04.059+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:47:04.058+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:47:04.112+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:47:04.181+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:47:04.181+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:47:04.216+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:47:04.216+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:47:04.255+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.214 seconds
+[2026-04-26T19:47:34.552+0000] {processor.py:161} INFO - Started process (PID=1077) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:47:34.556+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:47:34.561+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:47:34.559+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:47:34.653+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:47:34.777+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:47:34.776+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:47:34.851+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:47:34.850+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:47:34.924+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.393 seconds
+[2026-04-26T19:48:05.269+0000] {processor.py:161} INFO - Started process (PID=1078) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:48:05.273+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:48:05.277+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:48:05.276+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:48:05.371+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:48:05.489+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:48:05.488+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:48:05.539+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:48:05.539+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:48:05.606+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.365 seconds
+[2026-04-26T19:48:35.947+0000] {processor.py:161} INFO - Started process (PID=1079) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:48:35.951+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:48:35.955+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:48:35.953+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:48:36.040+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:48:36.149+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:48:36.148+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:48:36.179+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:48:36.179+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:48:36.218+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.299 seconds
+[2026-04-26T19:49:06.554+0000] {processor.py:161} INFO - Started process (PID=1080) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:49:06.556+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:49:06.558+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:49:06.557+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:49:06.602+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:49:06.694+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:49:06.693+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:49:06.760+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:49:06.760+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:49:06.834+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.292 seconds
+[2026-04-26T19:49:37.113+0000] {processor.py:161} INFO - Started process (PID=1081) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:49:37.115+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:49:37.117+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:49:37.116+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:49:37.190+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:49:37.251+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:49:37.250+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:49:37.276+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:49:37.276+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:49:37.312+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.211 seconds
+[2026-04-26T19:50:07.538+0000] {processor.py:161} INFO - Started process (PID=1082) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:50:07.540+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:50:07.543+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:50:07.542+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:50:07.584+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:50:07.626+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:50:07.626+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:50:07.652+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:50:07.652+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:50:07.687+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.159 seconds
+[2026-04-26T19:50:37.905+0000] {processor.py:161} INFO - Started process (PID=1083) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:50:37.908+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:50:37.911+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:50:37.910+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:50:37.987+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:50:38.036+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:50:38.036+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:50:38.068+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:50:38.067+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:50:38.134+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.246 seconds
+[2026-04-26T19:51:08.328+0000] {processor.py:161} INFO - Started process (PID=1084) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:51:08.330+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:51:08.333+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:51:08.332+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:51:08.381+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:51:08.447+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:51:08.446+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:51:08.477+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:51:08.476+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:51:08.505+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.185 seconds
+[2026-04-26T19:51:38.836+0000] {processor.py:161} INFO - Started process (PID=1085) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:51:38.839+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:51:38.843+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:51:38.842+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:51:38.940+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:51:39.036+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:51:39.035+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:51:39.097+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:51:39.096+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:51:39.126+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.306 seconds
+[2026-04-26T19:52:09.395+0000] {processor.py:161} INFO - Started process (PID=1086) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:52:09.398+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:52:09.403+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:52:09.401+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:52:09.502+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:52:09.623+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:52:09.622+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:52:09.697+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:52:09.696+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:52:09.769+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.395 seconds
+[2026-04-26T19:52:40.077+0000] {processor.py:161} INFO - Started process (PID=1087) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:52:40.080+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:52:40.082+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:52:40.081+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:52:40.143+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:52:40.195+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:52:40.194+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:52:40.235+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:52:40.235+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:52:40.279+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.248 seconds
+[2026-04-26T19:53:10.514+0000] {processor.py:161} INFO - Started process (PID=1088) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:53:10.518+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:53:10.521+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:53:10.520+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:53:10.595+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:53:10.654+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:53:10.653+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:53:10.685+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:53:10.684+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:53:10.712+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.218 seconds
+[2026-04-26T19:53:41.024+0000] {processor.py:161} INFO - Started process (PID=1089) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:53:41.026+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:53:41.029+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:53:41.028+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:53:41.089+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:53:41.160+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:53:41.160+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:53:41.212+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:53:41.211+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:53:41.269+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.261 seconds
+[2026-04-26T19:54:11.709+0000] {processor.py:161} INFO - Started process (PID=1090) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:54:11.713+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:54:11.747+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:54:11.745+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:54:11.856+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:54:11.968+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:54:11.968+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:54:12.028+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:54:12.027+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:54:12.092+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.529 seconds
+[2026-04-26T19:54:42.374+0000] {processor.py:161} INFO - Started process (PID=1091) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:54:42.376+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:54:42.378+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:54:42.378+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:54:42.426+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:54:42.469+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:54:42.469+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:54:42.492+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:54:42.492+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:54:42.534+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.168 seconds
+[2026-04-26T19:55:13.037+0000] {processor.py:161} INFO - Started process (PID=1092) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:55:13.042+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:55:13.047+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:55:13.045+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:55:13.149+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:55:13.276+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:55:13.275+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:55:13.343+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:55:13.342+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:55:13.400+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.464 seconds
+[2026-04-26T19:55:43.727+0000] {processor.py:161} INFO - Started process (PID=1093) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:55:43.730+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:55:43.735+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:55:43.733+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:55:43.840+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:55:43.894+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:55:43.894+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:55:43.920+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:55:43.919+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:55:43.973+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.270 seconds
+[2026-04-26T19:56:14.466+0000] {processor.py:161} INFO - Started process (PID=1094) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:56:14.468+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:56:14.471+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:56:14.470+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:56:14.515+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:56:14.566+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:56:14.566+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:56:14.597+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:56:14.597+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:56:14.628+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.171 seconds
+[2026-04-26T19:56:44.881+0000] {processor.py:161} INFO - Started process (PID=1095) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:56:44.884+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:56:44.886+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:56:44.885+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:56:44.948+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:56:45.043+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:56:45.043+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:56:45.085+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:56:45.085+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:56:45.119+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.250 seconds
+[2026-04-26T19:57:15.382+0000] {processor.py:161} INFO - Started process (PID=1096) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:57:15.386+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:57:15.390+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:57:15.389+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:57:15.467+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:57:15.513+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:57:15.512+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:57:15.547+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:57:15.547+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:57:15.582+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.221 seconds
+[2026-04-26T19:57:45.849+0000] {processor.py:161} INFO - Started process (PID=1097) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:57:45.851+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:57:45.854+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:57:45.853+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:57:45.901+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:57:45.941+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:57:45.940+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:57:45.981+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:57:45.981+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:57:46.017+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.178 seconds
+[2026-04-26T19:58:16.303+0000] {processor.py:161} INFO - Started process (PID=1098) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:58:16.305+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:58:16.308+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:58:16.307+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:58:16.359+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:58:16.418+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:58:16.418+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:58:16.447+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:58:16.447+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:58:16.478+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.186 seconds
+[2026-04-26T19:58:46.971+0000] {processor.py:161} INFO - Started process (PID=1099) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:58:46.976+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:58:46.979+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:58:46.978+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:58:47.066+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:58:47.175+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:58:47.174+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:58:47.203+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:58:47.202+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:58:47.230+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.433 seconds
+[2026-04-26T19:59:17.542+0000] {processor.py:161} INFO - Started process (PID=1100) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:59:17.545+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:59:17.548+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:59:17.547+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:59:17.600+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:59:17.693+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:59:17.692+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:59:17.751+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:59:17.751+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:59:17.826+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.301 seconds
+[2026-04-26T19:59:48.202+0000] {processor.py:161} INFO - Started process (PID=1101) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:59:48.205+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T19:59:48.209+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:59:48.208+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:59:48.314+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T19:59:48.382+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:59:48.381+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T19:59:48.412+0000] {logging_mixin.py:188} INFO - [2026-04-26T19:59:48.411+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T19:59:48.441+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.257 seconds
+[2026-04-26T20:00:18.760+0000] {processor.py:161} INFO - Started process (PID=1102) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:00:18.764+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:00:18.768+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:00:18.767+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:00:18.858+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:00:18.958+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:00:18.957+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:00:19.033+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:00:19.032+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:00:19.095+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.356 seconds
+[2026-04-26T20:00:49.595+0000] {processor.py:161} INFO - Started process (PID=1103) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:00:49.597+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:00:49.599+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:00:49.599+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:00:49.693+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:00:49.745+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:00:49.745+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:00:49.801+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:00:49.800+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:00:49.866+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.299 seconds
+[2026-04-26T20:01:20.186+0000] {processor.py:161} INFO - Started process (PID=1104) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:01:20.188+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:01:20.190+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:01:20.190+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:01:20.254+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:01:20.304+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:01:20.303+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:01:20.338+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:01:20.338+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:01:20.369+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.195 seconds
+[2026-04-26T20:01:50.650+0000] {processor.py:161} INFO - Started process (PID=1105) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:01:50.652+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:01:50.654+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:01:50.654+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:01:50.716+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:01:50.761+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:01:50.760+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:01:50.789+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:01:50.789+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:01:50.821+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.180 seconds
+[2026-04-26T20:02:21.288+0000] {processor.py:161} INFO - Started process (PID=1106) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:02:21.292+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:02:21.296+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:02:21.295+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:02:21.379+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:02:21.492+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:02:21.492+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:02:21.542+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:02:21.542+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:02:21.603+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.424 seconds
+[2026-04-26T20:02:51.921+0000] {processor.py:161} INFO - Started process (PID=1107) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:02:51.925+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:02:51.929+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:02:51.928+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:02:52.002+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:02:52.047+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:02:52.046+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:02:52.083+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:02:52.082+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:02:52.119+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.218 seconds
+[2026-04-26T20:03:22.601+0000] {processor.py:161} INFO - Started process (PID=1108) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:03:22.603+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:03:22.605+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:03:22.604+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:03:22.663+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:03:22.709+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:03:22.709+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:03:22.743+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:03:22.742+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:03:22.776+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.256 seconds
+[2026-04-26T20:03:53.147+0000] {processor.py:161} INFO - Started process (PID=1109) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:03:53.151+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:03:53.156+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:03:53.154+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:03:53.330+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:03:53.441+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:03:53.440+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:03:53.507+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:03:53.505+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:03:53.573+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.445 seconds
+[2026-04-26T20:04:23.922+0000] {processor.py:161} INFO - Started process (PID=1110) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:04:23.971+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:04:23.974+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:04:23.973+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:04:24.022+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:04:24.067+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:04:24.066+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:04:24.090+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:04:24.090+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:04:24.117+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.303 seconds
+[2026-04-26T20:04:54.430+0000] {processor.py:161} INFO - Started process (PID=1111) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:04:54.433+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:04:54.437+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:04:54.436+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:04:54.510+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:04:54.593+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:04:54.593+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:04:54.653+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:04:54.652+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:04:54.692+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.276 seconds
+[2026-04-26T20:05:24.979+0000] {processor.py:161} INFO - Started process (PID=1112) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:05:24.983+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:05:24.987+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:05:24.986+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:05:25.066+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:05:25.151+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:05:25.149+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:05:25.195+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:05:25.195+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:05:25.256+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.300 seconds
+[2026-04-26T20:05:55.721+0000] {processor.py:161} INFO - Started process (PID=1113) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:05:55.725+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:05:55.729+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:05:55.728+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:05:55.838+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:05:55.948+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:05:55.947+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:05:56.009+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:05:56.008+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:05:56.067+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.501 seconds
+[2026-04-26T20:06:26.334+0000] {processor.py:161} INFO - Started process (PID=1114) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:06:26.337+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:06:26.339+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:06:26.338+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:06:26.409+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:06:26.507+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:06:26.507+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:06:26.565+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:06:26.564+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:06:26.625+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.302 seconds
+[2026-04-26T20:06:57.084+0000] {processor.py:161} INFO - Started process (PID=1115) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:06:57.088+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:06:57.093+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:06:57.092+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:06:57.194+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:06:57.292+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:06:57.291+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:06:57.339+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:06:57.339+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:06:57.387+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.325 seconds
+[2026-04-26T20:07:27.696+0000] {processor.py:161} INFO - Started process (PID=1116) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:07:27.698+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:07:27.701+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:07:27.700+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:07:27.753+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:07:27.797+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:07:27.797+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:07:27.842+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:07:27.841+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:07:27.909+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.227 seconds
+[2026-04-26T20:07:58.286+0000] {processor.py:161} INFO - Started process (PID=1117) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:07:58.288+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:07:58.291+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:07:58.290+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:07:58.373+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:07:58.476+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:07:58.475+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:07:58.532+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:07:58.531+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:07:58.583+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.320 seconds
+[2026-04-26T20:08:28.902+0000] {processor.py:161} INFO - Started process (PID=1118) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:08:28.906+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:08:28.909+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:08:28.907+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:08:28.987+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:08:29.048+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:08:29.047+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:08:29.087+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:08:29.087+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:08:29.128+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.244 seconds
+[2026-04-26T20:08:59.478+0000] {processor.py:161} INFO - Started process (PID=1119) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:08:59.482+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:08:59.486+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:08:59.484+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:08:59.565+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:08:59.654+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:08:59.654+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:08:59.685+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:08:59.685+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:08:59.722+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.269 seconds
+[2026-04-26T20:09:30.076+0000] {processor.py:161} INFO - Started process (PID=1120) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:09:30.079+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:09:30.083+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:09:30.081+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:09:30.174+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:09:30.222+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:09:30.221+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:09:30.251+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:09:30.250+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:09:30.281+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.224 seconds
+[2026-04-26T20:10:00.518+0000] {processor.py:161} INFO - Started process (PID=1121) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:10:00.520+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:10:00.523+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:10:00.522+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:10:00.603+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:10:00.672+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:10:00.672+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:10:00.695+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:10:00.695+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:10:00.743+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.248 seconds
+[2026-04-26T20:10:31.172+0000] {processor.py:161} INFO - Started process (PID=1122) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:10:31.175+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:10:31.177+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:10:31.176+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:10:31.237+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:10:31.282+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:10:31.282+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:10:31.307+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:10:31.307+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:10:31.361+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.203 seconds
+[2026-04-26T20:11:01.654+0000] {processor.py:161} INFO - Started process (PID=1123) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:11:01.657+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:11:01.660+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:11:01.659+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:11:01.737+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:11:01.837+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:11:01.836+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:11:01.898+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:11:01.897+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:11:01.956+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.320 seconds
+[2026-04-26T20:11:32.395+0000] {processor.py:161} INFO - Started process (PID=1124) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:11:32.398+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:11:32.401+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:11:32.400+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:11:32.471+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:11:32.594+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:11:32.593+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:11:32.633+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:11:32.633+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:11:32.667+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.297 seconds
+[2026-04-26T20:12:03.040+0000] {processor.py:161} INFO - Started process (PID=1125) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:12:03.044+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:12:03.047+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:12:03.046+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:12:03.137+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:12:03.211+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:12:03.211+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:12:03.261+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:12:03.260+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:12:03.311+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.422 seconds
+[2026-04-26T20:12:33.594+0000] {processor.py:161} INFO - Started process (PID=1126) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:12:33.596+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:12:33.599+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:12:33.598+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:12:33.664+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:12:33.731+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:12:33.730+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:12:33.784+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:12:33.783+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:12:33.849+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.264 seconds
+[2026-04-26T20:13:04.129+0000] {processor.py:161} INFO - Started process (PID=1127) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:13:04.131+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:13:04.134+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:13:04.133+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:13:04.181+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:13:04.229+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:13:04.228+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:13:04.252+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:13:04.252+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:13:04.285+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.176 seconds
+[2026-04-26T20:13:34.502+0000] {processor.py:161} INFO - Started process (PID=1128) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:13:34.505+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:13:34.508+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:13:34.507+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:13:34.566+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:13:34.612+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:13:34.611+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:13:34.644+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:13:34.643+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:13:34.688+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.202 seconds
+[2026-04-26T20:14:05.201+0000] {processor.py:161} INFO - Started process (PID=1129) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:14:05.205+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:14:05.211+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:14:05.210+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:14:05.290+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:14:05.419+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:14:05.418+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:14:05.478+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:14:05.477+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:14:05.530+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.606 seconds
+[2026-04-26T20:14:35.839+0000] {processor.py:161} INFO - Started process (PID=1130) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:14:35.841+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:14:35.843+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:14:35.843+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:14:35.898+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:14:35.939+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:14:35.938+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:14:35.964+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:14:35.963+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:14:36.019+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.192 seconds
+[2026-04-26T20:15:06.278+0000] {processor.py:161} INFO - Started process (PID=1131) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:15:06.280+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:15:06.282+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:15:06.282+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:15:06.337+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:15:06.418+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:15:06.417+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:15:06.459+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:15:06.458+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:15:06.594+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.324 seconds
+[2026-04-26T20:15:36.857+0000] {processor.py:161} INFO - Started process (PID=1132) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:15:36.862+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:15:36.866+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:15:36.865+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:15:36.952+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:15:37.057+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:15:37.057+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:15:37.105+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:15:37.105+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:15:37.162+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.327 seconds
+[2026-04-26T20:16:07.399+0000] {processor.py:161} INFO - Started process (PID=1133) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:16:07.402+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:16:07.406+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:16:07.404+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:16:07.472+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:16:07.516+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:16:07.516+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:16:07.555+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:16:07.554+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:16:07.588+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.202 seconds
+[2026-04-26T20:16:38.032+0000] {processor.py:161} INFO - Started process (PID=1134) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:16:38.035+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:16:38.037+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:16:38.036+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:16:38.079+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:16:38.118+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:16:38.118+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:16:38.144+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:16:38.144+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:16:38.174+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.303 seconds
+[2026-04-26T20:17:08.438+0000] {processor.py:161} INFO - Started process (PID=1135) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:17:08.441+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:17:08.444+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:17:08.443+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:17:08.537+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:17:08.648+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:17:08.648+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:17:08.712+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:17:08.711+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:17:08.781+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.360 seconds
+[2026-04-26T20:17:39.119+0000] {processor.py:161} INFO - Started process (PID=1136) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:17:39.122+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:17:39.125+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:17:39.124+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:17:39.206+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:17:39.280+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:17:39.280+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:17:39.303+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:17:39.302+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:17:39.348+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.245 seconds
+[2026-04-26T20:18:09.717+0000] {processor.py:161} INFO - Started process (PID=1137) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:18:09.719+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:18:09.720+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:18:09.720+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:18:09.761+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:18:09.806+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:18:09.805+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:18:09.832+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:18:09.832+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:18:09.864+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.171 seconds
+[2026-04-26T20:18:40.063+0000] {processor.py:161} INFO - Started process (PID=1138) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:18:40.067+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:18:40.071+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:18:40.070+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:18:40.156+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:18:40.256+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:18:40.255+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:18:40.308+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:18:40.308+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:18:40.367+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.322 seconds
+[2026-04-26T20:19:10.779+0000] {processor.py:161} INFO - Started process (PID=1139) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:19:10.783+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:19:10.786+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:19:10.785+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:19:10.872+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:19:10.976+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:19:10.975+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:19:11.005+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:19:11.004+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:19:11.076+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.316 seconds
+[2026-04-26T20:19:41.301+0000] {processor.py:161} INFO - Started process (PID=1140) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:19:41.304+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:19:41.307+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:19:41.306+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:19:41.365+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:19:41.407+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:19:41.407+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:19:41.433+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:19:41.433+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:19:41.468+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.184 seconds
+[2026-04-26T20:20:11.869+0000] {processor.py:161} INFO - Started process (PID=1141) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:20:11.888+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:20:11.891+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:20:11.890+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:20:11.951+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:20:12.024+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:20:12.024+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:20:12.084+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:20:12.083+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:20:12.124+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.405 seconds
+[2026-04-26T20:20:42.336+0000] {processor.py:161} INFO - Started process (PID=1142) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:20:42.339+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:20:42.343+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:20:42.342+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:20:42.421+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:20:42.478+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:20:42.477+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:20:42.531+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:20:42.530+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:20:42.587+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.270 seconds
+[2026-04-26T20:21:12.912+0000] {processor.py:161} INFO - Started process (PID=1143) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:21:12.916+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:21:12.921+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:21:12.919+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:21:13.040+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:21:13.117+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:21:13.116+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:21:13.145+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:21:13.145+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:21:13.198+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.409 seconds
+[2026-04-26T20:21:43.462+0000] {processor.py:161} INFO - Started process (PID=1144) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:21:43.463+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:21:43.465+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:21:43.464+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:21:43.512+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:21:43.592+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:21:43.592+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:21:43.618+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:21:43.618+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:21:43.648+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.196 seconds
+[2026-04-26T20:22:13.972+0000] {processor.py:161} INFO - Started process (PID=1145) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:22:13.977+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:22:13.981+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:22:13.980+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:22:14.083+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:22:14.212+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:22:14.212+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:22:14.281+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:22:14.280+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:22:14.344+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.399 seconds
+[2026-04-26T20:22:44.666+0000] {processor.py:161} INFO - Started process (PID=1146) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:22:44.670+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:22:44.675+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:22:44.673+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:22:44.736+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:22:44.833+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:22:44.833+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:22:44.880+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:22:44.880+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:22:44.911+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.269 seconds
+[2026-04-26T20:23:15.230+0000] {processor.py:161} INFO - Started process (PID=1147) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:23:15.232+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:23:15.235+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:23:15.234+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:23:15.298+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:23:15.344+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:23:15.343+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:23:15.369+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:23:15.369+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:23:15.399+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.181 seconds
+[2026-04-26T20:23:45.798+0000] {processor.py:161} INFO - Started process (PID=1148) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:23:45.801+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:23:45.804+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:23:45.803+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:23:45.880+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:23:45.943+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:23:45.943+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:23:45.975+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:23:45.975+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:23:46.001+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.345 seconds
+[2026-04-26T20:24:16.236+0000] {processor.py:161} INFO - Started process (PID=1149) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:24:16.239+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:24:16.241+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:24:16.241+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:24:16.293+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:24:16.395+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:24:16.394+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:24:16.452+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:24:16.451+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:24:16.530+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.304 seconds
+[2026-04-26T20:24:47.014+0000] {processor.py:161} INFO - Started process (PID=1150) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:24:47.017+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:24:47.021+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:24:47.020+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:24:47.102+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:24:47.221+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:24:47.221+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:24:47.248+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:24:47.248+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:24:47.271+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.333 seconds
+[2026-04-26T20:25:17.630+0000] {processor.py:161} INFO - Started process (PID=1151) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:25:17.633+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:25:17.635+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:25:17.634+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:25:17.684+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:25:17.738+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:25:17.738+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:25:17.769+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:25:17.769+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:25:17.808+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.194 seconds
+[2026-04-26T20:25:48.178+0000] {processor.py:161} INFO - Started process (PID=1152) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:25:48.182+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:25:48.187+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:25:48.185+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:25:48.275+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:25:48.357+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:25:48.357+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:25:48.426+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:25:48.425+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:25:48.483+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.324 seconds
+[2026-04-26T20:26:18.915+0000] {processor.py:161} INFO - Started process (PID=1153) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:26:18.919+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:26:18.922+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:26:18.921+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:26:18.988+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:26:19.050+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:26:19.049+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:26:19.092+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:26:19.091+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:26:19.121+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.355 seconds
+[2026-04-26T20:26:49.317+0000] {processor.py:161} INFO - Started process (PID=1154) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:26:49.321+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:26:49.323+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:26:49.322+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:26:49.408+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:26:49.515+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:26:49.514+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:26:49.567+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:26:49.567+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:26:49.620+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.322 seconds
+[2026-04-26T20:27:20.051+0000] {processor.py:161} INFO - Started process (PID=1155) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:27:20.054+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:27:20.058+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:27:20.057+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:27:20.146+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:27:20.192+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:27:20.192+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:27:20.221+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:27:20.221+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:27:20.275+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.241 seconds
+[2026-04-26T20:27:50.576+0000] {processor.py:161} INFO - Started process (PID=1156) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:27:50.578+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:27:50.580+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:27:50.579+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:27:50.634+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:27:50.736+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:27:50.735+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:27:50.781+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:27:50.780+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:27:50.819+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.256 seconds
+[2026-04-26T20:28:21.134+0000] {processor.py:161} INFO - Started process (PID=1157) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:28:21.136+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:28:21.137+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:28:21.137+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:28:21.195+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:28:21.253+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:28:21.253+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:28:21.290+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:28:21.290+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:28:21.318+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.206 seconds
+[2026-04-26T20:28:51.719+0000] {processor.py:161} INFO - Started process (PID=1158) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:28:51.722+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:28:51.726+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:28:51.725+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:28:51.791+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:28:51.889+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:28:51.888+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:28:51.950+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:28:51.949+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:28:52.017+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.318 seconds
+[2026-04-26T20:29:22.285+0000] {processor.py:161} INFO - Started process (PID=1159) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:29:22.287+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:29:22.289+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:29:22.288+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:29:22.366+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:29:22.459+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:29:22.458+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:29:22.517+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:29:22.516+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:29:22.575+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.297 seconds
+[2026-04-26T20:29:52.992+0000] {processor.py:161} INFO - Started process (PID=1160) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:29:52.996+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:29:53.000+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:29:52.999+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:29:53.064+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:29:53.120+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:29:53.119+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:29:53.143+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:29:53.143+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:29:53.186+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.351 seconds
+[2026-04-26T20:30:23.431+0000] {processor.py:161} INFO - Started process (PID=1161) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:30:23.433+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:30:23.435+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:30:23.434+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:30:23.497+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:30:23.539+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:30:23.539+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:30:23.574+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:30:23.574+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:30:23.614+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.191 seconds
+[2026-04-26T20:30:54.079+0000] {processor.py:161} INFO - Started process (PID=1162) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:30:54.083+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:30:54.087+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:30:54.086+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:30:54.185+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:30:54.300+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:30:54.300+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:30:54.346+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:30:54.346+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:30:54.399+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.344 seconds
+[2026-04-26T20:31:24.720+0000] {processor.py:161} INFO - Started process (PID=1163) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:31:24.723+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:31:24.727+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:31:24.726+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:31:24.796+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:31:24.881+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:31:24.881+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:31:24.918+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:31:24.918+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:31:24.959+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.258 seconds
+[2026-04-26T20:31:55.286+0000] {processor.py:161} INFO - Started process (PID=1164) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:31:55.288+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:31:55.290+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:31:55.290+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:31:55.348+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:31:55.390+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:31:55.390+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:31:55.427+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:31:55.427+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:31:55.464+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.229 seconds
+[2026-04-26T20:32:25.819+0000] {processor.py:161} INFO - Started process (PID=1165) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:32:25.823+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:32:25.826+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:32:25.825+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:32:25.905+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:32:25.992+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:32:25.992+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:32:26.049+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:32:26.049+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:32:26.099+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.302 seconds
+[2026-04-26T20:32:56.410+0000] {processor.py:161} INFO - Started process (PID=1166) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:32:56.415+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:32:56.419+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:32:56.418+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:32:56.586+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:32:56.652+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:32:56.652+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:32:56.704+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:32:56.703+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:32:56.747+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.363 seconds
+[2026-04-26T20:33:27.038+0000] {processor.py:161} INFO - Started process (PID=1167) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:33:27.042+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:33:27.045+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:33:27.044+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:33:27.106+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:33:27.147+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:33:27.147+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:33:27.173+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:33:27.172+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:33:27.203+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.183 seconds
+[2026-04-26T20:33:57.426+0000] {processor.py:161} INFO - Started process (PID=1168) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:33:57.429+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:33:57.433+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:33:57.432+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:33:57.544+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:33:57.631+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:33:57.630+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:33:57.702+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:33:57.701+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:33:57.780+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.372 seconds
+[2026-04-26T20:34:28.234+0000] {processor.py:161} INFO - Started process (PID=1169) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:34:28.238+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:34:28.242+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:34:28.241+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:34:28.342+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:34:28.450+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:34:28.449+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:34:28.519+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:34:28.519+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:34:28.589+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.377 seconds
+[2026-04-26T20:34:58.822+0000] {processor.py:161} INFO - Started process (PID=1170) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:34:58.824+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:34:58.826+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:34:58.825+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:34:58.869+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:34:58.927+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:34:58.927+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:34:58.978+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:34:58.977+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:34:59.036+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.227 seconds
+[2026-04-26T20:35:29.476+0000] {processor.py:161} INFO - Started process (PID=1171) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:35:29.479+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:35:29.481+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:35:29.480+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:35:29.557+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:35:29.599+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:35:29.599+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:35:29.631+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:35:29.631+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:35:29.662+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.200 seconds
+[2026-04-26T20:35:59.966+0000] {processor.py:161} INFO - Started process (PID=1172) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:35:59.970+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:35:59.974+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:35:59.972+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:36:00.053+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:36:00.133+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:36:00.133+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:36:00.157+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:36:00.157+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:36:00.185+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.238 seconds
+[2026-04-26T20:36:30.497+0000] {processor.py:161} INFO - Started process (PID=1173) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:36:30.500+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:36:30.502+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:36:30.502+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:36:30.548+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:36:30.594+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:36:30.594+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:36:30.625+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:36:30.624+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:36:30.653+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.166 seconds
+[2026-04-26T20:37:00.936+0000] {processor.py:161} INFO - Started process (PID=1174) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:37:00.939+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:37:00.943+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:37:00.942+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:37:01.029+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:37:01.153+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:37:01.152+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:37:01.190+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:37:01.190+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:37:01.220+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.302 seconds
+[2026-04-26T20:37:31.490+0000] {processor.py:161} INFO - Started process (PID=1175) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:37:31.493+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:37:31.498+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:37:31.496+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:37:31.597+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:37:31.701+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:37:31.701+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:37:31.728+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:37:31.727+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:37:31.786+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.315 seconds
+[2026-04-26T20:38:02.177+0000] {processor.py:161} INFO - Started process (PID=1176) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:38:02.181+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:38:02.185+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:38:02.184+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:38:02.377+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:38:02.432+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:38:02.431+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:38:02.457+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:38:02.457+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:38:02.492+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.382 seconds
+[2026-04-26T20:38:32.765+0000] {processor.py:161} INFO - Started process (PID=1177) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:38:32.768+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:38:32.770+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:38:32.770+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:38:32.829+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:38:32.877+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:38:32.877+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:38:32.909+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:38:32.909+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:38:32.940+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.189 seconds
+[2026-04-26T20:39:03.374+0000] {processor.py:161} INFO - Started process (PID=1178) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:39:03.378+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:39:03.382+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:39:03.381+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:39:03.473+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:39:03.551+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:39:03.550+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:39:03.609+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:39:03.609+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:39:03.653+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.327 seconds
+[2026-04-26T20:39:34.052+0000] {processor.py:161} INFO - Started process (PID=1179) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:39:34.055+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:39:34.058+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:39:34.057+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:39:34.119+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:39:34.173+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:39:34.173+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:39:34.223+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:39:34.223+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:39:34.267+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.229 seconds
+[2026-04-26T20:40:04.498+0000] {processor.py:161} INFO - Started process (PID=1180) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:40:04.501+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:40:04.503+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:40:04.502+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:40:04.558+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:40:04.601+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:40:04.600+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:40:04.628+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:40:04.628+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:40:04.655+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.168 seconds
+[2026-04-26T20:40:35.113+0000] {processor.py:161} INFO - Started process (PID=1181) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:40:35.116+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:40:35.118+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:40:35.117+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:40:35.197+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:40:35.274+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:40:35.274+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:40:35.328+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:40:35.328+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:40:35.375+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.277 seconds
+[2026-04-26T20:41:05.622+0000] {processor.py:161} INFO - Started process (PID=1182) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:41:05.624+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:41:05.625+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:41:05.625+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:41:05.669+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:41:05.728+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:41:05.727+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:41:05.774+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:41:05.774+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:41:05.842+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.231 seconds
+[2026-04-26T20:41:36.104+0000] {processor.py:161} INFO - Started process (PID=1183) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:41:36.106+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:41:36.110+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:41:36.108+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:41:36.194+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:41:36.256+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:41:36.255+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:41:36.317+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:41:36.316+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:41:36.368+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.281 seconds
+[2026-04-26T20:42:06.667+0000] {processor.py:161} INFO - Started process (PID=1184) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:42:06.669+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:42:06.671+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:42:06.671+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:42:06.730+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:42:06.786+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:42:06.785+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:42:06.827+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:42:06.825+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:42:06.878+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.223 seconds
+[2026-04-26T20:42:37.143+0000] {processor.py:161} INFO - Started process (PID=1185) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:42:37.146+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:42:37.148+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:42:37.147+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:42:37.205+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:42:37.255+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:42:37.254+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:42:37.288+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:42:37.288+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:42:37.328+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.199 seconds
+[2026-04-26T20:43:07.673+0000] {processor.py:161} INFO - Started process (PID=1186) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:43:07.676+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:43:07.680+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:43:07.679+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:43:07.758+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:43:07.874+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:43:07.873+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:43:07.898+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:43:07.898+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:43:07.946+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.294 seconds
+[2026-04-26T20:43:38.245+0000] {processor.py:161} INFO - Started process (PID=1187) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:43:38.247+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:43:38.249+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:43:38.249+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:43:38.325+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:43:38.389+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:43:38.389+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:43:38.436+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:43:38.436+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:43:38.478+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.248 seconds
+[2026-04-26T20:44:08.746+0000] {processor.py:161} INFO - Started process (PID=1188) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:44:08.748+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:44:08.752+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:44:08.751+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:44:08.808+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:44:08.877+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:44:08.876+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:44:08.912+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:44:08.912+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:44:08.956+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.222 seconds
+[2026-04-26T20:44:39.245+0000] {processor.py:161} INFO - Started process (PID=1189) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:44:39.249+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:44:39.252+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:44:39.251+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:44:39.467+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:44:39.527+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:44:39.527+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:44:39.567+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:44:39.567+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:44:39.618+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.398 seconds
+[2026-04-26T20:45:09.917+0000] {processor.py:161} INFO - Started process (PID=1190) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:45:09.920+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:45:09.922+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:45:09.921+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:45:09.977+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:45:10.017+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:45:10.016+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:45:10.039+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:45:10.039+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:45:10.089+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.185 seconds
+[2026-04-26T20:45:40.341+0000] {processor.py:161} INFO - Started process (PID=1191) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:45:40.343+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:45:40.345+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:45:40.345+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:45:40.389+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:45:40.452+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:45:40.451+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:45:40.505+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:45:40.505+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:45:40.573+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.244 seconds
+[2026-04-26T20:46:10.886+0000] {processor.py:161} INFO - Started process (PID=1192) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:46:10.889+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:46:10.893+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:46:10.891+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:46:10.967+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:46:11.010+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:46:11.009+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:46:11.046+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:46:11.045+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:46:11.087+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.220 seconds
+[2026-04-26T20:46:41.374+0000] {processor.py:161} INFO - Started process (PID=1193) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:46:41.377+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:46:41.380+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:46:41.379+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:46:41.445+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:46:41.487+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:46:41.487+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:46:41.524+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:46:41.523+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:46:41.560+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.203 seconds
+[2026-04-26T20:47:11.799+0000] {processor.py:161} INFO - Started process (PID=1194) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:47:11.801+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:47:11.803+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:47:11.802+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:47:11.851+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:47:11.911+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:47:11.910+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:47:11.955+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:47:11.955+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:47:12.015+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.225 seconds
+[2026-04-26T20:47:42.255+0000] {processor.py:161} INFO - Started process (PID=1195) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:47:42.257+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:47:42.259+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:47:42.258+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:47:42.319+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:47:42.383+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:47:42.382+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:47:42.454+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:47:42.453+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:47:42.508+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.267 seconds
+[2026-04-26T20:48:12.740+0000] {processor.py:161} INFO - Started process (PID=1196) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:48:12.742+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:48:12.745+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:48:12.744+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:48:12.801+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:48:12.871+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:48:12.871+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:48:12.919+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:48:12.919+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:48:12.959+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.239 seconds
+[2026-04-26T20:48:43.203+0000] {processor.py:161} INFO - Started process (PID=1197) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:48:43.207+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:48:43.214+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:48:43.211+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:48:43.321+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:48:43.400+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:48:43.399+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:48:43.434+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:48:43.433+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:48:43.498+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.320 seconds
+[2026-04-26T20:49:13.760+0000] {processor.py:161} INFO - Started process (PID=1198) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:49:13.763+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:49:13.765+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:49:13.764+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:49:13.825+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:49:13.953+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:49:13.952+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:49:14.007+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:49:14.007+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:49:14.057+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.315 seconds
+[2026-04-26T20:49:44.339+0000] {processor.py:161} INFO - Started process (PID=1199) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:49:44.343+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:49:44.345+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:49:44.345+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:49:44.413+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:49:44.506+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:49:44.506+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:49:44.561+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:49:44.560+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:49:44.619+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.298 seconds
+[2026-04-26T20:50:14.892+0000] {processor.py:161} INFO - Started process (PID=1200) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:50:14.899+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:50:14.904+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:50:14.903+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:50:14.968+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:50:15.123+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:50:15.122+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:50:15.167+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:50:15.167+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:50:15.204+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.333 seconds
+[2026-04-26T20:50:45.521+0000] {processor.py:161} INFO - Started process (PID=1201) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:50:45.525+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:50:45.529+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:50:45.527+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:50:45.612+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:50:45.733+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:50:45.732+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:50:45.781+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:50:45.780+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:50:45.845+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.343 seconds
+[2026-04-26T20:51:16.121+0000] {processor.py:161} INFO - Started process (PID=1202) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:51:16.125+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:51:16.129+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:51:16.128+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:51:16.221+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:51:16.363+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:51:16.362+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:51:16.420+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:51:16.420+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:51:16.474+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.377 seconds
+[2026-04-26T20:51:46.803+0000] {processor.py:161} INFO - Started process (PID=1203) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:51:46.806+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:51:46.809+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:51:46.808+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:51:46.901+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:51:47.007+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:51:47.007+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:51:47.079+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:51:47.079+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:51:47.150+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.366 seconds
+[2026-04-26T20:52:17.506+0000] {processor.py:161} INFO - Started process (PID=1204) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:52:17.508+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:52:17.510+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:52:17.510+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:52:17.565+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:52:17.632+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:52:17.631+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:52:17.663+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:52:17.663+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:52:17.691+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.200 seconds
+[2026-04-26T20:52:47.979+0000] {processor.py:161} INFO - Started process (PID=1205) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:52:47.982+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:52:47.984+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:52:47.983+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:52:48.036+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:52:48.089+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:52:48.089+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:52:48.136+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:52:48.135+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:52:48.174+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.210 seconds
+[2026-04-26T20:53:18.478+0000] {processor.py:161} INFO - Started process (PID=1206) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:53:18.481+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:53:18.485+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:53:18.484+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:53:18.575+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:53:18.699+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:53:18.698+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:53:18.768+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:53:18.768+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:53:18.832+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.374 seconds
+[2026-04-26T20:53:49.144+0000] {processor.py:161} INFO - Started process (PID=1207) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:53:49.149+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:53:49.153+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:53:49.151+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:53:49.237+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:53:49.361+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:53:49.360+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:53:49.421+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:53:49.420+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:53:49.474+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.350 seconds
+[2026-04-26T20:54:19.766+0000] {processor.py:161} INFO - Started process (PID=1208) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:54:19.781+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:54:19.785+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:54:19.783+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:54:19.874+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:54:19.998+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:54:19.997+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:54:20.031+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:54:20.031+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:54:20.074+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.356 seconds
+[2026-04-26T20:54:50.381+0000] {processor.py:161} INFO - Started process (PID=1209) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:54:50.385+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:54:50.388+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:54:50.387+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:54:50.491+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:54:50.613+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:54:50.612+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:54:50.689+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:54:50.688+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:54:50.746+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.393 seconds
+[2026-04-26T20:55:21.072+0000] {processor.py:161} INFO - Started process (PID=1210) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:55:21.076+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:55:21.081+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:55:21.079+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:55:21.171+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:55:21.249+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:55:21.248+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:55:21.281+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:55:21.280+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:55:21.319+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.275 seconds
+[2026-04-26T20:55:51.766+0000] {processor.py:161} INFO - Started process (PID=1211) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:55:51.769+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:55:51.774+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:55:51.772+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:55:51.865+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:55:51.974+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:55:51.974+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:55:52.033+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:55:52.032+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:55:52.101+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.364 seconds
+[2026-04-26T20:56:22.465+0000] {processor.py:161} INFO - Started process (PID=1212) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:56:22.469+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:56:22.472+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:56:22.471+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:56:22.554+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:56:22.653+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:56:22.652+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:56:22.701+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:56:22.701+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:56:22.762+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.320 seconds
+[2026-04-26T20:56:53.072+0000] {processor.py:161} INFO - Started process (PID=1213) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:56:53.075+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:56:53.078+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:56:53.077+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:56:53.131+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:56:53.202+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:56:53.202+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:56:53.262+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:56:53.261+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:56:53.330+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.273 seconds
+[2026-04-26T20:57:23.642+0000] {processor.py:161} INFO - Started process (PID=1214) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:57:23.645+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:57:23.648+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:57:23.647+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:57:23.727+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:57:23.848+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:57:23.847+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:57:23.918+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:57:23.917+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:57:23.976+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.345 seconds
+[2026-04-26T20:57:54.313+0000] {processor.py:161} INFO - Started process (PID=1215) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:57:54.317+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:57:54.321+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:57:54.320+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:57:54.411+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:57:54.518+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:57:54.518+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:57:54.565+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:57:54.564+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:57:54.604+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.313 seconds
+[2026-04-26T20:58:24.870+0000] {processor.py:161} INFO - Started process (PID=1216) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:58:24.877+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:58:24.880+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:58:24.879+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:58:24.934+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:58:24.991+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:58:24.991+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:58:25.031+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:58:25.030+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:58:25.062+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.211 seconds
+[2026-04-26T20:58:55.455+0000] {processor.py:161} INFO - Started process (PID=1217) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:58:55.458+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:58:55.462+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:58:55.460+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:58:55.553+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:58:55.618+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:58:55.618+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:58:55.689+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:58:55.688+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:58:55.759+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.334 seconds
+[2026-04-26T20:59:26.118+0000] {processor.py:161} INFO - Started process (PID=1218) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:59:26.122+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:59:26.126+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:59:26.125+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:59:26.224+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:59:26.303+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:59:26.302+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:59:26.353+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:59:26.352+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:59:26.426+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.331 seconds
+[2026-04-26T20:59:56.718+0000] {processor.py:161} INFO - Started process (PID=1219) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:59:56.722+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T20:59:56.726+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:59:56.724+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:59:56.824+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T20:59:56.946+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:59:56.946+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T20:59:56.985+0000] {logging_mixin.py:188} INFO - [2026-04-26T20:59:56.985+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T20:59:57.038+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.336 seconds
+[2026-04-26T21:00:27.333+0000] {processor.py:161} INFO - Started process (PID=1220) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:00:27.336+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:00:27.340+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:00:27.338+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:00:27.425+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:00:27.483+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:00:27.483+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:00:27.523+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:00:27.523+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:00:27.575+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.261 seconds
+[2026-04-26T21:00:57.862+0000] {processor.py:161} INFO - Started process (PID=1221) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:00:57.866+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:00:57.869+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:00:57.868+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:00:57.962+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:00:58.067+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:00:58.066+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:00:58.123+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:00:58.122+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:00:58.186+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.348 seconds
+[2026-04-26T21:01:28.513+0000] {processor.py:161} INFO - Started process (PID=1222) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:01:28.516+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:01:28.519+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:01:28.518+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:01:28.592+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:01:28.705+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:01:28.704+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:01:28.757+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:01:28.756+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:01:28.824+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.329 seconds
+[2026-04-26T21:01:59.096+0000] {processor.py:161} INFO - Started process (PID=1223) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:01:59.100+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:01:59.104+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:01:59.102+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:01:59.202+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:01:59.275+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:01:59.275+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:01:59.314+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:01:59.314+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:01:59.342+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.260 seconds
+[2026-04-26T21:02:29.765+0000] {processor.py:161} INFO - Started process (PID=1224) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:02:29.769+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:02:29.776+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:02:29.773+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:02:29.865+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:02:29.973+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:02:29.973+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:02:30.037+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:02:30.037+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:02:30.112+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.433 seconds
+[2026-04-26T21:03:00.340+0000] {processor.py:161} INFO - Started process (PID=1225) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:03:00.344+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:03:00.348+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:03:00.347+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:03:00.413+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:03:00.479+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:03:00.478+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:03:00.512+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:03:00.512+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:03:00.554+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.234 seconds
+[2026-04-26T21:03:30.919+0000] {processor.py:161} INFO - Started process (PID=1226) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:03:30.924+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:03:30.929+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:03:30.927+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:03:30.997+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:03:31.131+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:03:31.131+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:03:31.199+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:03:31.199+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:03:31.244+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.427 seconds
+[2026-04-26T21:04:01.572+0000] {processor.py:161} INFO - Started process (PID=1227) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:04:01.576+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:04:01.581+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:04:01.579+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:04:01.691+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:04:01.837+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:04:01.836+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:04:01.896+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:04:01.895+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:04:01.946+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.403 seconds
+[2026-04-26T21:04:32.227+0000] {processor.py:161} INFO - Started process (PID=1228) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:04:32.231+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:04:32.236+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:04:32.234+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:04:32.318+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:04:32.423+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:04:32.422+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:04:32.476+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:04:32.476+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:04:32.532+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.325 seconds
+[2026-04-26T21:05:02.832+0000] {processor.py:161} INFO - Started process (PID=1229) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:05:02.834+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:05:02.835+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:05:02.835+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:05:02.890+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:05:02.951+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:05:02.951+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:05:02.983+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:05:02.982+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:05:03.017+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.245 seconds
+[2026-04-26T21:05:33.293+0000] {processor.py:161} INFO - Started process (PID=1230) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:05:33.295+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:05:33.299+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:05:33.296+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:05:33.386+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:05:33.503+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:05:33.502+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:05:33.568+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:05:33.567+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:05:33.636+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.355 seconds
+[2026-04-26T21:06:04.045+0000] {processor.py:161} INFO - Started process (PID=1231) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:06:04.093+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:06:04.097+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:06:04.095+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:06:04.158+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:06:04.226+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:06:04.225+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:06:04.259+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:06:04.258+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:06:04.295+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.324 seconds
+[2026-04-26T21:06:34.518+0000] {processor.py:161} INFO - Started process (PID=1232) to work on /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:06:34.520+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/mlops_orchestration.py for tasks to queue
+[2026-04-26T21:06:34.523+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:06:34.522+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:06:34.590+0000] {processor.py:840} INFO - DAG(s) 'mlops_orchestration' retrieved from /opt/airflow/dags/mlops_orchestration.py
+[2026-04-26T21:06:34.663+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:06:34.663+0000] {dag.py:3096} INFO - Sync 1 DAGs
+[2026-04-26T21:06:34.689+0000] {logging_mixin.py:188} INFO - [2026-04-26T21:06:34.688+0000] {dag.py:3954} INFO - Setting next_dagrun for mlops_orchestration to 2026-04-25 02:00:00+00:00, run_after=2026-04-26 02:00:00+00:00
+[2026-04-26T21:06:34.730+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/mlops_orchestration.py took 0.221 seconds

@@ -249,7 +249,7 @@ La datasource Grafana est provisionnée automatiquement:
 1. Démarrer la stack:
 
 ```powershell
-docker compose up -d --build
+docker-compose up -d --build
 ```
 
 2. Ouvrir Grafana:

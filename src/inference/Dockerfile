@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY src/inference/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --timeout 300 torch torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN pip install --no-cache-dir --timeout 300 -r requirements.txt
 
 COPY src/ /app/src/
 

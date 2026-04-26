@@ -3,8 +3,8 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY gateway/requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --timeout 300 --upgrade pip \
+    && pip install --no-cache-dir --timeout 300 -r requirements.txt
 
 COPY gateway /app
 
