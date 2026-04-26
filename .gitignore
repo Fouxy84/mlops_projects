@@ -28,6 +28,8 @@ monitoring/reports/
 #reading README
 README_PRODUCTION
 
+airflow/logs/
+
 
 
 
