@@ -6,6 +6,7 @@ dataset files, and writes lineage.json for traceability. DVC versioning
 """
 import json
 import os
+import zipfile
 from datetime import datetime
 
 import requests
@@ -19,6 +20,7 @@ FILES = {
     "X_train_update.csv": "/participants/challenges/35/download/x-train",
     "Y_train_CVw08PX.csv": "/participants/challenges/35/download/y-train",
     "X_test_update.csv": "/participants/challenges/35/download/x-test",
+    "supplementary_files.zip": "/participants/challenges/35/download/supplementary-files",
 }
 
 DATA_RAW_DIR = os.getenv("DATA_RAW_DIR", "data/raw")
@@ -71,13 +73,24 @@ def download_all(download_date: str | None = None) -> str:
     file_sizes: dict = {}
     for filename, path in FILES.items():
         print(f"Downloading {filename}...")
-        resp = session.get(f"{BASE_URL}{path}")
-        resp.raise_for_status()
         dest = os.path.join(DATA_RAW_DIR, filename)
-        with open(dest, "wb") as f:
-            f.write(resp.content)
-        file_sizes[filename] = len(resp.content)
-        print(f"  -> {dest} ({len(resp.content) / 1_000_000:.1f} MB)")
+        with session.get(f"{BASE_URL}{path}", stream=True) as resp:
+            resp.raise_for_status()
+            size = 0
+            with open(dest, "wb") as f:
+                for chunk in resp.iter_content(chunk_size=1 << 20):
+                    if chunk:
+                        f.write(chunk)
+                        size += len(chunk)
+        file_sizes[filename] = size
+        print(f"  -> {dest} ({size / 1_000_000:.1f} MB)")
+
+        if filename.endswith(".zip"):
+            print(f"Extracting {filename} into {DATA_RAW_DIR}/...")
+            with zipfile.ZipFile(dest) as zf:
+                zf.extractall(DATA_RAW_DIR)
+            os.remove(dest)
+            print(f"  -> extracted and removed {dest}")
 
     _write_lineage(download_date, file_sizes)
     print(f"Download complete. Version: {download_date}")
