@@ -500,7 +500,92 @@ POST /predict/multimodal
 - volume de prédictions par modèle
 - latence p95 des prédictions
 - lancements de training
+## Réinstallation from scratch
 
+### Prérequis
+
+- **Docker Desktop** installé et démarré
+- **Git** installé
+- **DVC** installé (`pip install "dvc[s3]"`)
+- Un compte **DagsHub** avec accès au repo `Fouxy84/mlops_projects` (token d'accès requis)
+
+### Étape 1 — Cloner le repo
+
+```powershell
+git clone https://github.com/Fouxy84/mlops_projects.git
+cd mlops_projects
+```
+
+### Étape 2 — Créer le fichier `.env`
+
+Créer un fichier `.env` à la racine du dossier cloné:
+
+```env
+DAGSHUB_USER=Fouxy84
+DAGSHUB_TOKEN=<ton_token_dagshub>
+GIT_REPO_URL=https://github.com/Fouxy84/mlops_projects.git
+DAGSHUB_REPO_URL=https://dagshub.com/Fouxy84/mlops_projects
+PROJECT_ROOT_HOST=<chemin_absolu_vers_le_dossier_cloné>
+
+# Laisser vide = charge la version Production par défaut depuis MLflow
+TEXT_MLFLOW_MODEL_VERSION=
+IMAGE_MLFLOW_MODEL_VERSION=
+TEXT_MLFLOW_VECTORIZER_ARTIFACT_PATH=preprocessing/tfidf.joblib
+```
+
+> Le `PROJECT_ROOT_HOST` doit être le chemin Windows absolu vers le dossier cloné, ex: `c:/Users/monnom/projets/mlops_projects`
+
+### Étape 3 — Récupérer les données DVC (optionnel pour la démo)
+
+```powershell
+dvc remote add -d dagshub https://dagshub.com/Fouxy84/mlops_projects.dvc
+dvc remote modify dagshub --local auth basic
+dvc remote modify dagshub --local user Fouxy84
+dvc remote modify dagshub --local password <ton_token_dagshub>
+dvc pull
+```
+
+### Étape 4 — Démarrer la stack Docker
+
+```powershell
+docker compose up --build -d
+```
+
+> La première fois le build prend plusieurs minutes (images Python, Torch, etc.).
+
+### Étape 5 — Vérifier que tout tourne
+
+```powershell
+docker compose ps
+docker compose logs gateway
+```
+
+### Étape 6 — Tester via Swagger
+
+1. Ouvrir `http://localhost:8000/docs`
+2. `POST /login` avec `admin / admin`
+3. `POST /predict/svm` avec `{"text": "le tableau de chat est tres joli"}`
+4. `POST /predict/cnn` avec `{"image_path": "image_528113_product_923222.jpg"}`
+5. `GET /info` pour vérifier les modèles chargés
+
+### En cas de problème de modèle
+
+Si les APIs de prédiction ne trouvent pas de modèle en `Production`, forcer une version explicite dans le `.env`:
+
+```env
+TEXT_MLFLOW_MODEL_VERSION=3
+IMAGE_MLFLOW_MODEL_VERSION=2
+```
+
+Puis redémarrer:
+
+```powershell
+docker compose up -d predict-text-api predict-image-api
+```
+
+> Les modèles ne sont pas dans le repo Git. Ils sont téléchargés depuis DagsHub / MLflow au démarrage des conteneurs. Sans `dvc pull`, les dossiers `data/raw/` et `data/processed/` seront vides mais la stack démarre quand même.
+
+---
 ## Lancement local
 
 ### Variables d’environnement

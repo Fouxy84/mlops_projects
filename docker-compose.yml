@@ -16,6 +16,7 @@ services:
       AIRFLOW_API_URL: http://airflow:8080
       AIRFLOW_USER: admin
       AIRFLOW_PASSWORD: admin
+      GATEWAY_DATA_DIR: /app/data
     depends_on:
       - auth-api
       - predict-text-api
@@ -54,6 +55,7 @@ services:
       MLFLOW_MODEL_ALIAS: ${TEXT_MLFLOW_MODEL_ALIAS:-}
       MLFLOW_MODEL_URI: ${TEXT_MLFLOW_MODEL_URI:-}
       MLFLOW_TEXT_VECTORIZER_ARTIFACT_PATH: ${TEXT_MLFLOW_VECTORIZER_ARTIFACT_PATH:-preprocessing/tfidf.joblib}
+      MODEL_VERSION_CHECK_INTERVAL: ${MODEL_VERSION_CHECK_INTERVAL:-60}
     ports:
       - "8001:8000"
     volumes:
@@ -78,6 +80,7 @@ services:
       MLFLOW_MODEL_VERSION: ${IMAGE_MLFLOW_MODEL_VERSION:-}
       MLFLOW_MODEL_ALIAS: ${IMAGE_MLFLOW_MODEL_ALIAS:-}
       MLFLOW_MODEL_URI: ${IMAGE_MLFLOW_MODEL_URI:-}
+      MODEL_VERSION_CHECK_INTERVAL: ${MODEL_VERSION_CHECK_INTERVAL:-60}
     ports:
       - "8004:8000"
     volumes:

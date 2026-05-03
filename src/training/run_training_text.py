@@ -52,13 +52,15 @@ def make_json_serializable(obj):
 # =========================
 # PIPELINE COMPLET
 # =========================
-def main_texte():
+def main_texte(state_callback=None):
     _init_dagshub()
     mlflow.set_experiment("Text_Pipeline")
     with mlflow.start_run(run_name="Full_Text_Pipeline"):
         try:
             # 1. Préprocessing
             mlflow.set_tag("step", "preprocessing")
+            if state_callback:
+                state_callback("preprocessing", 1, 4)
             logger.info("1. Préprocessing du dataset...")
             preprocess_training_data(
                 x_path=X_TRAIN_PATH,
@@ -71,6 +73,8 @@ def main_texte():
 
             # 2. Vectorisation TF-IDF
             mlflow.set_tag("step", "vectorization")
+            if state_callback:
+                state_callback("vectorization", 2, 4)
             logger.info("2. Entraînement du vectorizer TF-IDF...")
             X_vec, vectorizer = train_tfidf_vectorizer(
                 data_path=TRAIN_CLEAN_PATH,
@@ -84,6 +88,8 @@ def main_texte():
 
             # 3. Entraînement SVM
             mlflow.set_tag("step", "training")
+            if state_callback:
+                state_callback("training", 3, 4)
             logger.info("3. Entraînement du modèle SVM...")
             metrics = train_and_evaluate_svm(
                 data_path=TRAIN_CLEAN_PATH,
@@ -115,6 +121,8 @@ def main_texte():
 
             # 5. Sauvegarde des métriques
             mlflow.set_tag("step", "metrics")
+            if state_callback:
+                state_callback("metrics", 4, 4)
             logger.info("4. Sauvegarde des métriques...")
             metrics_path = MODELS_DIR / "metrics_svm.json"
             # Retirer le modèle des métriques avant JSON

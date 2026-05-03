@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -62,6 +63,17 @@ sys.path.insert(0, str(BASE_DIR))
 DATA_PROCESSED_DIR = BASE_DIR / "data" / "processed"
 IMAGE_ROOT_DIR = BASE_DIR / "data" / "raw" / "image_train"
 
+_KNOWN_LABELS = {
+    0: "jeux vidéo",
+    1: "livres / magazines",
+    2: "jeux de société",
+    3: "maquettes / drones",
+    4: "mobilier",
+    5: "déco maison",
+    6: "fournitures",
+    7: "jardin / piscine",
+}
+
 try:
     df_labels = pd.read_csv(DATA_PROCESSED_DIR / "train_clean.csv")
     label_mapping = (
@@ -69,10 +81,10 @@ try:
         .drop_duplicates()
         .set_index("label")["label_name"]
     )
-    LABEL_ID_TO_NAME = label_mapping.to_dict()
+    LABEL_ID_TO_NAME = {**_KNOWN_LABELS, **label_mapping.to_dict()}
 except Exception as exc:
-    logger.warning("Falling back to synthetic labels: %s", exc)
-    LABEL_ID_TO_NAME = {idx: f"Label_{idx}" for idx in range(8)}
+    logger.warning("CSV labels not available (%s) — using built-in label names", exc)
+    LABEL_ID_TO_NAME = _KNOWN_LABELS
 
 IMAGE_SIZE = 128
 IMAGE_TRANSFORM = transforms.Compose(
@@ -84,6 +96,12 @@ IMAGE_TRANSFORM = transforms.Compose(
 )
 
 model = None
+
+# ─── Auto-reload: version tracking ──────────────────────────────────────────
+_version_check_lock = threading.Lock()
+_last_version_check: float = 0.0
+_VERSION_CHECK_INTERVAL: float = float(os.getenv("MODEL_VERSION_CHECK_INTERVAL", "60"))
+_current_model_version: str | None = None
 
 
 @dataclass
@@ -143,6 +161,57 @@ def build_prediction_response(predicted_label: int, decision_score: Optional[lis
     if decision_score is not None:
         payload["decision_score"] = decision_score
     return payload
+
+
+def get_latest_production_version() -> str | None:
+    """Query MLflow for the latest registered version in Production.
+    Returns None if the version is pinned via env var or if the query fails.
+    """
+    if os.getenv("MLFLOW_MODEL_URI", "").strip() or os.getenv("MLFLOW_MODEL_VERSION", "").strip():
+        return None  # version pinned — never auto-update
+    try:
+        client = mlflow.MlflowClient()
+        stage = os.getenv("MLFLOW_MODEL_STAGE", "Production").strip()
+        versions = client.get_latest_versions(MODEL_NAME, stages=[stage])
+        if versions:
+            return versions[0].version
+    except Exception as exc:
+        logger.warning("MLflow version check failed for %s: %s", MODEL_NAME, exc)
+    return None
+
+
+def check_and_reload_if_outdated() -> None:
+    """Reload the model if a newer Production version is available in MLflow.
+    Uses a TTL (MODEL_VERSION_CHECK_INTERVAL seconds, default 60) to avoid
+    querying MLflow on every single request.
+    """
+    global model, _last_version_check, _current_model_version
+
+    now = time.monotonic()
+    if now - _last_version_check < _VERSION_CHECK_INTERVAL:
+        return
+
+    with _version_check_lock:
+        # Double-check after acquiring lock
+        if time.monotonic() - _last_version_check < _VERSION_CHECK_INTERVAL:
+            return
+        _last_version_check = time.monotonic()
+
+        latest = get_latest_production_version()
+        if latest is None or latest == _current_model_version:
+            return
+
+        logger.info(
+            "New MLflow version detected for %s: v%s (loaded: v%s) — reloading",
+            MODEL_NAME, latest, _current_model_version,
+        )
+        new_model = load_model()
+        if new_model is not None:
+            model = new_model
+            _current_model_version = latest
+            logger.info("Model auto-reloaded to version %s", latest)
+        else:
+            logger.error("Auto-reload failed for %s v%s — keeping current model", MODEL_NAME, latest)
 
 
 def get_model_uri() -> str:
@@ -282,6 +351,7 @@ def load_model():
 
 
 def predict_text_payload(request: PredictTextRequest):
+    check_and_reload_if_outdated()
     if model is None:
         raise HTTPException(status_code=503, detail="Text model not loaded")
 
@@ -315,6 +385,7 @@ def resolve_image_path(image_path: str) -> Path:
 
 
 def predict_image_payload(request: PredictImageRequest):
+    check_and_reload_if_outdated()
     if model is None:
         raise HTTPException(status_code=503, detail="Image model not loaded")
 
@@ -465,9 +536,13 @@ def info_image():
 
 @app.on_event("startup")
 def startup():
-    global model
+    global model, _current_model_version
     try:
         model = load_model()
+        version = get_latest_production_version()
+        if version:
+            _current_model_version = version
+            logger.info("Startup: loaded %s v%s", MODEL_NAME, version)
     except Exception as exc:
         logger.warning("Model failed to load at startup: %s", exc)
         model = None

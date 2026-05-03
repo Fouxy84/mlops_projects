@@ -1,4 +1,5 @@
 import os
+import time
 
 import requests
 import streamlit as st
@@ -30,21 +31,15 @@ def gw_post(endpoint: str, payload=None, form_data=None):
     url = f"{GATEWAY_URL}{endpoint}"
     try:
         if form_data is not None:
-            return st.session_state.session.post(url, data=form_data, timeout=30)
-        return st.session_state.session.post(url, json=payload, timeout=30)
-    except requests.exceptions.Timeout:
-        st.error("⏳ Timeout POST")
-        return None
+            return st.session_state.session.post(url, data=form_data)
+        return st.session_state.session.post(url, json=payload)
     except requests.exceptions.ConnectionError:
         st.error("🚨 Backend non accessible")
         return None
 
 def gw_get(endpoint: str):
     try:
-        return st.session_state.session.get(f"{GATEWAY_URL}{endpoint}", timeout=10)
-    except requests.exceptions.Timeout:
-        st.error("⏳ Timeout backend")
-        return None
+        return st.session_state.session.get(f"{GATEWAY_URL}{endpoint}")
     except requests.exceptions.ConnectionError:
         st.error("🚨 Backend non accessible")
         return None
@@ -64,6 +59,88 @@ def show_response(resp, success_code=200):
         st.warning("Accès refusé (rôle admin requis)")
     else:
         st.error(f"Erreur {resp.status_code}: {resp.text}")
+
+
+_STEP_LABELS_SVM = {
+    "démarrage": "⏳ Démarrage",
+    "preprocessing": "🔧 Preprocessing",
+    "vectorization": "📐 Vectorisation TF-IDF",
+    "training": "🤖 Entraînement SVM",
+    "metrics": "📊 Sauvegarde métriques",
+    "terminé": "✅ Terminé",
+}
+_STEP_LABELS_CNN = {
+    "démarrage": "⏳ Démarrage",
+    "preprocessing": "🔧 Preprocessing",
+    "training": "🤖 Entraînement CNN (epochs)",
+    "metrics": "📊 Sauvegarde métriques",
+    "terminé": "✅ Terminé",
+}
+
+
+def render_training_progress():
+    """Affiche la progression en direct du pipeline d'entraînement (polling /train/status)."""
+    resp_status = gw_get("/train/status")
+    if not resp_status or not resp_status.ok:
+        st.warning("Training API inaccessible.")
+        return
+
+    s = resp_status.json()
+    train_status = s.get("status", "idle")
+    model_type = s.get("model_type", "svm")
+    step = s.get("step", "—")
+    step_index = s.get("step_index", 0)
+    total_steps = s.get("total_steps", 1)
+    step_labels = _STEP_LABELS_CNN if model_type == "cnn" else _STEP_LABELS_SVM
+
+    if train_status == "idle":
+        st.info("Aucun entraînement en cours.")
+
+    elif train_status == "running":
+        st.markdown(f"**Modèle :** `{model_type.upper()}`")
+        st.progress(
+            step_index / max(total_steps, 1),
+            text=step_labels.get(step, f"Étape : {step}") + f"  ({step_index}/{total_steps})",
+        )
+        epoch = s.get("epoch")
+        total_epochs = s.get("total_epochs")
+        epoch_loss = s.get("epoch_loss")
+        if epoch and total_epochs:
+            st.progress(
+                epoch / total_epochs,
+                text=f"Epoch {epoch}/{total_epochs}" + (f" | Loss : {epoch_loss:.4f}" if epoch_loss else ""),
+            )
+        if s.get("started_at"):
+            elapsed = time.time() - s["started_at"]
+            st.caption(f"Durée : {int(elapsed // 60)}m {int(elapsed % 60)}s")
+        time.sleep(2)
+        st.rerun()
+
+    elif train_status == "done":
+        st.success(f"✅ Entraînement {model_type.upper()} terminé !")
+        metrics = s.get("metrics") or {}
+        if metrics:
+            st.subheader("📊 Métriques finales")
+            c1, c2 = st.columns(2)
+            with c1:
+                acc = metrics.get("accuracy")
+                if acc is not None:
+                    st.metric("Accuracy", f"{float(acc):.1%}")
+            with c2:
+                f1 = metrics.get("f1_macro")
+                if f1 is not None:
+                    st.metric("F1 macro", f"{float(f1):.1%}")
+            with st.expander("Détail complet"):
+                st.json(metrics)
+        run_id = metrics.get("mlflow_run_id") if metrics else None
+        dagshub_url = s.get("dagshub_url", "https://dagshub.com/Fouxy84/mlops_projects.mlflow")
+        if run_id:
+            st.markdown(f"🔗 [Voir ce run sur DagsHub/MLflow]({dagshub_url}/#/experiments/1/runs/{run_id})")
+        else:
+            st.markdown(f"🔗 [Ouvrir DagsHub/MLflow]({dagshub_url})")
+
+    elif train_status == "error":
+        st.error(f"❌ Erreur : {s.get('error', 'inconnue')}")
 
 
 def is_admin():
@@ -176,7 +253,17 @@ with tab_predict:
             )
             if st.button("Prédire (SVM)", type="primary", key="btn_svm"):
                 with st.spinner("Prédiction en cours..."):
-                    show_response(gw_post("/predict/svm", payload={"text": text_val}))
+                    resp = gw_post("/predict/svm", payload={"text": text_val})
+                    if resp and resp.ok:
+                        data = resp.json()
+                        col_a, col_b = st.columns(2)
+                        with col_a:
+                            st.metric("Catégorie prédite", data.get("label_name", "—"))
+                            st.caption(f"Label ID : `{data.get('predicted_label', '—')}`")
+                        with col_b:
+                            st.json(data)
+                    else:
+                        show_response(resp)
 
         with p_cnn:
             st.subheader("Prédiction CNN — image produit")
@@ -187,7 +274,17 @@ with tab_predict:
             )
             if st.button("Prédire (CNN)", type="primary", key="btn_cnn"):
                 with st.spinner("Prédiction en cours..."):
-                    show_response(gw_post("/predict/cnn", payload={"image_path": img_val}))
+                    resp = gw_post("/predict/cnn", payload={"image_path": img_val})
+                    if resp and resp.ok:
+                        data = resp.json()
+                        col_a, col_b = st.columns(2)
+                        with col_a:
+                            st.metric("Catégorie prédite", data.get("label_name", "—"))
+                            st.caption(f"Label ID : `{data.get('predicted_label', '—')}`")
+                        with col_b:
+                            st.json(data)
+                    else:
+                        show_response(resp)
 
         with p_multi:
             st.subheader("Prédiction multimodale — texte + image")
@@ -217,62 +314,39 @@ with tab_predict:
 
 
 # ═══════════════════════════════════════════════════════
-# 3 · TRAIN & RETRAIN — Airflow, status, reload
+# 3 · TRAIN & RETRAIN — direct API + live progress
 # ═══════════════════════════════════════════════════════
 with tab_train:
-    st.header("Train & Retrain — Orchestration Airflow")
+    st.header("Train & Retrain — Suivi en direct")
 
     if not is_admin():
         st.warning("Section réservée aux administrateurs.")
     else:
-        st.caption("Chaque action déclenche le DAG Airflow `mlops_orchestration` avec le mode et le modèle choisis.")
-
-        # Trigger
+        # ── Déclenchement ──────────────────────────────────
         st.subheader("Déclencher un entraînement")
         col_mode, col_model = st.columns(2)
         with col_mode:
             mode = st.radio("Mode", ["train", "retrain"], horizontal=True)
         with col_model:
-            model = st.radio("Modèle", ["svm", "cnn"], horizontal=True)
+            model_choice = st.radio("Modèle", ["svm", "cnn"], horizontal=True)
 
-        if st.button(f"🚀 Lancer {mode.upper()} — {model.upper()}", type="primary", use_container_width=True):
-            with st.spinner(f"Déclenchement du DAG ({mode}/{model})..."):
-                resp = gw_post(f"/orchestrate/{mode}/{model}")
-                if resp and resp.ok:
-                    data = resp.json()
-                    st.success(f"DAG déclenché ! `dag_run_id` : `{data.get('dag_run_id')}`")
-                    st.session_state["last_dag_run_id"] = data.get("dag_run_id")
-                    st.json(data)
-                else:
-                    show_response(resp)
-
-        st.divider()
-
-        # Status
-        st.subheader("Vérifier le statut d'un DAG run")
-        dag_run_id = st.text_input(
-            "dag_run_id",
-            value=st.session_state.get("last_dag_run_id", ""),
-            placeholder="scheduled__2026-04-20T00:00:00+00:00",
-        )
-        if st.button("Vérifier le statut", use_container_width=True):
-            if dag_run_id:
-                with st.spinner("Interrogation Airflow..."):
-                    resp = gw_get(f"/orchestrate/status/{dag_run_id}")
-                    if resp and resp.ok:
-                        data = resp.json()
-                        state = data.get("state", "unknown")
-                        state_color = {"success": "✅", "failed": "❌", "running": "⏳", "queued": "🕐"}.get(state, "❓")
-                        st.metric("État", f"{state_color} {state}")
-                        st.json(data)
-                    else:
-                        show_response(resp)
+        if st.button(f"🚀 Lancer {mode.upper()} — {model_choice.upper()}", type="primary", use_container_width=True):
+            endpoint = f"/{mode}/{model_choice}"
+            resp = gw_post(endpoint)
+            if resp and resp.ok:
+                st.rerun()
             else:
-                st.info("Entrez un dag_run_id.")
+                show_response(resp)
 
         st.divider()
 
-        # Reload
+        # ── Suivi en direct ────────────────────────────────
+        st.subheader("Progression en direct")
+        render_training_progress()
+
+        st.divider()
+
+        # ── Reload ─────────────────────────────────────────
         st.subheader("Recharger les modèles en production")
         col_r1, col_r2 = st.columns(2)
         with col_r1:
@@ -305,17 +379,43 @@ with tab_check:
                     if resp and resp.ok:
                         data = resp.json()
                         changes = data.get("changes", {})
-                        text_ch = changes.get("text", {})
                         img_ch = changes.get("image", {})
-                        col_t, col_i = st.columns(2)
-                        with col_t:
-                            st.metric("Nouveaux CSV", len(text_ch.get("new_files", [])))
-                            if text_ch.get("new_files"):
-                                st.write(text_ch["new_files"])
-                        with col_i:
-                            st.metric("Nouvelles images", len(img_ch.get("new_files", [])))
-                            if img_ch.get("new_files"):
-                                st.write(img_ch["new_files"])
+                        csv_ch = changes.get("csv", {})
+                        csv_changes = csv_ch.get("changes", {})
+
+                        # ── X_train_update.csv ───────────────────────
+                        st.markdown("**📄 `X_train_update.csv`**")
+                        if not csv_ch.get("current"):
+                            st.warning("Fichier introuvable")
+                        else:
+                            cur = csv_ch.get("current", {})
+                            rows_added = csv_changes.get("rows_added", 0)
+                            col_r, col_h = st.columns(2)
+                            with col_r:
+                                st.metric(
+                                    "Lignes",
+                                    cur.get("row_count", "—"),
+                                    delta=rows_added if rows_added != 0 else None,
+                                )
+                            with col_h:
+                                hash_changed = csv_changes.get("hash_changed", False)
+                                st.metric(
+                                    "Hash MD5 modifié",
+                                    "✅ Oui" if hash_changed else "✗ Non",
+                                )
+                            if csv_ch.get("has_changed"):
+                                st.success("⚠️ Nouvelles lignes détectées — retrain SVM recommandé")
+                            else:
+                                st.info("Aucun changement dans le CSV")
+
+                        st.markdown("---")
+
+                        # ── Nouvelles images ─────────────────────────
+                        st.markdown("**🖼️ Images (`image_train/`)**")
+                        new_imgs = img_ch.get("new_files", [])
+                        st.metric("Nouvelles images détectées", len(new_imgs))
+                        if not new_imgs:
+                            st.info("Aucune nouvelle image")
                     else:
                         show_response(resp)
 
@@ -339,13 +439,19 @@ with tab_check:
                     resp = gw_post("/data/check-updates/retrain")
                     if resp and resp.ok:
                         data = resp.json()
-                        if data.get("status") == "no_new_files":
+                        if data.get("status") in ("no_new_files", "no_change"):
                             st.info("Aucun nouveau fichier détecté — retrain non déclenché.")
                         else:
-                            st.success(f"Retrain lancé pour : {data.get('triggered_models', [])}")
+                            triggered = data.get("triggered_models", [])
+                            st.success(f"Retrain lancé pour : {triggered}")
+                            st.rerun()
                         st.json(data)
                     else:
                         show_response(resp)
+
+        st.divider()
+        st.subheader("Progression du retrain en direct")
+        render_training_progress()
 
 
 # ═══════════════════════════════════════════════════════
@@ -376,7 +482,7 @@ with tab_monitoring:
     st.subheader("Métriques Prometheus (gateway)")
     if st.button("Actualiser les métriques", use_container_width=True, key="btn_metrics"):
         try:
-            resp = st.session_state.session.get(f"{GATEWAY_URL}/metrics", timeout=10)
+            resp = st.session_state.session.get(f"{GATEWAY_URL}/metrics")
             if resp.ok:
                 lines = [l for l in resp.text.splitlines() if not l.startswith("#") and l.strip()]
                 mlops_lines = [l for l in lines if l.startswith("mlops_")]

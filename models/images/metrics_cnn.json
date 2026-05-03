@@ -1,9 +1,10 @@
 {
-  "model": "cnn_from_scratch",
-  "f1_macro": 0.5763,
+  "f1_macro": 0.3998,
+  "accuracy": 0.4012,
   "image_size": 128,
-  "batch_size": 16,
+  "batch_size": 4,
   "epochs": 10,
   "num_images": 42106,
-  "device": "cpu"
+  "device": "cpu",
+  "mlflow_run_id": "d887046448a044efb3db004c6687516f"
 }

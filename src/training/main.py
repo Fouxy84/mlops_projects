@@ -1,6 +1,7 @@
 import logging
 import os
 import time
+from threading import Lock
 
 import dagshub
 import mlflow
@@ -10,6 +11,16 @@ from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_
 
 from src.training.run_training_images import main_image
 from src.training.run_training_text import main_texte
+
+
+TRAINING_STATE: dict = {"status": "idle"}
+_state_lock = Lock()
+DAGSHUB_MLFLOW_URL = "https://dagshub.com/Fouxy84/mlops_projects.mlflow"
+
+
+def _set_state(**kwargs):
+    with _state_lock:
+        TRAINING_STATE.update(kwargs)
 
 
 logging.basicConfig(level=logging.INFO)
@@ -69,19 +80,61 @@ def health():
     return {"status": "ok", "service": "training-api"}
 
 
+@app.get("/train/status")
+def train_status():
+    """Retourne l'état courant du pipeline d'entraînement en cours."""
+    with _state_lock:
+        return dict(TRAINING_STATE)
+
+
 @app.get("/metrics")
 def metrics():
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
 def train_text_pipeline():
-    main_texte()
-    logger.info("Text model training completed successfully.")
+    _set_state(
+        status="running", model_type="svm",
+        step="démarrage", step_index=0, total_steps=4,
+        epoch=None, total_epochs=None, epoch_loss=None,
+        started_at=time.time(), metrics=None, error=None,
+        dagshub_url=DAGSHUB_MLFLOW_URL,
+    )
+
+    def _cb(step, step_index, total_steps, **kw):
+        _set_state(step=step, step_index=step_index, total_steps=total_steps, **kw)
+
+    try:
+        result = main_texte(state_callback=_cb)
+        _set_state(status="done", step="terminé", step_index=4, metrics=result)
+        logger.info("Text model training completed successfully.")
+    except Exception as exc:
+        _set_state(status="error", error=str(exc))
+        logger.exception("Text training failed")
 
 
 def train_image_pipeline():
-    main_image()
-    logger.info("Image model training completed successfully.")
+    _set_state(
+        status="running", model_type="cnn",
+        step="démarrage", step_index=0, total_steps=3,
+        epoch=None, total_epochs=None, epoch_loss=None,
+        started_at=time.time(), metrics=None, error=None,
+        dagshub_url=DAGSHUB_MLFLOW_URL,
+    )
+
+    def _cb(step, step_index, total_steps, epoch=None, total_epochs=None, epoch_loss=None, **kw):
+        _set_state(
+            step=step, step_index=step_index, total_steps=total_steps,
+            epoch=epoch, total_epochs=total_epochs, epoch_loss=epoch_loss,
+        )
+
+    try:
+        result = main_image(state_callback=_cb)
+        _set_state(status="done", step="terminé", step_index=3, epoch=None, metrics=result)
+        logger.info("Image model training completed successfully.")
+    except Exception as exc:
+        _set_state(status="error", error=str(exc))
+        logger.exception("Image training failed")
 
 
 @app.post("/train/svm")

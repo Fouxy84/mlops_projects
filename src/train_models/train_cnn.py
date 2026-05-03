@@ -78,6 +78,7 @@ def train_cnn(
     artifacts_dir: Path,
     experiment_name: str = "image_classification_cnn",
     run_name: str = "run_cnn_1",
+    epoch_callback=None,
 ):
 
     artifacts_dir.mkdir(parents=True, exist_ok=True)
@@ -154,6 +155,8 @@ def train_cnn(
             print(
                 f"Epoch {epoch+1}/{EPOCHS} | Loss: {epoch_loss/len(train_loader):0.4f}"
             )
+            if epoch_callback:
+                epoch_callback(epoch + 1, EPOCHS, epoch_loss / len(train_loader))
 
         model.eval()
         y_true, y_pred = [], []

@@ -44,11 +44,13 @@ def make_json_serializable(obj):
 # =========================
 # PIPELINE
 # =========================
-def main_image():
+def main_image(state_callback=None):
     _init_dagshub()
     mlflow.set_experiment("Image_Pipeline")
     with mlflow.start_run(run_name="Full_Image_Pipeline", nested=True):
         mlflow.set_tag("step", "preprocessing")
+        if state_callback:
+            state_callback("preprocessing", 1, 3)
         print("\n")
         print("1. Preprocessing dataset (text + image)")
         preprocess_training_data(
@@ -61,11 +63,19 @@ def main_image():
         print(f"Dataset préprocessé sauvegardé: {TRAIN_CLEAN_PATH}")
 
         mlflow.set_tag("step", "training")
+        if state_callback:
+            state_callback("training", 2, 3)
         print("\n")
         print("2. Training CNN from scratch")
+
+        def _epoch_cb(epoch, total_epochs, loss):
+            if state_callback:
+                state_callback("training", 2, 3, epoch=epoch, total_epochs=total_epochs, epoch_loss=loss)
+
         model, metrics = train_cnn(
             data_path=TRAIN_CLEAN_PATH,
             artifacts_dir=MODELS_DIR,
+            epoch_callback=_epoch_cb,
         )
 
         # 4. Enregistrement du modèle dans le registry MLflow
@@ -90,6 +100,8 @@ def main_image():
         )
 
         mlflow.set_tag("step", "metrics")
+        if state_callback:
+            state_callback("metrics", 3, 3)
         print("\n")
         print("3. Save global metrics")
         metrics_path = MODELS_DIR / "metrics_cnn_pipeline.json"
@@ -111,6 +123,8 @@ def main_image():
         print(f"   - Métriques_CNN: {metrics_path.resolve()}")
         print(f"   - Run MLflow: {metrics['mlflow_run_id']}")
         print("===============================\n")
+
+        return metrics
 
 
 # =========================
