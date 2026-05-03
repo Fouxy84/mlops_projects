@@ -353,7 +353,7 @@ async def root():
             "intro": {"health": "/health", "metrics": "/metrics", "login": "/login", "me": "/me", "info": "/info", "logout": "/logout"},
             "prediction": {"svm": "/predict/svm", "cnn": "/predict/cnn", "multimodal": "/predict/multimodal"},
             "train_direct": {"train_svm": "/train/svm", "train_cnn": "/train/cnn", "retrain_svm": "/retrain/svm", "retrain_cnn": "/retrain/cnn", "status": "/train/status"},
-            "train_airflow": {"train_svm": "/orchestrate/train/svm", "train_cnn": "/orchestrate/train/cnn", "retrain_svm": "/orchestrate/retrain/svm", "retrain_cnn": "/orchestrate/retrain/cnn", "status": "/orchestrate/status/{dag_run_id}", "reload_svm": "/reload/svm", "reload_cnn": "/reload/cnn"},
+            "train_retrain": {"train_svm": "/orchestrate/train/svm", "train_cnn": "/orchestrate/train/cnn", "retrain_svm": "/orchestrate/retrain/svm", "retrain_cnn": "/orchestrate/retrain/cnn", "status": "/orchestrate/status/{dag_run_id}", "reload_svm": "/reload/svm", "reload_cnn": "/reload/cnn"},
             "check_update": {"scan": "/data/check-updates", "retrain": "/data/check-updates/retrain", "baseline": "/data/check-updates/baseline"},
         },
     }
@@ -389,6 +389,7 @@ async def get_info(current_user: dict = Depends(require_user)):
     return {
         "gateway": "ok",
         "current_user": current_user,
+        "models": {"text": text_info, "image": image_info},
         "prediction_apis": {"text": {"health": text_health, "info": text_info}, "image": {"health": image_health, "info": image_info}},
         "training_api": train_health,
     }
@@ -528,11 +529,11 @@ async def get_dag_run_status(dag_run_id: str, current_user: dict = Depends(requi
         state = data.get("state", "unknown")
         result = {"dag_run_id": dag_run_id, "state": state, "start_date": data.get("start_date"), "end_date": data.get("end_date")}
         if state == "success":
-            result["message"] = "Training termine avec succes"
+            result["message"] = "Training terminé avec succès"
         elif state == "failed":
-            result["message"] = "Le DAG a echoue, verifiez les logs Airflow"
+            result["message"] = "Le DAG a échoué, vérifiez les logs Airflow"
         elif state in ("running", "queued"):
-            result["message"] = "En cours d execution..."
+            result["message"] = "En cours d'exécution..."
         return result
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=f"Airflow error: {exc.response.text}") from exc
