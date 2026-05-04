@@ -5,8 +5,7 @@ Ce dépôt a été recentré sur la stack réellement utilisée pour la démo et
 - `gateway` comme point d’entrée
 - `predict-text-api` pour le modèle texte `TF-IDF + Linear SVM`
 - `predict-image-api` pour le modèle image `CNN`
-- `training-api` pour le réentraînement
-- `Airflow + DockerOperator + DVC`
+- `training-api` pour le réentraînement- `streamlit-ui` pour l'interface de démonstration (option activable)- `Airflow + DockerOperator + DVC`
 - `Prometheus + Grafana`
 - `DagsHub / MLflow` pour le versionning et le tracking
 
@@ -18,7 +17,10 @@ Les anciens composants et expérimentations ont été déplacés dans `old/`.
 [ Client / Swagger ]
         |
         v
-    [ Gateway ]
+[ Streamlit UI ]
+        |
+        v
+    [ Gateway ] <----> [ Auth API ]
      /   |    \
     /    |     \
    v     v      v
@@ -62,6 +64,7 @@ mlops_projects/
 │   └── prometheus.yml
 ├── old/
 ├── src/
+│   ├── common/
 │   ├── gateway/
 │   ├── inference/
 │   ├── mlflow/
@@ -104,6 +107,14 @@ Avec le `docker-compose.yml` principal:
 - `prometheus`: `http://localhost:9090`
 - `grafana`: `http://localhost:3000`
 
+Avec Streamlit (surcharge optionnelle):
+
+- `streamlit-ui`: `http://localhost:8501`
+
+```powershell
+docker compose -f docker-compose.yml -f options/option_1_streamlit_interface/docker-compose.streamlit.yml up -d --build
+```
+
 ## Gateway
 
 Fichier principal: [gateway/gateway_main.py](./gateway/gateway_main.py)
@@ -131,10 +142,13 @@ Endpoints:
 
 ### Admin uniquement
 
-- `POST /train/svm`
-- `POST /train/cnn`
-- `POST /reload/svm` ou `POST /reload/text`
-- `POST /reload/cnn` ou `POST /reload/image`
+- `POST /orchestrate/train/svm`
+- `POST /orchestrate/train/cnn`
+- `POST /orchestrate/retrain/svm`
+- `POST /orchestrate/retrain/cnn`
+- `GET /orchestrate/status/{dag_run_id}`
+- `POST /reload/svm`
+- `POST /reload/cnn`
 - `GET /data/check-updates`
 - `POST /data/check-updates/baseline`
 - `POST /data/check-updates/retrain`
@@ -621,6 +635,20 @@ docker compose logs predict-image-api
 docker compose logs training-api
 ```
 
+## Démo Streamlit
+
+Lancer la stack avec Streamlit:
+
+```powershell
+docker compose -f docker-compose.yml -f options/option_1_streamlit_interface/docker-compose.streamlit.yml up -d --build
+```
+
+Ouvrir `http://localhost:8501`, puis:
+
+1. Se connecter avec `admin / admin`
+2. Tester la prédiction texte, image et multimodale depuis l'interface
+3. Consulter l'état des services
+
 ## Démo Swagger
 
 Ouvrir:
@@ -640,7 +668,7 @@ Ouvrir:
 6. `GET /info`
 7. `POST /data/check-updates/baseline`
 8. `GET /data/check-updates`
-9. `POST /train/svm`
+9. `POST /orchestrate/train/svm`
 10. `POST /reload/svm`
 11. `POST /logout`
 
@@ -695,8 +723,8 @@ Les modèles servis par les APIs de prédiction viennent de MLflow. Pour revenir
 
 Depuis Swagger:
 
-- `POST /train/svm`
-- `POST /train/cnn`
+- `POST /orchestrate/train/svm`
+- `POST /orchestrate/train/cnn`
 
 Puis:
 
@@ -815,8 +843,8 @@ docker compose up -d --build gateway training-api predict-text-api predict-image
 Option A - via Swagger du gateway:
 
 - `POST /login` avec `admin/admin`
-- `POST /train/svm`
-- `POST /train/cnn`
+- `POST /orchestrate/train/svm`
+- `POST /orchestrate/train/cnn`
 - `POST /reload/svm`
 - `POST /reload/cnn`
 
