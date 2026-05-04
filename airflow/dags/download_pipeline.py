@@ -35,7 +35,7 @@ DOCKER_BASE = dict(
 with DAG(
     dag_id="download_pipeline",
     start_date=datetime(2026, 4, 1),
-    schedule=None,
+    schedule="@monthly",
     catchup=False,
     default_args=default_args,
     tags=["mlops", "data", "download"],
@@ -64,6 +64,27 @@ with DAG(
         **DOCKER_BASE,
     )
 
+    git_commit_push = DockerOperator(
+        task_id="git_commit_push_dvc",
+        command=["sh", "-c", (
+            'set -e; '
+            'if git diff --quiet data/raw.dvc; then '
+            '  echo "raw.dvc unchanged, skipping commit"; exit 0; '
+            'fi; '
+            'git config user.email "airflow@mlops.local"; '
+            'git config user.name "Airflow"; '
+            'git add data/raw.dvc; '
+            'git commit -m "data: bump raw.dvc ($(date +%Y-%m-%d))"; '
+            'BRANCH=$(git rev-parse --abbrev-ref HEAD); '
+            'git push "https://${GIT_USERNAME}:${GIT_TOKEN}@github.com/Fouxy84/mlops_projects.git" "HEAD:${BRANCH}"'
+        )],
+        environment={
+            "GIT_USERNAME": "{{ var.value.git_username }}",
+            "GIT_TOKEN": "{{ var.value.git_token }}",
+        },
+        **DOCKER_BASE,
+    )
+
     trigger_training = TriggerDagRunOperator(
         task_id="trigger_training",
         trigger_dag_id="mlops_orchestration",
@@ -71,4 +92,4 @@ with DAG(
         conf={"mode": "retrain", "model": "all"},
     )
 
-    download_raw >> dvc_push_raw >> trigger_training
+    download_raw >> dvc_push_raw >> git_commit_push >> trigger_training
