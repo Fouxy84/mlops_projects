@@ -117,7 +117,7 @@ services:
     image: mlops-mlflow:local
     container_name: mlflow
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./mlruns:/src/mlflow/mlruns
       - ./mlflow.db:/mlflow/mlflow.db

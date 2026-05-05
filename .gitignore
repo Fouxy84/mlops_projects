@@ -1,5 +1,5 @@
 # Environment variables
-#.env
+.env
 
 # Python
 __pycache__/
@@ -20,10 +20,16 @@ monitoring/dagshub_data/
 monitoring/reports/
 
 # Data raw training and test files
-#data/raw/*.csv
-#data/raw/image_train/
-#data/raw_test/*.csv
-#data/raw_test/image_test/
+data/raw/*.csv
+data/raw/image_train/
+data/raw_test/*.csv
+data/raw_test/image_test/
+airflow/logs/dag_id=download_pipeline/
+airflow/logs/dag_id=mlops_orchestration/
+airflow/logs/scheduler/2026-04-25/
+airflow/logs/scheduler/2026-04-26/
+airflow/logs/scheduler/2026-04-27/
+airflow/logs/scheduler/latest
 
 #reading README
 README_PRODUCTION
