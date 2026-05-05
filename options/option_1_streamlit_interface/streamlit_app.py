@@ -25,6 +25,17 @@ if "username" not in st.session_state:
     st.session_state.username = None
 if "session" not in st.session_state:
     st.session_state.session = requests.Session()
+if "retrain_models" not in st.session_state:
+    st.session_state.retrain_models = []
+if "retrain_triggered_at" not in st.session_state:
+    st.session_state.retrain_triggered_at = 0
+if "done_models" not in st.session_state:
+    # Mémorise les résultats des modèles terminés pour affichage côte à côte
+    st.session_state.done_models = {}  # {"svm": {...state...}, "cnn": {...state...}}
+if "retrain_models_check" not in st.session_state:
+    st.session_state.retrain_models_check = []
+if "done_models_check" not in st.session_state:
+    st.session_state.done_models_check = {}
 
     
 def gw_post(endpoint: str, payload=None, form_data=None):
@@ -78,26 +89,24 @@ _STEP_LABELS_CNN = {
 }
 
 
-def render_training_progress():
-    """Affiche la progression en direct du pipeline d'entraînement (polling /train/status)."""
-    resp_status = gw_get("/train/status")
-    if not resp_status or not resp_status.ok:
-        st.warning("Training API inaccessible.")
-        return
-
-    s = resp_status.json()
+def _render_one_model(s: dict, model_key: str):
+    """Affiche la progression d'un seul modèle dans sa colonne."""
+    label = model_key.upper()
+    step_labels = _STEP_LABELS_CNN if model_key == "cnn" else _STEP_LABELS_SVM
     train_status = s.get("status", "idle")
-    model_type = s.get("model_type", "svm")
-    step = s.get("step", "—")
-    step_index = s.get("step_index", 0)
-    total_steps = s.get("total_steps", 1)
-    step_labels = _STEP_LABELS_CNN if model_type == "cnn" else _STEP_LABELS_SVM
+
+    st.markdown(f"### 🤖 {label}")
 
     if train_status == "idle":
-        st.info("Aucun entraînement en cours.")
+        if model_key in (st.session_state.retrain_models or []):
+            st.caption("⏳ Démarrage imminent...")
+        else:
+            st.info("En attente")
 
     elif train_status == "running":
-        st.markdown(f"**Modèle :** `{model_type.upper()}`")
+        step = s.get("step", "—")
+        step_index = s.get("step_index", 0)
+        total_steps = s.get("total_steps", 1)
         st.progress(
             step_index / max(total_steps, 1),
             text=step_labels.get(step, f"Étape : {step}") + f"  ({step_index}/{total_steps})",
@@ -113,14 +122,11 @@ def render_training_progress():
         if s.get("started_at"):
             elapsed = time.time() - s["started_at"]
             st.caption(f"Durée : {int(elapsed // 60)}m {int(elapsed % 60)}s")
-        time.sleep(2)
-        st.rerun()
 
     elif train_status == "done":
-        st.success(f"✅ Entraînement {model_type.upper()} terminé !")
+        st.success(f"✅ {label} terminé !")
         metrics = s.get("metrics") or {}
         if metrics:
-            st.subheader("📊 Métriques finales")
             c1, c2 = st.columns(2)
             with c1:
                 acc = metrics.get("accuracy")
@@ -130,17 +136,193 @@ def render_training_progress():
                 f1 = metrics.get("f1_macro")
                 if f1 is not None:
                     st.metric("F1 macro", f"{float(f1):.1%}")
-            with st.expander("Détail complet"):
+            with st.expander("Détail métriques"):
                 st.json(metrics)
-        run_id = metrics.get("mlflow_run_id") if metrics else None
         dagshub_url = s.get("dagshub_url", "https://dagshub.com/Fouxy84/mlops_projects.mlflow")
+        run_id = (s.get("metrics") or {}).get("mlflow_run_id")
         if run_id:
-            st.markdown(f"🔗 [Voir ce run sur DagsHub/MLflow]({dagshub_url}/#/experiments/1/runs/{run_id})")
+            st.markdown(f"🔗 [Voir ce run]({dagshub_url}/#/experiments/1/runs/{run_id})")
         else:
-            st.markdown(f"🔗 [Ouvrir DagsHub/MLflow]({dagshub_url})")
+            st.markdown(f"🔗 [DagsHub/MLflow]({dagshub_url})")
 
     elif train_status == "error":
         st.error(f"❌ Erreur : {s.get('error', 'inconnue')}")
+
+
+def render_training_progress(pending_models: list | None = None):
+    """Affiche la progression en direct des deux pipelines (SVM + CNN) côte à côte."""
+    if pending_models:
+        labels = " + ".join(m.upper() for m in pending_models)
+        st.info(f"Modèles dans la file : **{labels}**")
+
+    resp_status = gw_get("/train/status")
+    if not resp_status or not resp_status.ok:
+        st.warning("Training API inaccessible.")
+        return
+
+    state = resp_status.json()
+
+    # ── Nouveau format : {"svm": {...}, "cnn": {...}} ──────────────
+    if "svm" in state and "cnn" in state:
+        svm_s = state["svm"]
+        cnn_s = state["cnn"]
+        any_active = any(s.get("status") in ("running", "done", "error") for s in [svm_s, cnn_s])
+        any_running = any(s.get("status") == "running" for s in [svm_s, cnn_s])
+
+        if not any_active and not pending_models:
+            st.info("Aucun entraînement en cours.")
+            return
+
+        col_svm, col_cnn = st.columns(2)
+        with col_svm:
+            _render_one_model(svm_s, "svm")
+        with col_cnn:
+            _render_one_model(cnn_s, "cnn")
+
+        for m in ["svm", "cnn"]:
+            if state[m].get("status") == "done" and m in (st.session_state.retrain_models or []):
+                st.session_state.retrain_models = [x for x in st.session_state.retrain_models if x != m]
+
+        if any_running or (pending_models and not any_active):
+            time.sleep(2)
+            st.rerun()
+
+    # ── Ancien format compat : {"status": ..., "model_type": ...} ──
+    else:
+        train_status = state.get("status", "idle")
+        model_type = state.get("model_type", "svm")
+
+        # Mémoriser les résultats terminés pour affichage persistant
+        if train_status in ("done", "error") and model_type:
+            st.session_state.done_models[model_type] = dict(state)
+            if model_type in (st.session_state.retrain_models or []):
+                st.session_state.retrain_models = [x for x in st.session_state.retrain_models if x != model_type]
+
+        # Construire la vue {"svm": ..., "cnn": ...} depuis session_state + état courant
+        view = {}
+        for m in ["svm", "cnn"]:
+            if train_status != "idle" and state.get("model_type") == m:
+                view[m] = state  # modèle actuellement actif
+            elif m in st.session_state.done_models:
+                view[m] = st.session_state.done_models[m]  # résultat mémorisé
+            elif m in (pending_models or []):
+                view[m] = {"status": "idle"}  # en attente
+            else:
+                view[m] = None
+
+        has_anything = any(v is not None for v in view.values())
+        if not has_anything:
+            if train_status == "idle" and pending_models:
+                st.caption("⏳ Démarrage imminent...")
+                time.sleep(1)
+                st.rerun()
+            else:
+                st.info("Aucun entraînement en cours.")
+            return
+
+        col_svm, col_cnn = st.columns(2)
+        with col_svm:
+            if view["svm"] is not None:
+                _render_one_model(view["svm"], "svm")
+            else:
+                st.markdown("### 🤖 SVM")
+                st.info("En attente")
+        with col_cnn:
+            if view["cnn"] is not None:
+                _render_one_model(view["cnn"], "cnn")
+            else:
+                st.markdown("### 🤖 CNN")
+                st.info("En attente")
+
+        if train_status == "running" or (train_status == "idle" and pending_models):
+            time.sleep(2)
+            st.rerun()
+
+
+def render_training_progress_update(pending_models: list | None = None):
+    """Variante de render_training_progress dédiée à l'onglet Check Update.
+    Utilise done_models_check pour ne pas interférer avec l'onglet Train."""
+    if pending_models:
+        labels = " + ".join(m.upper() for m in pending_models)
+        st.info(f"Modèles dans la file : **{labels}**")
+
+    resp_status = gw_get("/train/status")
+    if not resp_status or not resp_status.ok:
+        st.warning("Training API inaccessible.")
+        return
+
+    state = resp_status.json()
+
+    if "svm" in state and "cnn" in state:
+        svm_s = state["svm"]
+        cnn_s = state["cnn"]
+        any_active = any(s.get("status") in ("running", "done", "error") for s in [svm_s, cnn_s])
+        any_running = any(s.get("status") == "running" for s in [svm_s, cnn_s])
+
+        if not any_active and not pending_models:
+            st.info("Aucun entraînement en cours.")
+            return
+
+        col_svm, col_cnn = st.columns(2)
+        with col_svm:
+            _render_one_model(svm_s, "svm")
+        with col_cnn:
+            _render_one_model(cnn_s, "cnn")
+
+        for m in ["svm", "cnn"]:
+            if state[m].get("status") == "done" and m in (st.session_state.retrain_models_check or []):
+                st.session_state.retrain_models_check = [x for x in st.session_state.retrain_models_check if x != m]
+
+        if any_running or (pending_models and not any_active):
+            time.sleep(2)
+            st.rerun()
+    else:
+        train_status = state.get("status", "idle")
+        model_type = state.get("model_type", "svm")
+
+        if train_status in ("done", "error") and model_type:
+            st.session_state.done_models_check[model_type] = dict(state)
+            if model_type in (st.session_state.retrain_models_check or []):
+                st.session_state.retrain_models_check = [x for x in st.session_state.retrain_models_check if x != model_type]
+
+        view = {}
+        for m in ["svm", "cnn"]:
+            if train_status != "idle" and state.get("model_type") == m:
+                view[m] = state
+            elif m in st.session_state.done_models_check:
+                view[m] = st.session_state.done_models_check[m]
+            elif m in (pending_models or []):
+                view[m] = {"status": "idle"}
+            else:
+                view[m] = None
+
+        has_anything = any(v is not None for v in view.values())
+        if not has_anything:
+            if train_status == "idle" and pending_models:
+                st.caption("⏳ Démarrage imminent...")
+                time.sleep(1)
+                st.rerun()
+            else:
+                st.info("Aucun entraînement en cours.")
+            return
+
+        col_svm, col_cnn = st.columns(2)
+        with col_svm:
+            if view["svm"] is not None:
+                _render_one_model(view["svm"], "svm")
+            else:
+                st.markdown("### 🤖 SVM")
+                st.info("En attente")
+        with col_cnn:
+            if view["cnn"] is not None:
+                _render_one_model(view["cnn"], "cnn")
+            else:
+                st.markdown("### 🤖 CNN")
+                st.info("En attente")
+
+        if train_status == "running" or (train_status == "idle" and pending_models):
+            time.sleep(2)
+            st.rerun()
 
 
 def is_admin():
@@ -334,6 +516,8 @@ with tab_train:
             endpoint = f"/{mode}/{model_choice}"
             resp = gw_post(endpoint)
             if resp and resp.ok:
+                st.session_state.retrain_models = [model_choice]
+                st.session_state.done_models = {}
                 st.rerun()
             else:
                 show_response(resp)
@@ -342,7 +526,7 @@ with tab_train:
 
         # ── Suivi en direct ────────────────────────────────
         st.subheader("Progression en direct")
-        render_training_progress()
+        render_training_progress(pending_models=st.session_state.retrain_models or None)
 
         st.divider()
 
@@ -408,13 +592,19 @@ with tab_check:
                             else:
                                 st.info("Aucun changement dans le CSV")
 
-                        st.markdown("---")
-
                         # ── Nouvelles images ─────────────────────────
                         st.markdown("**🖼️ Images (`image_train/`)**")
-                        new_imgs = img_ch.get("new_files", [])
-                        st.metric("Nouvelles images détectées", len(new_imgs))
-                        if not new_imgs:
+                        new_img_count = img_ch.get("new_count", len(img_ch.get("new_files", [])))
+                        cur_img_count = img_ch.get("current_count", "—")
+                        prev_img_count = img_ch.get("previous_count")
+                        st.metric(
+                            "Images dans le dossier",
+                            cur_img_count,
+                            delta=new_img_count if new_img_count else None,
+                        )
+                        if new_img_count:
+                            st.success(f"⚠️ {new_img_count} nouvelles images détectées — retrain CNN recommandé")
+                        else:
                             st.info("Aucune nouvelle image")
                     else:
                         show_response(resp)
@@ -441,17 +631,20 @@ with tab_check:
                         data = resp.json()
                         if data.get("status") in ("no_new_files", "no_change"):
                             st.info("Aucun nouveau fichier détecté — retrain non déclenché.")
+                            st.session_state.retrain_models_check = []
                         else:
                             triggered = data.get("triggered_models", [])
-                            st.success(f"Retrain lancé pour : {triggered}")
-                            st.rerun()
+                            st.session_state.retrain_models_check = triggered
+                            st.session_state.done_models_check = {}
+                            st.session_state.retrain_triggered_at = time.time()
+                            st.success(f"✅ Retrain lancé pour : {' + '.join(m.upper() for m in triggered)}")
                         st.json(data)
                     else:
                         show_response(resp)
 
         st.divider()
         st.subheader("Progression du retrain en direct")
-        render_training_progress()
+        render_training_progress_update(pending_models=st.session_state.retrain_models_check or None)
 
 
 # ═══════════════════════════════════════════════════════

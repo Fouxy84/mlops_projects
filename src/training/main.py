@@ -13,14 +13,17 @@ from src.training.run_training_images import main_image
 from src.training.run_training_text import main_texte
 
 
-TRAINING_STATE: dict = {"status": "idle"}
+TRAINING_STATE: dict = {
+    "svm": {"status": "idle"},
+    "cnn": {"status": "idle"},
+}
 _state_lock = Lock()
 DAGSHUB_MLFLOW_URL = "https://dagshub.com/Fouxy84/mlops_projects.mlflow"
 
 
-def _set_state(**kwargs):
+def _set_state(model_type: str, **kwargs):
     with _state_lock:
-        TRAINING_STATE.update(kwargs)
+        TRAINING_STATE[model_type].update(kwargs)
 
 
 logging.basicConfig(level=logging.INFO)
@@ -82,9 +85,9 @@ def health():
 
 @app.get("/train/status")
 def train_status():
-    """Retourne l'état courant du pipeline d'entraînement en cours."""
+    """Retourne l'état courant des deux pipelines d'entraînement."""
     with _state_lock:
-        return dict(TRAINING_STATE)
+        return {k: dict(v) for k, v in TRAINING_STATE.items()}
 
 
 @app.get("/metrics")
@@ -94,7 +97,8 @@ def metrics():
 
 def train_text_pipeline():
     _set_state(
-        status="running", model_type="svm",
+        "svm",
+        status="running",
         step="démarrage", step_index=0, total_steps=4,
         epoch=None, total_epochs=None, epoch_loss=None,
         started_at=time.time(), metrics=None, error=None,
@@ -102,20 +106,21 @@ def train_text_pipeline():
     )
 
     def _cb(step, step_index, total_steps, **kw):
-        _set_state(step=step, step_index=step_index, total_steps=total_steps, **kw)
+        _set_state("svm", step=step, step_index=step_index, total_steps=total_steps, **kw)
 
     try:
         result = main_texte(state_callback=_cb)
-        _set_state(status="done", step="terminé", step_index=4, metrics=result)
+        _set_state("svm", status="done", step="terminé", step_index=4, metrics=result)
         logger.info("Text model training completed successfully.")
     except Exception as exc:
-        _set_state(status="error", error=str(exc))
+        _set_state("svm", status="error", error=str(exc))
         logger.exception("Text training failed")
 
 
 def train_image_pipeline():
     _set_state(
-        status="running", model_type="cnn",
+        "cnn",
+        status="running",
         step="démarrage", step_index=0, total_steps=3,
         epoch=None, total_epochs=None, epoch_loss=None,
         started_at=time.time(), metrics=None, error=None,
@@ -124,16 +129,17 @@ def train_image_pipeline():
 
     def _cb(step, step_index, total_steps, epoch=None, total_epochs=None, epoch_loss=None, **kw):
         _set_state(
+            "cnn",
             step=step, step_index=step_index, total_steps=total_steps,
             epoch=epoch, total_epochs=total_epochs, epoch_loss=epoch_loss,
         )
 
     try:
         result = main_image(state_callback=_cb)
-        _set_state(status="done", step="terminé", step_index=3, epoch=None, metrics=result)
+        _set_state("cnn", status="done", step="terminé", step_index=3, epoch=None, metrics=result)
         logger.info("Image model training completed successfully.")
     except Exception as exc:
-        _set_state(status="error", error=str(exc))
+        _set_state("cnn", status="error", error=str(exc))
         logger.exception("Image training failed")
 
 
@@ -155,7 +161,7 @@ def train_cnn(background_tasks: BackgroundTasks):
 def retrain_svm(background_tasks: BackgroundTasks):
     """Full retrain: preprocessing raw data + SVM training."""
     TRAINING_RUNS.labels(model_type="retrain_svm").inc()
-    background_tasks.add_task(main_texte)
+    background_tasks.add_task(train_text_pipeline)
     return {"status": "retrain_svm_started", "steps": ["preprocessing", "training"]}
 
 
@@ -163,5 +169,5 @@ def retrain_svm(background_tasks: BackgroundTasks):
 def retrain_cnn(background_tasks: BackgroundTasks):
     """Full retrain: preprocessing raw data + CNN training."""
     TRAINING_RUNS.labels(model_type="retrain_cnn").inc()
-    background_tasks.add_task(main_image)
+    background_tasks.add_task(train_image_pipeline)
     return {"status": "retrain_cnn_started", "steps": ["preprocessing", "training"]}

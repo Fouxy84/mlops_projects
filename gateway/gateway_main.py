@@ -164,16 +164,33 @@ def list_image_files() -> list:
     )
 
 
+def count_image_files() -> int:
+    """Compte les images — utilisé uniquement si le mtime du dossier a changé."""
+    if not RAW_IMAGE_DIR.exists():
+        return 0
+    return sum(
+        1 for entry in os.scandir(RAW_IMAGE_DIR)
+        if entry.is_file() and Path(entry.name).suffix.lower() in IMAGE_EXTENSIONS
+    )
+
+
+def get_image_dir_mtime() -> float:
+    """Retourne le mtime du dossier image — appel O(1), pas de listing."""
+    if not RAW_IMAGE_DIR.exists():
+        return 0.0
+    return RAW_IMAGE_DIR.stat().st_mtime
+
+
 # =========================
 # STATE MANAGEMENT
 # =========================
 def load_retrain_state() -> dict:
     if not STATE_FILE.exists():
-        return {"text_files": [], "image_files": [], "csv_state": {}}
+        return {"image_count": 0, "csv_state": {}}
     try:
         return json.loads(STATE_FILE.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
-        return {"text_files": [], "image_files": [], "csv_state": {}}
+        return {"image_count": 0, "csv_state": {}}
 
 
 def save_retrain_state(state: dict) -> None:
@@ -186,12 +203,29 @@ def save_retrain_state(state: dict) -> None:
 # =========================
 def compute_data_changes() -> dict:
     previous_state = load_retrain_state()
-    current_image_files = list_image_files()
+    previous_image_count = previous_state.get(
+        "image_count",
+        len(previous_state.get("image_files", [])),
+    )
+    previous_dir_mtime = previous_state.get("image_dir_mtime", 0.0)
+    current_dir_mtime = get_image_dir_mtime()
 
-    previous_images = set(previous_state.get("image_files", []))
+    # Chemin rapide images : si le mtime du dossier n'a pas changé, aucun nouveau fichier
+    if current_dir_mtime == previous_dir_mtime:
+        current_image_count = previous_image_count
+        new_image_count = 0
+    else:
+        current_image_count = count_image_files()
+        new_image_count = max(0, current_image_count - previous_image_count)
 
-    current_csv = get_csv_metadata(CSV_MONITOR_PATH)
+    # Chemin rapide CSV : si le mtime du fichier n'a pas changé, réutiliser l'état sauvegardé
     previous_csv = previous_state.get("csv_state", {})
+    previous_csv_mtime = previous_csv.get("last_modified", 0.0)
+    current_csv_stat_mtime = CSV_MONITOR_PATH.stat().st_mtime if CSV_MONITOR_PATH.exists() else 0.0
+    if current_csv_stat_mtime != 0.0 and current_csv_stat_mtime == previous_csv_mtime:
+        current_csv = previous_csv
+    else:
+        current_csv = get_csv_metadata(CSV_MONITOR_PATH)
     csv_changes = {
         "row_count_changed": current_csv.get("row_count") != previous_csv.get("row_count"),
         "rows_added": (current_csv.get("row_count") or 0) - (previous_csv.get("row_count") or 0),
@@ -207,9 +241,11 @@ def compute_data_changes() -> dict:
     return {
         "image": {
             "directory": str(RAW_IMAGE_DIR),
-            "current_files": current_image_files,
-            "new_files": sorted(set(current_image_files) - previous_images),
-            "has_new_files": bool(set(current_image_files) - previous_images),
+            "current_count": current_image_count,
+            "previous_count": previous_image_count,
+            "new_count": new_image_count,
+            "new_files": [],
+            "has_new_files": new_image_count > 0,
         },
         "csv": {
             "file": str(CSV_MONITOR_PATH),
@@ -237,7 +273,8 @@ async def trigger_retraining_for_changes(changes: dict) -> dict:
         triggered_models.append("cnn")
 
     save_retrain_state({
-        "image_files": changes["image"]["current_files"],
+        "image_count": changes["image"]["current_count"],
+        "image_dir_mtime": get_image_dir_mtime(),
         "csv_state": changes["csv"]["current"],
     })
 
@@ -572,7 +609,8 @@ async def baseline_data_updates(current_user: dict = Depends(require_admin)):
     """Enregistre l etat actuel (fichiers + CSV hash/lignes) comme baseline."""
     changes = compute_data_changes()
     save_retrain_state({
-        "image_files": changes["image"]["current_files"],
+        "image_count": changes["image"]["current_count"],
+        "image_dir_mtime": get_image_dir_mtime(),
         "csv_state": changes["csv"]["current"],
     })
     return {"status": "baseline_saved", "changes": changes}
