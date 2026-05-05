@@ -1,5 +1,7 @@
 # Projet MLOps - Rakuten Multimodal Classification
 
+ce projet s'inscrit dans le cadre de la phase 3 du projet Challenge Rakuten.
+cette phase utilise les methodes ML Engineering (MLOps) pour déployer en production les modèles de prediction de categories Rakuten. Des methodes MLOps sont utilisées pour industrialiser les modèles de machine learning (svm/tfidf + cnn), en intégrant des étapes comme le versionnage des données et des modèles, l’automatisation des pipelines et le monitoring en production.
 
 ## Services
 
