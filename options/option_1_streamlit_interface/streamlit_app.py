@@ -1,4 +1,5 @@
 import os
+import pathlib
 import time
 
 import requests
@@ -9,6 +10,7 @@ import streamlit as st
 GATEWAY_URL = os.getenv("GATEWAY_URL", "http://127.0.0.1:8000") # fallback plus explicite pour localhost
 #GATEWAY_URL = "http://127.0.0.1:8000"
 GRAFANA_URL = os.getenv("GRAFANA_URL", "http://localhost:3000")
+IMAGE_LOCAL_ROOT = pathlib.Path(__file__).resolve().parents[2] / "data" / "raw" / "image_train"
 AIRFLOW_URL = os.getenv("AIRFLOW_URL", "http://airflow:8080")
 PROMETHEUS_URL = os.getenv("PROMETHEUS_URL", "http://localhost:9090")
 
@@ -463,6 +465,9 @@ with tab_predict:
                         with col_a:
                             st.metric("Catégorie prédite", data.get("label_name", "—"))
                             st.caption(f"Label ID : `{data.get('predicted_label', '—')}`")
+                            local_img = IMAGE_LOCAL_ROOT / img_val
+                            if local_img.exists():
+                                st.image(str(local_img), caption=img_val, width=220)
                         with col_b:
                             st.json(data)
                     else:
@@ -489,6 +494,9 @@ with tab_predict:
                         with col_a:
                             st.metric("Label prédit", data.get("label_name", "—"))
                             st.caption(f"Stratégie : `{data.get('fusion_strategy', '—')}`")
+                            local_img = IMAGE_LOCAL_ROOT / m_img
+                            if local_img.exists():
+                                st.image(str(local_img), caption=m_img, width=220)
                         with col_b:
                             st.json(data)
                     else:
