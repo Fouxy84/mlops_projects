@@ -1,10 +1,10 @@
 {
-  "image_count": 85773,
-  "image_dir_mtime": 1777983779.5474467,
+  "image_count": 85917,
+  "image_dir_mtime": 1778141314.321529,
   "csv_state": {
-    "row_count": 86746,
-    "hash": "1c81bd8a5f33e4ef160dbc47db3e3207",
-    "last_modified": 1777983781.4210272,
-    "last_modified_readable": "2026-05-05T12:23:01.421027"
+    "row_count": 87046,
+    "hash": "1c87f38b0db6a8d9f86aa0b26b09509e",
+    "last_modified": 1778141319.1307454,
+    "last_modified_readable": "2026-05-07T08:08:39.130745"
   }
 }

@@ -55,7 +55,6 @@ mlops_projects/
 ├── monitoring/
 │   ├── grafana/
 │   └── prometheus.yml
-├── old/
 ├── src/
 │   ├── common/
 │   ├── gateway/
@@ -128,7 +127,7 @@ docker compose up -d predict-text-api predict-image-api
 ```powershell
 dvc remote add -d dagshub https://dagshub.com/Fouxy84/mlops_projects.dvc
 dvc remote modify dagshub --local auth basic
-dvc remote modify dagshub --local user Fouxy84
+dvc remote modify dagshub --local user <ton_username_dagshub>
 dvc remote modify dagshub --local password <ton_token_dagshub>
 dvc pull
 ```
