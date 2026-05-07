@@ -94,7 +94,7 @@ cd mlops_projects
 Créer un fichier `.env` à la racine du dossier cloné:
 
 ```env
-DAGSHUB_USER=Fouxy84
+DAGSHUB_USER=<ton_username_dagshub>
 DAGSHUB_TOKEN=<ton_token_dagshub>
 GIT_REPO_URL=https://github.com/Fouxy84/mlops_projects.git
 DAGSHUB_REPO_URL=https://dagshub.com/Fouxy84/mlops_projects
